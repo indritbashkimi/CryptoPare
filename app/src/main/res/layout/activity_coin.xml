@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:useDefaultMargins="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:layout_columnWeight="1"
+            android:text="Rank"/>
+
+        <TextView
+            android:gravity="start"
+            android:layout_gravity="start"
+            android:layout_columnWeight="1"
+            android:text="#1"/>
+
+        <TextView
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:text="Price"/>
+
+        <TextView
+            android:text="$1000"
+            android:gravity="start"
+            android:layout_gravity="start"/>
+
+        <TextView
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:text="Market cap"/>
+
+        <TextView
+            android:text="$10000000"
+            android:gravity="start"
+            android:layout_gravity="start"/>
+
+    </GridLayout>
+
+</android.support.design.widget.CoordinatorLayout>
