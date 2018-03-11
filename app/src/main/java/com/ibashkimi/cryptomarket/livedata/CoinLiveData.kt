@@ -7,7 +7,7 @@ import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
 
-class CoinsLiveData : LiveData<List<Coin>?>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class CoinLiveData(private val coinId: String) : LiveData<Coin>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onActive() {
         super.onActive()
@@ -28,7 +28,7 @@ class CoinsLiveData : LiveData<List<Coin>?>(), SharedPreferences.OnSharedPrefere
     }
 
     fun refresh() {
-        DataManager.getCoins(PreferenceHelper.currency,
+        DataManager.getCoin(coinId, PreferenceHelper.currency,
                 onSuccess = {
                     value = it
                 },

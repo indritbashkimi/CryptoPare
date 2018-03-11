@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 
 
 class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = emptyList()) : RecyclerView.Adapter<CoinAdapter.CryptoViewHolder>() {
@@ -22,16 +23,17 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
     override fun getItemCount(): Int = coins.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder = CryptoViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_2, parent, false))
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
         val coin = coins[position]
 
         holder.apply {
+            rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
             name.text = coin.name
             symbol.text = coin.symbol
             price.text = price.context
-                    .getString(R.string.price, price.context.getString(R.string.currency_usd), coin.price)
+                    .getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency), coin.price)
             oneHourChange.text = oneHourChange.context
                     .getString(R.string.percent_change, coin.percentChange1h)
             twentyFourHourChange.text = twentyFourHourChange.context
@@ -52,7 +54,6 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
                     else -> positiveColor
                 })
             }
-
 
             if (coin.percentChange24h == null)
                 twentyFourHourChange.text = "?"
@@ -77,7 +78,6 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
                 it.context.startActivity(intent)
             }
         }
-
     }
 
     fun updateData(data: List<Coin>) {
@@ -87,6 +87,7 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
     }
 
     class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rank = itemView.findViewById<TextView>(R.id.rank)
         var icon = itemView.findViewById<ImageView>(R.id.icon)
         var name = itemView.findViewById<TextView>(R.id.name)
         var symbol = itemView.findViewById<TextView>(R.id.symbol)

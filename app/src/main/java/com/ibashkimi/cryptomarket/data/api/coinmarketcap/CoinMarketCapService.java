@@ -17,9 +17,15 @@ public interface CoinMarketCapService {
     int PER_PAGE_MAX = 100;
     int PER_PAGE_DEFAULT = 30;
 
-    @GET("v1/ticker/") // ?start={start}&limit={limit}
-    Call<List<CoinMarketCapItem>> listCoins(@Query("start") Integer start, @Query("limit") Integer limit);
+    @GET("v1/ticker/")
+    Call<List<CoinMarketCapItem>> getCoins(@Query("start") Integer start, @Query("limit") Integer limit);
+
+    @GET("v1/ticker/")
+    Call<List<CoinMarketCapItem>> getCoins(@Query("convert") String currency, @Query("start") Integer start, @Query("limit") Integer limit);
 
     @GET("v1/ticker/{id}/")
     Call<List<CoinMarketCapItem>> getCoin(@Path("id") String id);
+
+    @GET("v1/ticker/{id}/")
+    Call<List<CoinMarketCapItem>> getCoin(@Path("id") String id, @Query("convert") String currency);
 }

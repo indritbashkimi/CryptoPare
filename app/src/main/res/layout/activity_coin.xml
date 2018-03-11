@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -16,45 +17,62 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <GridLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:useDefaultMargins="true"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:gravity="end"
-            android:layout_gravity="end"
-            android:layout_columnWeight="1"
-            android:text="Rank"/>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:columnCount="2"
+            android:useDefaultMargins="true">
 
-        <TextView
-            android:gravity="start"
-            android:layout_gravity="start"
-            android:layout_columnWeight="1"
-            android:text="#1"/>
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:text="@string/rank"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
-        <TextView
-            android:gravity="end"
-            android:layout_gravity="end"
-            android:text="Price"/>
+            <TextView
+                android:id="@+id/rank"
+                android:layout_columnWeight="1"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                tools:text="#1" />
 
-        <TextView
-            android:text="$1000"
-            android:gravity="start"
-            android:layout_gravity="start"/>
+            <TextView
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:text="@string/price_title"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
-        <TextView
-            android:gravity="end"
-            android:layout_gravity="end"
-            android:text="Market cap"/>
+            <TextView
+                android:id="@+id/price"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                tools:text="$1000" />
 
-        <TextView
-            android:text="$10000000"
-            android:gravity="start"
-            android:layout_gravity="start"/>
+            <TextView
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:text="@string/last_updated"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
-    </GridLayout>
+            <TextView
+                android:id="@+id/lastUpdated"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                tools:text="$1000" />
+
+        </GridLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>
