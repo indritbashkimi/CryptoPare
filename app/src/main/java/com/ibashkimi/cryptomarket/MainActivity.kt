@@ -3,6 +3,7 @@ package com.ibashkimi.cryptomarket
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
@@ -11,7 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var adapter: CoinAdapter
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -52,9 +52,7 @@ class MainActivity : AppCompatActivity() {
         })
         recyclerView.adapter = adapter
 
-        findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
-            viewModel.coins.refresh()
-        }
+        findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener { refresh() }
 
         val actionButton = findViewById<FloatingActionButton>(R.id.fab)
         actionButton.setOnClickListener {
@@ -75,7 +73,9 @@ class MainActivity : AppCompatActivity() {
         isLoading = true
         viewModel.coins.observe(this, Observer {
             isLoading = false
-            it?.apply { onDataLoaded(this) } ?: onLoadFailed()
+            adapter.submitList(it)
+            if (it == null)
+                onLoadFailed()
         })
     }
 
@@ -87,8 +87,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = true
-                viewModel.coins.refresh()
+                isLoading = true
+                refresh()
                 true
             }
             R.id.action_currency -> {
@@ -114,17 +114,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        PreferenceHelper.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        PreferenceHelper.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (PreferenceHelper.KEY_CURRENCY == key)
+            refresh()
+    }
+
+
     private var isLoading: Boolean = true
         set(value) {
             findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
             field = value
         }
 
-    private fun onDataLoaded(data: List<Coin>) {
-        adapter.updateData(data)
-    }
-
     private fun onLoadFailed() {
         Toast.makeText(this@MainActivity, "Load error", Toast.LENGTH_SHORT).show()
     }
+
+    private fun refresh() = viewModel.refresh()
 }

@@ -1,7 +1,9 @@
 package com.ibashkimi.cryptomarket
 
+import android.arch.paging.PagedListAdapter
 import android.content.Intent
 import android.support.v4.content.ContextCompat
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,23 +14,42 @@ import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 
 
-class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = emptyList()) : RecyclerView.Adapter<CoinAdapter.CryptoViewHolder>() {
-
-    private val coins: ArrayList<Coin> = ArrayList(coinList.size)
-
-    init {
-        this.coins.addAll(coinList)
-    }
-
-    override fun getItemCount(): Int = coins.size
+class CoinAdapter(private val imageLoader: ImageLoader)
+    : PagedListAdapter<Coin, CoinAdapter.CryptoViewHolder>(coinDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder = CryptoViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_2, parent, false))
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
-        val coin = coins[position]
+        val coin: Coin? = getItem(position)
+        if (coin == null)
+            holder.clear()
+        else
+            holder.bind(coin, imageLoader)
+    }
 
-        holder.apply {
+    class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rank = itemView.findViewById<TextView>(R.id.rank)
+        var icon = itemView.findViewById<ImageView>(R.id.icon)
+        var name = itemView.findViewById<TextView>(R.id.name)
+        var symbol = itemView.findViewById<TextView>(R.id.symbol)
+        var price = itemView.findViewById<TextView>(R.id.price)
+        val oneHourChange = itemView.findViewById<TextView>(R.id.change1h)
+        var twentyFourHourChange = itemView.findViewById<TextView>(R.id.change24h)
+        var sevenDayChange = itemView.findViewById<TextView>(R.id.change7d)
+
+        fun clear() {
+            rank.text = null
+            name.text = null
+            symbol.text = null
+            price.text = null
+            oneHourChange.text = null
+            twentyFourHourChange.text = null
+            sevenDayChange.text = null
+            icon.setImageDrawable(null)
+        }
+
+        fun bind(coin: Coin, imageLoader: ImageLoader) {
             rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
             name.text = coin.name
             symbol.text = coin.symbol
@@ -43,8 +64,8 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
 
             imageLoader.loadImage(coin, icon)
 
-            val positiveColor = ContextCompat.getColor(holder.itemView.context, R.color.positive_color);
-            val negativeColor = ContextCompat.getColor(holder.itemView.context, R.color.negative_color);
+            val positiveColor = ContextCompat.getColor(itemView.context, R.color.positive_color);
+            val negativeColor = ContextCompat.getColor(itemView.context, R.color.negative_color);
 
             if (coin.percentChange1h == null) {
                 oneHourChange.text = "?"
@@ -80,25 +101,20 @@ class CoinAdapter(private val imageLoader: ImageLoader, coinList: List<Coin> = e
         }
     }
 
-    fun updateData(data: List<Coin>) {
-        this.coins.clear()
-        this.coins.addAll(data)
-        notifyDataSetChanged()
-    }
-
-    class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val rank = itemView.findViewById<TextView>(R.id.rank)
-        var icon = itemView.findViewById<ImageView>(R.id.icon)
-        var name = itemView.findViewById<TextView>(R.id.name)
-        var symbol = itemView.findViewById<TextView>(R.id.symbol)
-        var price = itemView.findViewById<TextView>(R.id.price)
-        val oneHourChange = itemView.findViewById<TextView>(R.id.change1h)
-        var twentyFourHourChange = itemView.findViewById<TextView>(R.id.change24h)
-        var sevenDayChange = itemView.findViewById<TextView>(R.id.change7d)
-    }
-
     interface ImageLoader {
         fun loadImage(coin: Coin, imageView: ImageView)
+    }
+
+    companion object {
+        val coinDiffCallback = object : DiffUtil.ItemCallback<Coin>() {
+            override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+                return oldItem.rank == newItem.rank
+            }
+
+            override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }
 
