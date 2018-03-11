@@ -32,7 +32,7 @@ class CoinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_coin)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = "${intent.extras.getString("title")}(${intent.extras.getString("symbol")})"
+        toolbar.title = "${intent.extras.getString("name")}(${intent.extras.getString("symbol")})"
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -79,7 +79,7 @@ class CoinActivity : AppCompatActivity() {
         price.text = getString(R.string.price, CurrencySymbolResolver.resolve(this, coin.currency), coin.price)
 
         val lastUpdated = findViewById<TextView>(R.id.lastUpdated)
-        lastUpdated.text = coin.lastUpdated.toRelativeTimeSpan()
+        lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
     }
 
     private fun onLoadFailed() {

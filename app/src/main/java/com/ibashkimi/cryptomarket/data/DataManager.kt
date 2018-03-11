@@ -21,25 +21,8 @@ object DataManager {
                 .create<CoinMarketCapService>(CoinMarketCapService::class.java)
     }
 
-    fun getCoins(onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
-        coinMarketCapApi.getCoins(0, 100).enqueue(object : retrofit2.Callback<MutableList<CoinMarketCapItem>?> {
-            override fun onFailure(call: retrofit2.Call<MutableList<CoinMarketCapItem>?>?, t: Throwable?) {
-                onFailure()
-            }
-
-            override fun onResponse(call: retrofit2.Call<MutableList<CoinMarketCapItem>?>, response: retrofit2.Response<MutableList<CoinMarketCapItem>?>) {
-                if (response.isSuccessful) {
-                    val data: List<CoinMarketCapItem> = response.body() ?: emptyList()
-                    onSuccess(data.toCoins())
-                } else {
-                    onFailure()
-                }
-            }
-        })
-    }
-
-    fun getCoins(currency: String, onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
-        coinMarketCapApi.getCoins(currency, 0, 100).enqueue(object : retrofit2.Callback<MutableList<CoinMarketCapItem>?> {
+    fun getCoins(start: Int, limit: Int, currency: String, onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
+        coinMarketCapApi.getCoins(currency, start, limit).enqueue(object : retrofit2.Callback<MutableList<CoinMarketCapItem>?> {
             override fun onFailure(call: retrofit2.Call<MutableList<CoinMarketCapItem>?>?, t: Throwable?) {
                 onFailure()
             }
@@ -51,21 +34,6 @@ object DataManager {
                 } else {
                     onFailure()
                 }
-            }
-        })
-    }
-
-    fun getCoin(id: String, onSuccess: (data: Coin) -> Unit, onFailure: () -> Unit) {
-        coinMarketCapApi.getCoin(id).enqueue(object : Callback<MutableList<CoinMarketCapItem>?> {
-            override fun onFailure(call: Call<MutableList<CoinMarketCapItem>?>, t: Throwable?) {
-                onFailure()
-            }
-
-            override fun onResponse(call: Call<MutableList<CoinMarketCapItem>?>, response: Response<MutableList<CoinMarketCapItem>?>) {
-                if (response.isSuccessful)
-                    onSuccess(response.body()!![0].toCoin())
-                else
-                    onFailure()
             }
         })
     }
@@ -87,106 +55,106 @@ object DataManager {
 
 
     private fun CoinMarketCapItem.toCoin(currency: String = PreferenceHelper.DEFAULT_CURRENCY): Coin {
-        var price = price_usd
+        var price: String? = price_usd
         when (currency) {
             "AUD" -> {
-                price = price_aud!!
+                price = price_aud
             }
             "BRL" -> {
-                price = price_brl!!
+                price = price_brl
             }
             "BTC" -> {
                 price = price_btc
             }
             "CAD" -> {
-                price = price_cad!!
+                price = price_cad
             }
             "CHF" -> {
-                price = price_chf!!
+                price = price_chf
             }
             "CLP" -> {
-                price = price_clp!!
+                price = price_clp
             }
             "CNY" -> {
-                price = price_cny!!
+                price = price_cny
             }
             "CZK" -> {
-                price = price_czk!!
+                price = price_czk
             }
             "DKK" -> {
-                price = price_dkk!!
+                price = price_dkk
             }
             "EUR" -> {
-                price = price_eur!!
+                price = price_eur
             }
             "GBP" -> {
-                price = price_gbp!!
+                price = price_gbp
             }
             "HKD" -> {
-                price = price_hkd!!
+                price = price_hkd
             }
             "HUF" -> {
-                price = price_huf!!
+                price = price_huf
             }
             "IDR" -> {
-                price = price_idr!!
+                price = price_idr
             }
             "ILS" -> {
-                price = price_ils!!
+                price = price_ils
             }
             "INR" -> {
-                price = price_inr!!
+                price = price_inr
             }
             "JPY" -> {
-                price = price_jpy!!
+                price = price_jpy
             }
             "KRW" -> {
-                price = price_krw!!
+                price = price_krw
             }
             "MXN" -> {
-                price = price_mxn!!
+                price = price_mxn
             }
             "MYR" -> {
-                price = price_myr!!
+                price = price_myr
             }
             "NOK" -> {
-                price = price_nok!!
+                price = price_nok
             }
             "NZD" -> {
-                price = price_nzd!!
+                price = price_nzd
             }
             "PHP" -> {
-                price = price_php!!
+                price = price_php
             }
             "PKR" -> {
-                price = price_pkr!!
+                price = price_pkr
             }
             "PLN" -> {
-                price = price_pln!!
+                price = price_pln
             }
             "RUB" -> {
-                price = price_rub!!
+                price = price_rub
             }
             "SEK" -> {
-                price = price_sek!!
+                price = price_sek
             }
             "SGD" -> {
-                price = price_sgd!!
+                price = price_sgd
             }
             "THB" -> {
-                price = price_thb!!
+                price = price_thb
             }
             "TRY" -> {
-                price = price_try!!
+                price = price_try
             }
             "TWD" -> {
-                price = price_twd!!
+                price = price_twd
             }
             "USD" -> {
                 price = price_usd
             }
             "ZAR" -> {
-                price = price_zar!!
+                price = price_zar
             }
         }
 
