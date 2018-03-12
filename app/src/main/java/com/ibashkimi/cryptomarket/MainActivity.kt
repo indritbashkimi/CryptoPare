@@ -16,13 +16,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.ibashkimi.cryptomarket.about.AboutActivity
 import com.ibashkimi.cryptomarket.livedata.CoinsViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.settings.SettingsActivity
 import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(object : CoinAdapter.ImageLoader {
             override fun loadImage(coin: Coin, imageView: ImageView) {
-                Picasso.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
+                Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
             }
         })
         recyclerView.adapter = adapter

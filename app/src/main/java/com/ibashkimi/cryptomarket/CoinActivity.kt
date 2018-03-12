@@ -2,8 +2,6 @@ package com.ibashkimi.cryptomarket
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -12,12 +10,13 @@ import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.ibashkimi.cryptomarket.livedata.CoinViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 
 
 class CoinActivity : AppCompatActivity() {
@@ -37,19 +36,13 @@ class CoinActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        Picasso.with(this@CoinActivity).load(CoinIconUrlResolver.resolve(intent.extras.getString("symbol"))).into(object : Target {
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-
-            }
-
-            override fun onBitmapFailed(errorDrawable: Drawable?) {
-
-            }
-
-            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
-                toolbar.logo = BitmapDrawable(resources, bitmap)
-            }
-        })
+        Glide.with(this@CoinActivity)
+                .load(CoinIconUrlResolver.resolve(intent.extras.getString("symbol")))
+                .into(object : SimpleTarget<Drawable>() {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        toolbar.logo = resource
+                    }
+                })
 
         findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
