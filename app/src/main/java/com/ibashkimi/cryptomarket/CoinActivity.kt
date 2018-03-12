@@ -17,6 +17,8 @@ import com.ibashkimi.cryptomarket.livedata.CoinViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
+import com.ibashkimi.cryptomarket.utils.priceFormat
+import java.text.DecimalFormatSymbols
 
 
 class CoinActivity : AppCompatActivity() {
@@ -63,18 +65,19 @@ class CoinActivity : AppCompatActivity() {
 
     private fun onDataLoaded(coin: Coin) {
         val currencySymbol = CurrencySymbolResolver.resolve(this, coin.currency)
-        findViewById<Toolbar>(R.id.toolbar).apply {
+        val decimalFormatSymbols = DecimalFormatSymbols()
+        /*findViewById<Toolbar>(R.id.toolbar).apply {
             title = "${coin.name}(${coin.symbol})"
             //subtitle = coin.symbol
-        }
+        }*/
         findViewById<TextView>(R.id.name).setText(coin.name)
         findViewById<TextView>(R.id.symbol).setText(coin.symbol)
         findViewById<TextView>(R.id.rank).setText(getString(R.string.rank_value, coin.rank))
 
         val price = findViewById<TextView>(R.id.price)
-        price.text = getString(R.string.price, currencySymbol, coin.price)
+        price.text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
 
-        findViewById<TextView>(R.id.priceBtc).setText(getString(R.string.price, getString(R.string.btc_symbol), coin.priceBtc))
+        findViewById<TextView>(R.id.priceBtc).setText(getString(R.string.price, getString(R.string.btc_symbol), coin.priceBtc?.priceFormat(decimalFormatSymbols)))
 
         val lastUpdated = findViewById<TextView>(R.id.lastUpdated)
         lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
@@ -82,11 +85,11 @@ class CoinActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.percent_change_1h).setText(getString(R.string.percent_change, coin.percentChange1h))
         findViewById<TextView>(R.id.percent_change_24h).setText(getString(R.string.percent_change, coin.percentChange24h))
         findViewById<TextView>(R.id.percent_change_7d).setText(getString(R.string.percent_change, coin.percentChange7d))
-        findViewById<TextView>(R.id.marketCap).setText(getString(R.string.price, currencySymbol, coin.marketCap))
-        findViewById<TextView>(R.id.circulatingSupply).setText(coin.availableSupply)
-        findViewById<TextView>(R.id.volume_24h).setText(getString(R.string.price, currencySymbol, coin.volume24h))
-        findViewById<TextView>(R.id.max_supply).setText(coin.maxSupply)
-        findViewById<TextView>(R.id.totalSupply).setText(coin.totalSupply)
+        findViewById<TextView>(R.id.marketCap).setText(getString(R.string.price, currencySymbol, coin.marketCap?.priceFormat(decimalFormatSymbols)))
+        findViewById<TextView>(R.id.circulatingSupply).setText(coin.availableSupply?.priceFormat(decimalFormatSymbols))
+        findViewById<TextView>(R.id.volume_24h).setText(getString(R.string.price, currencySymbol, coin.volume24h?.priceFormat(decimalFormatSymbols)))
+        findViewById<TextView>(R.id.max_supply).setText(coin.maxSupply?.priceFormat(decimalFormatSymbols))
+        findViewById<TextView>(R.id.totalSupply).setText(coin.totalSupply?.priceFormat(decimalFormatSymbols))
     }
 
     private fun onLoadFailed() {
