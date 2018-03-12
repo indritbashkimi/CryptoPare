@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         val actionButton = findViewById<FloatingActionButton>(R.id.fab)
         actionButton.setOnClickListener {
-            recyclerView.smoothScrollToPosition(0)
+            recyclerView.scrollToPosition(0)
         }
 
         actionButton.post { actionButton.hide() }
