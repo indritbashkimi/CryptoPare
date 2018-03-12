@@ -1,10 +1,10 @@
 package com.ibashkimi.cryptomarket.about
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.ibashkimi.cryptomarket.BaseActivity
 import com.ibashkimi.cryptomarket.R
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

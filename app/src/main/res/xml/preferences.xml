@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.preference.PreferenceCategory android:title="@string/pref_appearance">
+
+        <ListPreference
+            android:defaultValue="daynight"
+            android:dialogTitle="@string/pref_night_mode_dialog_title"
+            android:entries="@array/settings_theme_human_value"
+            android:entryValues="@array/settings_theme_phone_value"
+            android:key="night_mode"
+            android:summary="%s"
+            android:title="@string/pref_night_mode_title" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

@@ -35,4 +35,16 @@
         <item>USD</item>
         <item>ZAR</item>
     </string-array>
+
+    <string-array name="settings_theme_human_value">
+        <item>Auto</item>
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
+
+    <string-array name="settings_theme_phone_value">
+        <item>auto</item>
+        <item>night</item>
+        <item>light</item>
+    </string-array>
 </resources>

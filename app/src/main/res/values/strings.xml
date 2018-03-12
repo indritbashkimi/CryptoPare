@@ -30,4 +30,7 @@
     <string name="total_supply">Total Supply</string>
     <string name="price_btc_title">Price BTC</string>
 
+    <string name="pref_appearance">Appearance</string>
+    <string name="pref_night_mode_title">Night mode</string>
+    <string name="pref_night_mode_dialog_title">Night mode</string>
 </resources>
