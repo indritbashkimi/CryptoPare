@@ -9,4 +9,8 @@ public class CoinIconUrlResolver {
     public static String resolve(Coin coin) {
         return BASE_URL + coin.getSymbol().toLowerCase() + ".png";
     }
+
+    public static String resolve(String coinSymbol) {
+        return BASE_URL + coinSymbol.toLowerCase() + ".png";
+    }
 }

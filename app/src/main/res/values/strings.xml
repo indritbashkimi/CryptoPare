@@ -18,5 +18,16 @@
     <string name="coin_icon_description">Coin icon</string>
     <string name="action_currency">Currency</string>
     <string name="action_refresh">Refresh</string>
+    <string name="name">Name</string>
+    <string name="symbol">Symbol</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="circulating_supply">Circulating Supply</string>
+    <string name="volume_24h">Volume (24H)</string>
+    <string name="max_supply">Max Supply</string>
+    <string name="percent_change_1h">Percent Change (1H)</string>
+    <string name="percent_change_24h">Percent Change (24H)</string>
+    <string name="percent_change_7d">Percent Change (7D)</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="price_btc_title">Price BTC</string>
 
 </resources>

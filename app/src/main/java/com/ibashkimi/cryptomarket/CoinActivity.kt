@@ -37,6 +37,20 @@ class CoinActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        Picasso.with(this@CoinActivity).load(CoinIconUrlResolver.resolve(intent.extras.getString("symbol"))).into(object : Target {
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+            }
+
+            override fun onBitmapFailed(errorDrawable: Drawable?) {
+
+            }
+
+            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
+                toolbar.logo = BitmapDrawable(resources, bitmap)
+            }
+        })
+
         findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
         }
@@ -55,31 +69,31 @@ class CoinActivity : AppCompatActivity() {
         }
 
     private fun onDataLoaded(coin: Coin) {
+        val currencySymbol = CurrencySymbolResolver.resolve(this, coin.currency)
         findViewById<Toolbar>(R.id.toolbar).apply {
             title = "${coin.name}(${coin.symbol})"
             //subtitle = coin.symbol
-            Picasso.with(this@CoinActivity).load(CoinIconUrlResolver.resolve(coin)).into(object : Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-
-                }
-
-                override fun onBitmapFailed(errorDrawable: Drawable?) {
-
-                }
-
-                override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
-                    logo = BitmapDrawable(resources, bitmap)
-                }
-            })
         }
-        val rank = findViewById<TextView>(R.id.rank)
-        rank.text = getString(R.string.rank_value, coin.rank)
+        findViewById<TextView>(R.id.name).setText(coin.name)
+        findViewById<TextView>(R.id.symbol).setText(coin.symbol)
+        findViewById<TextView>(R.id.rank).setText(getString(R.string.rank_value, coin.rank))
 
         val price = findViewById<TextView>(R.id.price)
-        price.text = getString(R.string.price, CurrencySymbolResolver.resolve(this, coin.currency), coin.price)
+        price.text = getString(R.string.price, currencySymbol, coin.price)
+
+        findViewById<TextView>(R.id.priceBtc).setText(getString(R.string.price, getString(R.string.btc_symbol), coin.priceBtc))
 
         val lastUpdated = findViewById<TextView>(R.id.lastUpdated)
         lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
+
+        findViewById<TextView>(R.id.percent_change_1h).setText(getString(R.string.percent_change, coin.percentChange1h))
+        findViewById<TextView>(R.id.percent_change_24h).setText(getString(R.string.percent_change, coin.percentChange24h))
+        findViewById<TextView>(R.id.percent_change_7d).setText(getString(R.string.percent_change, coin.percentChange7d))
+        findViewById<TextView>(R.id.marketCap).setText(getString(R.string.price, currencySymbol, coin.marketCap))
+        findViewById<TextView>(R.id.circulatingSupply).setText(coin.availableSupply)
+        findViewById<TextView>(R.id.volume_24h).setText(getString(R.string.price, currencySymbol, coin.volume24h))
+        findViewById<TextView>(R.id.max_supply).setText(coin.maxSupply)
+        findViewById<TextView>(R.id.totalSupply).setText(coin.totalSupply)
     }
 
     private fun onLoadFailed() {
@@ -89,3 +103,4 @@ class CoinActivity : AppCompatActivity() {
     private fun String.toRelativeTimeSpan(): CharSequence =
             DateUtils.getRelativeTimeSpanString(this@CoinActivity, this.toLong() * 1000)
 }
+
