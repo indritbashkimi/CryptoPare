@@ -30,6 +30,9 @@
             android:name=".about.AboutActivity"
             android:label="@string/title_about"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SearchActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

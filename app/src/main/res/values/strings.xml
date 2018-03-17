@@ -46,5 +46,7 @@
     <string name="feedback_chooser_title">Send email…</string>
     <string name="author_name">Indrit Bashkimi</string>
     <string name="author_email">Indrit Bashkimi &lt;indrit.bashkimi@gmail.com&gt;</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search coins</string>
 
 </resources>

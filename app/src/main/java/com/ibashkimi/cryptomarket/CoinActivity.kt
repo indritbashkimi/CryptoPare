@@ -4,20 +4,24 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
+import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.ibashkimi.cryptomarket.livedata.CoinViewModel
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.priceFormat
+import com.ibashkimi.cryptomarket.utils.toast
 import java.text.DecimalFormatSymbols
 
 
@@ -57,6 +61,14 @@ class CoinActivity : AppCompatActivity() {
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private var isLoading: Boolean = true
         set(value) {
             findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
@@ -70,6 +82,25 @@ class CoinActivity : AppCompatActivity() {
             title = "${coin.name}(${coin.symbol})"
             //subtitle = coin.symbol
         }*/
+
+        var isFavorite = PreferenceHelper.isFavorite(coin)
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.hide()
+        fab.setImageDrawable(getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
+        fab.setOnClickListener {
+            if (!isFavorite) {
+                PreferenceHelper.addFavorite(coin)
+                toast("Added to favorites")
+            } else {
+                PreferenceHelper.removeFavorite(coin)
+                toast("Removed from favorites")
+            }
+            isFavorite = !isFavorite
+            fab.setImageDrawable(getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
+        }
+        fab.visibility = View.VISIBLE
+        fab.show()
+
         findViewById<TextView>(R.id.name).setText(coin.name)
         findViewById<TextView>(R.id.symbol).setText(coin.symbol)
         findViewById<TextView>(R.id.rank).setText(getString(R.string.rank_value, coin.rank))
@@ -93,7 +124,7 @@ class CoinActivity : AppCompatActivity() {
     }
 
     private fun onLoadFailed() {
-        Toast.makeText(this@CoinActivity, "Failure", Toast.LENGTH_SHORT).show()
+        toast("Failure")
     }
 
     private fun String.toRelativeTimeSpan(): CharSequence =

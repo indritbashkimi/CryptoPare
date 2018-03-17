@@ -21,8 +21,50 @@ object DataManager {
                 .create<CoinMarketCapService>(CoinMarketCapService::class.java)
     }
 
+    fun favoriteCoins(onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        val favoriteCoins = ArrayList<Coin>()
+        var failure = false
+
+        PreferenceHelper.favoriteCoins?.let { favorites ->
+            for (coinId in favorites) {
+                coin(coinId, PreferenceHelper.currency, onResponse = {
+                    synchronized(this) {
+                        if (failure)
+                            return@synchronized
+                        when (it) {
+                            is ApiResponse.Success -> {
+                                favoriteCoins.add(it.result)
+                                if (favoriteCoins.size == favorites.size)
+                                    onResponse(ApiResponse.Success(favoriteCoins))
+                            }
+                            is ApiResponse.Failure -> {
+                                failure = true
+                                onResponse(ApiResponse.Failure(""))
+                            }
+                        }
+                    }
+
+                })
+            }
+        }
+    }
+
+    fun loadSupportedCoins(onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        val call: Call<List<CoinMarketCapItem>> = coinMarketCapApi.getCoins(0, 0)
+        call.enqueue(object : Callback<List<CoinMarketCapItem>?> {
+            override fun onFailure(call: Call<List<CoinMarketCapItem>?>, t: Throwable) {
+                onResponse(ApiResponse.Failure(t.toString()))
+            }
+
+            override fun onResponse(call: Call<List<CoinMarketCapItem>?>, response: Response<List<CoinMarketCapItem>?>) {
+                onResponse(ApiResponse.Success(response.body()?.toCoins() ?: emptyList()))
+            }
+        })
+    }
+
     fun getCoins(start: Int, limit: Int, currency: String, onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
-        coinMarketCapApi.getCoins(currency, start, limit).enqueue(object : retrofit2.Callback<MutableList<CoinMarketCapItem>?> {
+        val call = coinMarketCapApi.getCoins(currency, start, limit)
+        call.enqueue(object : retrofit2.Callback<MutableList<CoinMarketCapItem>?> {
             override fun onFailure(call: retrofit2.Call<MutableList<CoinMarketCapItem>?>?, t: Throwable?) {
                 onFailure()
             }
@@ -53,6 +95,20 @@ object DataManager {
         })
     }
 
+    fun coin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit) {
+        coinMarketCapApi.getCoin(id, currency).enqueue(object : Callback<MutableList<CoinMarketCapItem>?> {
+            override fun onFailure(call: Call<MutableList<CoinMarketCapItem>?>, t: Throwable) {
+                onResponse(ApiResponse.Failure(t.toString()))
+            }
+
+            override fun onResponse(call: Call<MutableList<CoinMarketCapItem>?>, response: Response<MutableList<CoinMarketCapItem>?>) {
+                if (response.isSuccessful)
+                    onResponse(ApiResponse.Success(response.body()!![0].toCoin(currency)))
+                else
+                    onResponse(ApiResponse.Failure(""))
+            }
+        })
+    }
 
     private fun CoinMarketCapItem.toCoin(currency: String = PreferenceHelper.DEFAULT_CURRENCY): Coin {
         var price: String? = price_usd
@@ -215,11 +271,11 @@ object DataManager {
                 market_cap = market_cap_twd
                 volume_24h = volume_24h_twd
             }
-            /*"USD" -> {
-                price = price_usd
-                market_cap = market_cap_usd
-                volume_24h = volume_24h_usd
-            }*/
+        /*"USD" -> {
+            price = price_usd
+            market_cap = market_cap_usd
+            volume_24h = volume_24h_usd
+        }*/
             "ZAR" -> {
                 price = price_zar
                 market_cap = market_cap_zar
