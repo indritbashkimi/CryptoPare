@@ -2,6 +2,11 @@ package com.ibashkimi.cryptomarket
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
@@ -18,11 +23,11 @@ class MainActivity : BaseActivity() {
 
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MarketFragment(), MARKET_FRAGMENT_TAG)
-                    .commit()
-        }
+        val pagerAdapter = PagerAdapter(supportFragmentManager)
+        val pager = findViewById<ViewPager>(R.id.pager)
+        pager.adapter = pagerAdapter
+
+        findViewById<TabLayout>(R.id.tabs).setupWithViewPager(pager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,7 +70,32 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    inner class PagerAdapter(private val fragmentManger: FragmentManager) : FragmentPagerAdapter(fragmentManger) {
+        override fun getCount(): Int = PAGES_COUNT
+
+        override fun getItem(position: Int): Fragment = when (position) {
+            0 -> {
+                fragmentManger.findFragmentByTag("frag_at_$position") ?: MarketFragment()
+            }
+            1 -> {
+                fragmentManger.findFragmentByTag("frag_at_$position") ?: FavoriteFragment()
+            }
+            else -> {
+                throw IllegalArgumentException("Invalid position $position.")
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> this@MainActivity.getString(R.string.page_all)
+                1 -> this@MainActivity.getString(R.string.page_favorite)
+                else -> throw IllegalArgumentException("Invalid position $position.")
+            }
+        }
+    }
+
     companion object {
         const val MARKET_FRAGMENT_TAG = "market_fragment"
+        const val PAGES_COUNT = 2
     }
 }
