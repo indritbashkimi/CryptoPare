@@ -2,26 +2,27 @@ package com.ibashkimi.cryptomarket
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
+import com.ibashkimi.cryptomarket.data.ApiResponse
+import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.livedata.CoinViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
-import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.priceFormat
 import com.ibashkimi.cryptomarket.utils.toast
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.DecimalFormatSymbols
 
 
@@ -42,13 +43,19 @@ class CoinActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        Glide.with(this@CoinActivity)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.chart_fragment, ChartFragment.newInstance(intent.extras.getString("symbol")), "chart")
+                    .commit()
+        }
+
+        /*Glide.with(this@CoinActivity)
                 .load(CoinIconUrlResolver.resolve(intent.extras.getString("symbol")))
                 .into(object : SimpleTarget<Drawable>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                         toolbar.logo = resource
                     }
-                })
+                })*/
 
         findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
