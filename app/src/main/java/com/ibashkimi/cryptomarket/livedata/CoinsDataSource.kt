@@ -1,6 +1,6 @@
 package com.ibashkimi.cryptomarket.livedata
 
-import android.arch.paging.PageKeyedDataSource
+import androidx.paging.PageKeyedDataSource
 import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper

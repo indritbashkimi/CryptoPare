@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.preference.PreferenceCategory android:title="@string/about_help">
+    <androidx.preference.PreferenceCategory android:title="@string/about_help">
 
         <Preference
             android:key="send_feedback"
             android:icon="@drawable/ic_feedback"
             android:title="@string/about_send_feedback" />
 
-    </android.support.v7.preference.PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-    <android.support.v7.preference.PreferenceCategory android:title="@string/about_legal">
+    <androidx.preference.PreferenceCategory android:title="@string/about_legal">
 
         <Preference
             android:key="licences"
             android:icon="@drawable/ic_licenses"
             android:title="@string/about_licenses" />
 
-    </android.support.v7.preference.PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>

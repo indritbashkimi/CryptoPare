@@ -1,28 +1,22 @@
 package com.ibashkimi.cryptomarket
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import com.ibashkimi.cryptomarket.data.ApiResponse
-import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.livedata.CoinViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.priceFormat
 import com.ibashkimi.cryptomarket.utils.toast
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.text.DecimalFormatSymbols
 
 
@@ -43,11 +37,11 @@ class CoinActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.chart_fragment, ChartFragment.newInstance(intent.extras.getString("symbol")), "chart")
                     .commit()
-        }
+        }*/
 
         /*Glide.with(this@CoinActivity)
                 .load(CoinIconUrlResolver.resolve(intent.extras.getString("symbol")))
@@ -57,7 +51,7 @@ class CoinActivity : AppCompatActivity() {
                     }
                 })*/
 
-        findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
+        findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
         }
 
@@ -78,20 +72,20 @@ class CoinActivity : AppCompatActivity() {
 
     private var isLoading: Boolean = true
         set(value) {
-            findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
+            findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
             field = value
         }
 
     private fun onDataLoaded(coin: Coin) {
         val currencySymbol = CurrencySymbolResolver.resolve(this, coin.currency)
         val decimalFormatSymbols = DecimalFormatSymbols()
-        /*findViewById<Toolbar>(R.id.toolbar).apply {
+        findViewById<Toolbar>(R.id.toolbar).apply {
             title = "${coin.name}(${coin.symbol})"
             //subtitle = coin.symbol
-        }*/
+        }
 
         var isFavorite = PreferenceHelper.isFavorite(coin)
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         fab.hide()
         fab.setImageDrawable(getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
         fab.setOnClickListener {

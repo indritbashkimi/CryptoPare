@@ -1,15 +1,15 @@
 package com.ibashkimi.cryptomarket
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +22,11 @@ import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 
 
-class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MarketFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var adapter: CoinAdapter
 
-    private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var swipeRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
     private val viewModel: CoinsViewModel by lazy {
         ViewModelProviders.of(this).get(CoinsViewModel::class.java)
@@ -34,10 +34,10 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_market, container, false)
-        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
-        val layoutManager = LinearLayoutManager(requireContext())
+        val recyclerView = root.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(object : CoinAdapter.ImageLoader {
             override fun loadImage(coin: Coin, imageView: ImageView) {
@@ -46,17 +46,17 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
         })
         recyclerView.adapter = adapter
 
-        swipeRefresh = root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefresh = root.findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener { refresh() }
 
-        val actionButton = root.findViewById<FloatingActionButton>(R.id.fab)
+        val actionButton = root.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         actionButton.setOnClickListener {
             recyclerView.scrollToPosition(0)
         }
 
         actionButton.post { actionButton.hide() }
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 if (dy < 0 && actionButton.isShown) {
                     actionButton.hide()
                 } else if (dy > 0 && !actionButton.isShown) {
@@ -75,13 +75,13 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
         return root
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         PreferenceHelper.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         PreferenceHelper.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 

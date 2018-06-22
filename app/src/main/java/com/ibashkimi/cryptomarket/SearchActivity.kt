@@ -2,10 +2,10 @@ package com.ibashkimi.cryptomarket
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -33,10 +33,10 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = null
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val layoutManager = LinearLayoutManager(this)
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = Adapter()
         recyclerView.adapter = adapter
@@ -79,13 +79,13 @@ class SearchActivity : AppCompatActivity() {
 
     private fun onItemClicked(coin: Coin) {
         val intent = Intent(this, CoinActivity::class.java)
-        intent.action = coin.name.toLowerCase()
+        intent.action = coin.id
         intent.putExtra("name", coin.name)
         intent.putExtra("symbol", coin.symbol)
         startActivity(intent)
     }
 
-    inner class Adapter(private val coins: ArrayList<Coin> = ArrayList()) : RecyclerView.Adapter<ViewHolder>() {
+    inner class Adapter(private val coins: ArrayList<Coin> = ArrayList()) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false))
@@ -111,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name)
         val symbol: TextView = itemView.findViewById(R.id.symbol)
     }

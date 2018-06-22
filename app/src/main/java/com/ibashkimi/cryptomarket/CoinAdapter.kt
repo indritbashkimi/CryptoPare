@@ -1,10 +1,10 @@
 package com.ibashkimi.cryptomarket
 
-import android.arch.paging.PagedListAdapter
+import androidx.paging.PagedListAdapter
 import android.content.Intent
-import android.support.v4.content.ContextCompat
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +32,7 @@ class CoinAdapter(private val imageLoader: ImageLoader)
             holder.bind(coin, imageLoader)
     }
 
-    inner class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CryptoViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val rank = itemView.findViewById<TextView>(R.id.rank)
         var icon = itemView.findViewById<ImageView>(R.id.icon)
         var name = itemView.findViewById<TextView>(R.id.name)

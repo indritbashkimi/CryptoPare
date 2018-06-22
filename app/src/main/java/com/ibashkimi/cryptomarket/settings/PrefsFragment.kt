@@ -1,7 +1,7 @@
 package com.ibashkimi.cryptomarket.settings
 
 import android.os.Bundle
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
 import com.ibashkimi.cryptomarket.R
 
 

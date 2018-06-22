@@ -2,12 +2,12 @@ package com.ibashkimi.cryptomarket
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import com.ibashkimi.cryptomarket.about.AboutActivity
@@ -24,10 +24,10 @@ class MainActivity : BaseActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val pagerAdapter = PagerAdapter(supportFragmentManager)
-        val pager = findViewById<ViewPager>(R.id.pager)
+        val pager = findViewById<androidx.viewpager.widget.ViewPager>(R.id.pager)
         pager.adapter = pagerAdapter
 
-        findViewById<TabLayout>(R.id.tabs).setupWithViewPager(pager)
+        findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabs).setupWithViewPager(pager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,10 +70,10 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    inner class PagerAdapter(private val fragmentManger: FragmentManager) : FragmentPagerAdapter(fragmentManger) {
+    inner class PagerAdapter(private val fragmentManger: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentPagerAdapter(fragmentManger) {
         override fun getCount(): Int = PAGES_COUNT
 
-        override fun getItem(position: Int): Fragment = when (position) {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment = when (position) {
             0 -> {
                 fragmentManger.findFragmentByTag("frag_at_$position") ?: MarketFragment()
             }

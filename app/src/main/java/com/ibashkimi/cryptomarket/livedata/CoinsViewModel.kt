@@ -1,9 +1,9 @@
 package com.ibashkimi.cryptomarket.livedata
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.ibashkimi.cryptomarket.model.Coin
 
 
@@ -18,7 +18,7 @@ class CoinsViewModel : ViewModel() {
     init {
         val config = PagedList.Config.Builder()
                 .setPageSize(pageSize)
-                .setInitialLoadSizeHint(pageSize)
+                .setInitialLoadSizeHint(pageSize * 2)
                 .setEnablePlaceholders(false)
                 .build()
         coins = LivePagedListBuilder<Int, Coin>(sourceFactory, config).build()

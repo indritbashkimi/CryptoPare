@@ -1,6 +1,6 @@
 package com.ibashkimi.cryptomarket.livedata
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.content.SharedPreferences
 import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.Coin
