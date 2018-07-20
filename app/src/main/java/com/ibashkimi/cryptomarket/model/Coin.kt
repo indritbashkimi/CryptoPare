@@ -7,7 +7,6 @@ data class Coin(
         val symbol: String,
         val price: String?,
         val rank: String,
-        val priceBtc: String? = null,
         val percentChange1h: String? = null,
         val percentChange24h: String? = null,
         val percentChange7d: String? = null,

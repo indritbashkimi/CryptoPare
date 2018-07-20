@@ -51,7 +51,7 @@ class CoinActivity : AppCompatActivity() {
                     }
                 })*/
 
-        findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
+        findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
         }
 
@@ -72,7 +72,7 @@ class CoinActivity : AppCompatActivity() {
 
     private var isLoading: Boolean = true
         set(value) {
-            findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
+            findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
             field = value
         }
 
@@ -85,7 +85,7 @@ class CoinActivity : AppCompatActivity() {
         }
 
         var isFavorite = PreferenceHelper.isFavorite(coin)
-        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.hide()
         fab.setImageDrawable(getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
         fab.setOnClickListener {
@@ -106,10 +106,9 @@ class CoinActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.symbol).setText(coin.symbol)
         findViewById<TextView>(R.id.rank).setText(getString(R.string.rank_value, coin.rank))
 
-        val price = findViewById<TextView>(R.id.price)
-        price.text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
+        findViewById<TextView>(R.id.price_toolbar).text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
 
-        findViewById<TextView>(R.id.priceBtc).setText(getString(R.string.price, getString(R.string.btc_symbol), coin.priceBtc?.priceFormat(decimalFormatSymbols)))
+        findViewById<TextView>(R.id.price).text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
 
         val lastUpdated = findViewById<TextView>(R.id.lastUpdated)
         lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
