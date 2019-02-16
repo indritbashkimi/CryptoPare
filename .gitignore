@@ -1,9 +1,3 @@
-# Built application files
-/*/build/
-
-# Crashlytics configuations
-com_crashlytics_export_strings.xml
-
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -11,11 +5,16 @@ local.properties
 .gradle/
 .idea/gradle.xml
 build
+app/release
 
 # Signing files
 .signing/
 
 # User-specific configurations
+.idea/assetWizardSettings.xml
+.idea/caches
+.idea/icon.png
+.idea/codeStyles
 .idea/libraries/
 .idea/workspace.xml
 .idea/tasks.xml
@@ -23,9 +22,12 @@ build
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
+.idea/gradle_extensions.xml
 .idea/misc.xml
 .idea/modules.xml
+.idea/navEditor.xml
 .idea/scopes/scope_settings.xml
+.idea/runConfigurations.xml
 .idea/vcs.xml
 *.iml
 
@@ -41,7 +43,3 @@ Thumbs.db
 
 # Keystore files
 /screenshots/.directory
-*.jks
-/.idea/kotlinc.xml
-/.idea/runConfigurations.xml
-/.idea/gradle_extensions.xml
