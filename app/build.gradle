@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion versions.android.compileSdk
+    buildToolsVersion versions.android.buildTools
     defaultConfig {
         applicationId "com.ibashkimi.cryptomarket"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
         versionCode 1
         versionName "1.0"
         resConfigs "en", "it", "sq"
@@ -21,8 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     productFlavors {
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -33,30 +36,29 @@ kotlin {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
+    testImplementation deps.test.junit
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.2'
-    implementation 'com.google.android.material:material:1.0.0-alpha3'
-    implementation 'androidx.fragment:fragment:1.0.0-alpha3'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha3'
-    implementation 'androidx.preference:preference:1.0.0-alpha3'
-    implementation 'androidx.legacy:legacy-preference-v14:1.0.0-alpha3'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutines
+    implementation deps.google.material
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.cardview
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.fragment
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.preference
+    implementation deps.androidx.legacypreference
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0-alpha1"
-    implementation 'androidx.paging:paging-runtime:2.0.0-alpha1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5'
-    implementation 'androidx.cardview:cardview:1.0.0-alpha3'
-    implementation "androidx.core:core-ktx:1.0.0-alpha3"
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
+    implementation 'androidx.paging:paging-runtime:2.1.0'
+    implementation "androidx.core:core-ktx:1.0.1"
     implementation "com.github.PhilJay:MPAndroidChart:v3.0.3"
 }
