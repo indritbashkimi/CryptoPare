@@ -1,15 +1,15 @@
 package com.ibashkimi.cryptomarket
 
-import androidx.paging.PagedListAdapter
 import android.content.Intent
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.priceFormat
@@ -22,7 +22,7 @@ class CoinAdapter(private val imageLoader: ImageLoader)
     val decimalFormatSymbols = DecimalFormatSymbols()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder = CryptoViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_2, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_4, parent, false))
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
         val coin: Coin? = getItem(position)
@@ -32,25 +32,25 @@ class CoinAdapter(private val imageLoader: ImageLoader)
             holder.bind(coin, imageLoader)
     }
 
-    inner class CryptoViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
-        val rank = itemView.findViewById<TextView>(R.id.rank)
-        var icon = itemView.findViewById<ImageView>(R.id.icon)
-        var name = itemView.findViewById<TextView>(R.id.name)
-        var symbol = itemView.findViewById<TextView>(R.id.symbol)
-        var price = itemView.findViewById<TextView>(R.id.price)
-        val oneHourChange = itemView.findViewById<TextView>(R.id.change1h)
-        var twentyFourHourChange = itemView.findViewById<TextView>(R.id.change24h)
-        var sevenDayChange = itemView.findViewById<TextView>(R.id.change7d)
+    inner class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var rank: TextView = itemView.findViewById(R.id.rank)
+        private var icon: ImageView? = itemView.findViewById(R.id.icon)
+        private var name: TextView = itemView.findViewById(R.id.name)
+        private var symbol: TextView = itemView.findViewById(R.id.symbol)
+        private var price: TextView = itemView.findViewById(R.id.price)
+        private var oneHourChange: TextView? = itemView.findViewById(R.id.change1h)
+        private var twentyFourHourChange: TextView? = itemView.findViewById(R.id.change24h)
+        private var sevenDayChange: TextView? = itemView.findViewById(R.id.change7d)
 
         fun clear() {
             rank.text = null
             name.text = null
             symbol.text = null
             price.text = null
-            oneHourChange.text = null
-            twentyFourHourChange.text = null
-            sevenDayChange.text = null
-            icon.setImageDrawable(null)
+            oneHourChange?.text = null
+            twentyFourHourChange?.text = null
+            sevenDayChange?.text = null
+            icon?.setImageDrawable(null)
         }
 
         fun bind(coin: Coin, imageLoader: ImageLoader) {
@@ -60,39 +60,43 @@ class CoinAdapter(private val imageLoader: ImageLoader)
             price.text = price.context
                     .getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
                             coin.price?.priceFormat(decimalFormatSymbols))
-            oneHourChange.text = oneHourChange.context
-                    .getString(R.string.percent_change, coin.percentChange1h)
-            twentyFourHourChange.text = twentyFourHourChange.context
-                    .getString(R.string.percent_change, coin.percentChange24h)
-            sevenDayChange.text = sevenDayChange.context
-                    .getString(R.string.percent_change, coin.percentChange7d)
+            oneHourChange?.apply {
+                text = context.getString(R.string.percent_change, coin.percentChange1h)
+            }
+            twentyFourHourChange?.apply {
+                text = context.getString(R.string.percent_change, coin.percentChange24h)
+            }
 
-            imageLoader.loadImage(coin, icon)
+            sevenDayChange?.apply {
+                text = context.getString(R.string.percent_change, coin.percentChange7d)
+            }
 
-            val positiveColor = ContextCompat.getColor(itemView.context, R.color.positive_color);
-            val negativeColor = ContextCompat.getColor(itemView.context, R.color.negative_color);
+            icon?.let { imageLoader.loadImage(coin, it) }
+
+            val positiveColor = ContextCompat.getColor(itemView.context, R.color.positive_color)
+            val negativeColor = ContextCompat.getColor(itemView.context, R.color.negative_color)
 
             if (coin.percentChange1h == null) {
-                oneHourChange.text = "?"
+                oneHourChange?.text = "?"
             } else {
-                oneHourChange.setTextColor(when {
+                oneHourChange?.setTextColor(when {
                     coin.percentChange1h.contains("-") -> negativeColor
                     else -> positiveColor
                 })
             }
 
             if (coin.percentChange24h == null)
-                twentyFourHourChange.text = "?"
+                twentyFourHourChange?.text = "?"
             else
-                twentyFourHourChange.setTextColor(when {
+                twentyFourHourChange?.setTextColor(when {
                     coin.percentChange24h.contains("-") -> negativeColor
                     else -> positiveColor
                 })
 
             if (coin.percentChange7d == null)
-                sevenDayChange.text = "?"
+                sevenDayChange?.text = "?"
             else
-                sevenDayChange.setTextColor(when {
+                sevenDayChange?.setTextColor(when {
                     coin.percentChange7d.contains("-") -> negativeColor
                     else -> positiveColor
                 })
