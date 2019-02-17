@@ -56,7 +56,7 @@
 
             <fragment
                 android:id="@+id/prefs"
-                android:name="com.ibashkimi.cryptomarket.about.AboutActivity$AboutFragment"
+                android:name="com.ibashkimi.cryptomarket.about.AboutFragment$AboutFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />

@@ -3,26 +3,37 @@ package com.ibashkimi.cryptomarket.about
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import android.widget.Toast
-import com.ibashkimi.cryptomarket.BaseActivity
 import com.ibashkimi.cryptomarket.R
-import kotlinx.android.synthetic.main.activity_about.*
 
-class AboutActivity : BaseActivity() {
+class AboutFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val root = inflater.inflate(R.layout.fragment_about, container, false)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        root.findViewById<Toolbar>(R.id.toolbar).apply {
+            title = getString(R.string.title_about)
+            setNavigationIcon(R.drawable.ic_back_nav)
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
 
-        about_title.text = getString(R.string.app_name)
-        version.text = getString(R.string.version)
-        description.text = getString(R.string.description)
-        disclaimer.text = getString(R.string.disclaimer)
+        root.findViewById<TextView>(R.id.about_title).text = getString(R.string.app_name)
+        root.findViewById<TextView>(R.id.version).text = getString(R.string.version)
+        root.findViewById<TextView>(R.id.description).text = getString(R.string.description)
+        root.findViewById<TextView>(R.id.disclaimer).text = getString(R.string.disclaimer)
+
+        return root
     }
 
     class AboutFragment : PreferenceFragmentCompat() {

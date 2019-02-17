@@ -10,32 +10,48 @@
         android:label="MainFragment">
         <action
             android:id="@+id/action_main_to_settings"
-            app:destination="@id/settings" />
+            app:destination="@id/settings"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_main_to_about"
-            app:destination="@id/about" />
+            app:destination="@id/about"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_main_to_search"
-            app:destination="@id/search" />
+            app:destination="@id/search"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_main_to_coin"
-            app:destination="@id/coin" />
+            app:destination="@id/coin"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-    <activity
+    <fragment
         android:id="@+id/settings"
-        android:name="com.ibashkimi.cryptomarket.settings.SettingsActivity"
+        android:name="com.ibashkimi.cryptomarket.settings.SettingsFragment"
         android:label="@string/title_settings" />
-    <activity
+    <fragment
         android:id="@+id/about"
-        android:name="com.ibashkimi.cryptomarket.about.AboutActivity"
+        android:name="com.ibashkimi.cryptomarket.about.AboutFragment"
         android:label="@string/title_about" />
-    <activity
+    <fragment
         android:id="@+id/search"
-        android:name="com.ibashkimi.cryptomarket.SearchActivity"
+        android:name="com.ibashkimi.cryptomarket.SearchFragment"
         android:label="@string/search" />
-    <activity
+    <fragment
         android:id="@+id/coin"
-        android:name="com.ibashkimi.cryptomarket.CoinActivity"
+        android:name="com.ibashkimi.cryptomarket.CoinFragment"
         android:label="CoinActivity">
         <argument
             android:name="id"
@@ -46,5 +62,5 @@
         <argument
             android:name="symbol"
             app:argType="string" />
-    </activity>
+    </fragment>
 </navigation>

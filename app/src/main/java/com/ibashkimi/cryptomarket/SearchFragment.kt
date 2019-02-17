@@ -1,6 +1,5 @@
 package com.ibashkimi.cryptomarket
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,36 +8,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.SearchItem
+import com.ibashkimi.cryptomarket.utils.toast
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
     private lateinit var adapter: Adapter
 
     private var data: List<SearchItem>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val root = inflater.inflate(R.layout.fragment_search, container, false)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = null
+        root.findViewById<Toolbar>(R.id.toolbar).apply {
+            //title = getString(R.string.title_settings)
+            setNavigationIcon(R.drawable.ic_back_nav)
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
 
-        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
+        val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = Adapter()
         recyclerView.adapter = adapter
 
-        val editTex = findViewById<EditText>(R.id.editText)
+        val editTex = root.findViewById<EditText>(R.id.editText)
         editTex.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
 
@@ -64,26 +72,24 @@ class SearchActivity : AppCompatActivity() {
         DataManager.loadSupportedCoins {
             data = when (it) {
                 is ApiResponse.Success -> {
-                    Toast.makeText(this@SearchActivity, "Loaded: ${it.result.size}", Toast.LENGTH_SHORT).show()
+                    toast("Loaded: ${it.result.size}")
                     it.result
                 }
                 is ApiResponse.Failure -> {
-                    Toast.makeText(this@SearchActivity, "Failure", Toast.LENGTH_SHORT).show()
+                    toast("Failure")
                     emptyList()
                 }
             }
         }
+
+        return root
     }
 
     private fun onItemClicked(coin: SearchItem) {
-        val intent = Intent(this, CoinActivity::class.java)
-        intent.action = coin.id
-        intent.putExtra("name", coin.name)
-        intent.putExtra("symbol", coin.symbol)
-        startActivity(intent)
+        findNavController().navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
     }
 
-    inner class Adapter(private val coins: ArrayList<SearchItem> = ArrayList()) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
+    inner class Adapter(private val coins: ArrayList<SearchItem> = ArrayList()) : RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false))
@@ -109,7 +115,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name)
         val symbol: TextView = itemView.findViewById(R.id.symbol)
     }

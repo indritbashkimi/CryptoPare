@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,7 +17,7 @@
             app:layout_scrollFlags="exitUntilCollapsed"/>
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/price_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -97,20 +97,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
                 <TextView
-                    android:id="@+id/price2"
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                    tools:text="$1000" />
-
-                <TextView
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:text="@string/price_btc_title"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
-
-                <TextView
-                    android:id="@+id/priceBtc"
+                    android:id="@+id/price"
                     android:layout_gravity="start"
                     android:gravity="start"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
