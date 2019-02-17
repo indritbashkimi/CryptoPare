@@ -1,19 +1,17 @@
 package com.ibashkimi.cryptomarket
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.ibashkimi.cryptomarket.livedata.FavoriteCoinsViewModel
 import com.ibashkimi.cryptomarket.model.Coin
@@ -24,7 +22,7 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
 
     private lateinit var adapter: CoinAdapter
 
-    private lateinit var swipeRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     private val viewModel: FavoriteCoinsViewModel by lazy {
         ViewModelProviders.of(this).get(FavoriteCoinsViewModel::class.java)
@@ -41,14 +39,14 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
             override fun loadImage(coin: Coin, imageView: ImageView) {
                 Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
             }
-        }, object: CoinAdapter.OnCoinClicked {
+        }, object : CoinAdapter.OnCoinClicked {
             override fun onCoinClicked(coin: Coin) {
                 mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
             }
         })
         recyclerView.adapter = adapter
 
-        swipeRefresh = root.findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefresh = root.findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener { refresh() }
 
         isLoading = true

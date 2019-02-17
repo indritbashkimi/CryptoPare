@@ -80,13 +80,13 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(object : CoinAdapter.ImageLoader {
             override fun loadImage(coin: Coin, imageView: ImageView) {
                 Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
             }
-        }, object: CoinAdapter.OnCoinClicked {
+        }, object : CoinAdapter.OnCoinClicked {
             override fun onCoinClicked(coin: Coin) {
                 mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
             }
@@ -102,8 +102,8 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
         }
 
         actionButton.post { actionButton.hide() }
-        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy < 0 && actionButton.isShown) {
                     actionButton.hide()
                 } else if (dy > 0 && !actionButton.isShown) {

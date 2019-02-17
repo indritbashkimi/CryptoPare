@@ -5,7 +5,7 @@
     <string name="price">%s%s</string>
     <string name="currency_usd">$</string>
     <string name="oneHour">1H</string>
-    <string name="twentyFourHour">24H</string>
+    <string name="twentyFourHour">1D</string>
     <string name="sevenDays">7D</string>
     <string name="percent_change">%s%%</string>
     <string name="title_settings">Settings</string>
