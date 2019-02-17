@@ -26,3 +26,9 @@ data class Metadata(val timestamp: String,
                     val num_cryptocurrencies: String,
                     val error: String?)
 
+data class ListingItem(val data: List<ListingCoin>, val metadata: Metadata)
+
+data class ListingCoin(val id: String,
+                       val name: String,
+                       val symbol: String,
+                       val website_slug: String)

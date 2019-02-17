@@ -1,12 +1,9 @@
 package com.ibashkimi.cryptomarket.data
 
 import com.ibashkimi.cryptomarket.data.api.coincap.CoinCapService
-import com.ibashkimi.cryptomarket.data.api.coinmarketcap.TickerQueryItem
-import com.ibashkimi.cryptomarket.data.api.coinmarketcap.CoinMarketCapService
-import com.ibashkimi.cryptomarket.data.api.coinmarketcap.CoinTickerItem
-import com.ibashkimi.cryptomarket.data.api.coinmarketcap.toCoin
-import com.ibashkimi.cryptomarket.data.api.coinmarketcap.toCoins
+import com.ibashkimi.cryptomarket.data.api.coinmarketcap.*
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.SearchItem
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,15 +59,14 @@ object DataManager {
         }
     }
 
-    fun loadSupportedCoins(onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        val call: Call<TickerQueryItem> = coinMarketCapApi.getCoins(0, 0, "array")
-        call.enqueue(object : Callback<TickerQueryItem?> {
-            override fun onFailure(call: Call<TickerQueryItem?>, t: Throwable) {
+    fun loadSupportedCoins(onResponse: (ApiResponse<List<SearchItem>>) -> Unit) {
+        coinMarketCapApi.listing().enqueue(object: Callback<ListingItem> {
+            override fun onFailure(call: Call<ListingItem>, t: Throwable?) {
                 onResponse(ApiResponse.Failure(t.toString()))
             }
 
-            override fun onResponse(call: Call<TickerQueryItem?>, response: Response<TickerQueryItem?>) {
-                onResponse(ApiResponse.Success(response.body()?.toCoins() ?: emptyList()))
+            override fun onResponse(call: Call<ListingItem>, response: Response<ListingItem>) {
+                onResponse(ApiResponse.Success(response.body()?.toSearchItems() ?: emptyList()))
             }
         })
     }

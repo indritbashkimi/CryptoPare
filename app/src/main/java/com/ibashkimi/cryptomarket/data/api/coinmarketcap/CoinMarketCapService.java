@@ -25,4 +25,7 @@ public interface CoinMarketCapService {
 
     @GET("v2/ticker/{id}/")
     Call<CoinTickerItem> getCoin(@Path("id") String id, @Query("convert") String currency);
+
+    @GET("v2/listing/")
+    Call<ListingItem> listing();
 }

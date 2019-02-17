@@ -2,10 +2,6 @@ package com.ibashkimi.cryptomarket
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,16 +10,17 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataManager
-import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.SearchItem
 
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var adapter: Adapter
 
-    private var data: List<Coin>? = null
+    private var data: List<SearchItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +53,18 @@ class SearchActivity : AppCompatActivity() {
                     adapter.updateData(emptyList())
                     return
                 }
-                val coins: List<Coin> = data ?: emptyList()
+                val coins: List<SearchItem> = data ?: emptyList()
                 val term = s.toString().trim().toLowerCase()
                 adapter.updateData(coins.filter {
                     term in it.name.toLowerCase() || term in it.symbol.toLowerCase()
-                }.sortedBy { it.rank })
+                })
             }
         })
 
         DataManager.loadSupportedCoins {
             data = when (it) {
                 is ApiResponse.Success -> {
+                    Toast.makeText(this@SearchActivity, "Loaded: ${it.result.size}", Toast.LENGTH_SHORT).show()
                     it.result
                 }
                 is ApiResponse.Failure -> {
@@ -77,7 +75,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun onItemClicked(coin: Coin) {
+    private fun onItemClicked(coin: SearchItem) {
         val intent = Intent(this, CoinActivity::class.java)
         intent.action = coin.id
         intent.putExtra("name", coin.name)
@@ -85,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    inner class Adapter(private val coins: ArrayList<Coin> = ArrayList()) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
+    inner class Adapter(private val coins: ArrayList<SearchItem> = ArrayList()) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false))
@@ -99,12 +97,12 @@ class SearchActivity : AppCompatActivity() {
             val item = coins[position]
             holder.name.text = item.name
             holder.symbol.text = item.symbol
-            holder.itemView.setOnClickListener({
+            holder.itemView.setOnClickListener {
                 onItemClicked(item)
-            })
+            }
         }
 
-        fun updateData(data: List<Coin>) {
+        fun updateData(data: List<SearchItem>) {
             coins.clear()
             coins.addAll(data)
             notifyDataSetChanged()
