@@ -41,6 +41,10 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
             override fun loadImage(coin: Coin, imageView: ImageView) {
                 Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
             }
+        }, object: CoinAdapter.OnCoinClicked {
+            override fun onCoinClicked(coin: Coin) {
+                mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
+            }
         })
         recyclerView.adapter = adapter
 
@@ -72,6 +76,8 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
             refresh()
     }
 
+    private val mainNavController: NavController
+        get() = requireActivity().findNavController(R.id.main_nav_host_fragment)
 
     private var isLoading: Boolean = true
         set(value) {

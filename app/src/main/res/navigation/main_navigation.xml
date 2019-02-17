@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.ibashkimi.cryptomarket.HomeFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_main_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_main_to_about"
+            app:destination="@id/about" />
+        <action
+            android:id="@+id/action_main_to_search"
+            app:destination="@id/search" />
+        <action
+            android:id="@+id/action_main_to_coin"
+            app:destination="@id/coin" />
+    </fragment>
+    <activity
+        android:id="@+id/settings"
+        android:name="com.ibashkimi.cryptomarket.settings.SettingsActivity"
+        android:label="@string/title_settings" />
+    <activity
+        android:id="@+id/about"
+        android:name="com.ibashkimi.cryptomarket.about.AboutActivity"
+        android:label="@string/title_about" />
+    <activity
+        android:id="@+id/search"
+        android:name="com.ibashkimi.cryptomarket.SearchActivity"
+        android:label="@string/search" />
+    <activity
+        android:id="@+id/coin"
+        android:name="com.ibashkimi.cryptomarket.CoinActivity"
+        android:label="CoinActivity">
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="symbol"
+            app:argType="string" />
+    </activity>
+</navigation>

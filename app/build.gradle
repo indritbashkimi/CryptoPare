@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -61,4 +62,6 @@ dependencies {
     implementation 'androidx.paging:paging-runtime:2.1.0'
     implementation "androidx.core:core-ktx:1.0.1"
     implementation "com.github.PhilJay:MPAndroidChart:v3.0.3"
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-beta02'
 }

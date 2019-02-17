@@ -16,7 +16,7 @@ import com.ibashkimi.cryptomarket.utils.priceFormat
 import java.text.DecimalFormatSymbols
 
 
-class CoinAdapter(private val imageLoader: ImageLoader)
+class CoinAdapter(private val imageLoader: ImageLoader, private val clickListener: OnCoinClicked)
     : PagedListAdapter<Coin, CoinAdapter.CryptoViewHolder>(coinDiffCallback) {
 
     val decimalFormatSymbols = DecimalFormatSymbols()
@@ -101,17 +101,17 @@ class CoinAdapter(private val imageLoader: ImageLoader)
                     else -> positiveColor
                 })
             itemView.setOnClickListener {
-                val intent = Intent(it.context, CoinActivity::class.java)
-                intent.action = coin.id
-                intent.putExtra("name", coin.name)
-                intent.putExtra("symbol", coin.symbol)
-                it.context.startActivity(intent)
+                clickListener.onCoinClicked(coin)
             }
         }
     }
 
     interface ImageLoader {
         fun loadImage(coin: Coin, imageView: ImageView)
+    }
+
+    interface OnCoinClicked {
+        fun onCoinClicked(coin: Coin)
     }
 
     companion object {

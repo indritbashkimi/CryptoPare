@@ -23,7 +23,7 @@ import java.text.DecimalFormatSymbols
 class CoinActivity : AppCompatActivity() {
 
     private val viewModel: CoinViewModel by lazy {
-        ViewModelProviders.of(this, CoinViewModel.Factory(intent.action))
+        ViewModelProviders.of(this, CoinViewModel.Factory(intent.extras.getString("id")!!))
                 .get(CoinViewModel::class.java)
     }
 
