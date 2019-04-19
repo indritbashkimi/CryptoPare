@@ -1,6 +1,8 @@
 package com.ibashkimi.cryptomarket.data
 
-import com.ibashkimi.cryptomarket.data.api.coincap.CoinCapService
+import com.ibashkimi.cryptomarket.data.api.coincap.CoinCapApi
+import com.ibashkimi.cryptomarket.data.api.coincap.model.AssetItem
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinList
 import com.ibashkimi.cryptomarket.data.api.coinmarketcap.*
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.SearchItem
@@ -10,10 +12,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 object DataManager {
+
+    private val coinCapApi: CoinCapApi by lazy {
+        Retrofit.Builder()
+                .baseUrl(CoinCapApi.ENDPOINT)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build()
+                .create<CoinCapApi>(CoinCapApi::class.java)
+    }
 
     private val coinMarketCapApi: CoinMarketCapService by lazy {
         Retrofit.Builder()
@@ -21,14 +31,6 @@ object DataManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create<CoinMarketCapService>(CoinMarketCapService::class.java)
-    }
-
-    private val coinCapService: CoinCapService by lazy {
-        Retrofit.Builder()
-                .baseUrl(CoinCapService.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create<CoinCapService>(CoinCapService::class.java)
     }
 
     fun favoriteCoins(onResponse: (ApiResponse<List<Coin>>) -> Unit) {
@@ -60,7 +62,7 @@ object DataManager {
     }
 
     fun loadSupportedCoins(onResponse: (ApiResponse<List<SearchItem>>) -> Unit) {
-        coinMarketCapApi.listing().enqueue(object: Callback<ListingItem> {
+        coinMarketCapApi.listing().enqueue(object : Callback<ListingItem> {
             override fun onFailure(call: Call<ListingItem>, t: Throwable?) {
                 onResponse(ApiResponse.Failure(t.toString()))
             }
@@ -72,15 +74,14 @@ object DataManager {
     }
 
     fun getCoins(start: Int, limit: Int, currency: String, onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
-        val call = coinMarketCapApi.getCoins(currency, start, limit, "array")
-        call.enqueue(object : Callback<TickerQueryItem?> {
-            override fun onFailure(call: Call<TickerQueryItem?>?, t: Throwable?) {
+        coinCapApi.getCoins(start, limit).enqueue(object : Callback<AssetItem?> {
+            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
                 onFailure()
             }
 
-            override fun onResponse(call: Call<TickerQueryItem?>, response: Response<TickerQueryItem?>) {
+            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
                 if (response.isSuccessful) {
-                    onSuccess(response.body()?.toCoins(currency) ?: emptyList())
+                    onSuccess(response.body()?.toCoinList() ?: emptyList())
                 } else {
                     onFailure()
                 }
@@ -89,14 +90,17 @@ object DataManager {
     }
 
     fun getCoin(id: String, currency: String, onSuccess: (data: Coin) -> Unit, onFailure: () -> Unit) {
-        coinMarketCapApi.getCoin(id, currency).enqueue(object : Callback<CoinTickerItem?> {
-            override fun onFailure(call: Call<CoinTickerItem?>, t: Throwable?) {
+        android.util.Log.d("DataManager", "requesting id $id")
+        coinCapApi.getCoin(id).enqueue(object : Callback<AssetItem?> {
+            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
+                android.util.Log.d("DataManager", "Fuck failure")
                 onFailure()
             }
 
-            override fun onResponse(call: Call<CoinTickerItem?>, response: Response<CoinTickerItem?>) {
+            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
+                android.util.Log.d("DataManager", "Gentlemen we've got a response. success? ${response.isSuccessful}")
                 if (response.isSuccessful)
-                    onSuccess(response.body()!!.data.toCoin(currency))
+                    onSuccess(response.body()!!.toCoinList()[0])
                 else
                     onFailure()
             }
@@ -119,30 +123,8 @@ object DataManager {
     }
 
     fun history(coinId: String, period: HistoryPeriod, onResponse: (ApiResponse<String>) -> Unit) {
-        Retrofit.Builder()
-                .baseUrl(CoinCapService.ENDPOINT)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
-                .create<CoinCapService>(CoinCapService::class.java).apply {
-                    when (period) {
-                        HistoryPeriod.DAY -> history1Day(coinId)
-                        HistoryPeriod.MONTH -> history30Day(coinId)
-                        HistoryPeriod.MONTH3 -> history90Day(coinId)
-                        HistoryPeriod.MONTH6 -> history180Day(coinId)
-                        HistoryPeriod.YEAR -> history365Day(coinId)
-                        HistoryPeriod.ALL -> history(coinId)
-                    }.enqueue(object : Callback<String> {
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            onResponse(ApiResponse.Failure(t.toString()))
-                        }
-
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
-                            onResponse(ApiResponse.Success(response.body()!!))
-                        }
-                    })
-                }
+        onResponse(ApiResponse.Failure(""))
     }
-
 
 
     enum class HistoryPeriod {
