@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -17,12 +16,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.ibashkimi.cryptomarket.livedata.CoinsViewModel
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
-import com.ibashkimi.cryptomarket.utils.CoinIconUrlResolver
 
 
 class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,11 +79,7 @@ class MarketFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLis
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = CoinAdapter(object : CoinAdapter.ImageLoader {
-            override fun loadImage(coin: Coin, imageView: ImageView) {
-                Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
-            }
-        }, object : CoinAdapter.OnCoinClicked {
+        adapter = CoinAdapter(null, object : CoinAdapter.OnCoinClicked {
             override fun onCoinClicked(coin: Coin) {
                 mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
             }

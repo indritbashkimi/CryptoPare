@@ -1,6 +1,5 @@
 package com.ibashkimi.cryptomarket
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +15,13 @@ import com.ibashkimi.cryptomarket.utils.priceFormat
 import java.text.DecimalFormatSymbols
 
 
-class CoinAdapter(private val imageLoader: ImageLoader, private val clickListener: OnCoinClicked)
+class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListener: OnCoinClicked)
     : PagedListAdapter<Coin, CoinAdapter.CryptoViewHolder>(coinDiffCallback) {
 
     val decimalFormatSymbols = DecimalFormatSymbols()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder = CryptoViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_4, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false))
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
         val coin: Coin? = getItem(position)
@@ -53,7 +52,7 @@ class CoinAdapter(private val imageLoader: ImageLoader, private val clickListene
             icon?.setImageDrawable(null)
         }
 
-        fun bind(coin: Coin, imageLoader: ImageLoader) {
+        fun bind(coin: Coin, imageLoader: ImageLoader?) {
             rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
             name.text = coin.name
             symbol.text = coin.symbol
@@ -71,7 +70,7 @@ class CoinAdapter(private val imageLoader: ImageLoader, private val clickListene
                 text = context.getString(R.string.percent_change, coin.percentChange7d)
             }
 
-            icon?.let { imageLoader.loadImage(coin, it) }
+            icon?.let { imageLoader?.loadImage(coin, it) }
 
             val positiveColor = ContextCompat.getColor(itemView.context, R.color.positive_color)
             val negativeColor = ContextCompat.getColor(itemView.context, R.color.negative_color)
