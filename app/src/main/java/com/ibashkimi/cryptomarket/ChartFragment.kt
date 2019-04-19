@@ -1,20 +1,21 @@
 package com.ibashkimi.cryptomarket
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.formatter.IFillFormatter
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataManager
+import com.ibashkimi.cryptomarket.data.HistoryPeriod
 import com.ibashkimi.cryptomarket.utils.toast
 import org.json.JSONArray
 import org.json.JSONException
@@ -33,7 +34,7 @@ class ChartFragment : Fragment() {
         chart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.rgb(104, 241, 175))
 
-        DataManager.history(arguments!!.getString("coin_symbol")!!, DataManager.HistoryPeriod.MONTH3) {
+        DataManager.history(arguments!!.getString("coin_symbol")!!, HistoryPeriod.MONTH3) {
             when (it) {
                 is ApiResponse.Success -> {
                     //toast("history success")

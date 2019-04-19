@@ -1,7 +1,8 @@
 package com.ibashkimi.cryptomarket.livedata
 
-import androidx.lifecycle.LiveData
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
@@ -29,11 +30,11 @@ class CoinLiveData(private val coinId: String) : LiveData<Coin>(), SharedPrefere
 
     fun refresh() {
         DataManager.getCoin(coinId, PreferenceHelper.currency,
-                onSuccess = {
-                    value = it
-                },
-                onFailure = {
-                    value = null
+                onResponse = {
+                    when (it) {
+                        is ApiResponse.Failure -> value = null
+                        is ApiResponse.Success -> value = it.result
+                    }
                 })
     }
 }
