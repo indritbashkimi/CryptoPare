@@ -73,12 +73,12 @@ object DataManager {
 
     fun getCoins(start: Int, limit: Int, currency: String, onSuccess: (data: List<Coin>) -> Unit, onFailure: () -> Unit) {
         val call = coinMarketCapApi.getCoins(currency, start, limit, "array")
-        call.enqueue(object : retrofit2.Callback<TickerQueryItem?> {
-            override fun onFailure(call: retrofit2.Call<TickerQueryItem?>?, t: Throwable?) {
+        call.enqueue(object : Callback<TickerQueryItem?> {
+            override fun onFailure(call: Call<TickerQueryItem?>?, t: Throwable?) {
                 onFailure()
             }
 
-            override fun onResponse(call: retrofit2.Call<TickerQueryItem?>, response: retrofit2.Response<TickerQueryItem?>) {
+            override fun onResponse(call: Call<TickerQueryItem?>, response: Response<TickerQueryItem?>) {
                 if (response.isSuccessful) {
                     onSuccess(response.body()?.toCoins(currency) ?: emptyList())
                 } else {

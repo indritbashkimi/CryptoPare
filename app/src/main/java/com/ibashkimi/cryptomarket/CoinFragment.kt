@@ -104,9 +104,9 @@ class CoinFragment : Fragment() {
         fab.visibility = View.VISIBLE
         fab.show()
 
-        root.findViewById<TextView>(R.id.name).setText(coin.name)
-        root.findViewById<TextView>(R.id.symbol).setText(coin.symbol)
-        root.findViewById<TextView>(R.id.rank).setText(getString(R.string.rank_value, coin.rank))
+        root.findViewById<TextView>(R.id.name).text = coin.name
+        root.findViewById<TextView>(R.id.symbol).text = coin.symbol
+        root.findViewById<TextView>(R.id.rank).text = getString(R.string.rank_value, coin.rank)
 
         root.findViewById<TextView>(R.id.price_toolbar).text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
 
@@ -115,14 +115,14 @@ class CoinFragment : Fragment() {
         val lastUpdated = root.findViewById<TextView>(R.id.lastUpdated)
         lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
 
-        root.findViewById<TextView>(R.id.percent_change_1h).setText(getString(R.string.percent_change, coin.percentChange1h))
-        root.findViewById<TextView>(R.id.percent_change_24h).setText(getString(R.string.percent_change, coin.percentChange24h))
-        root.findViewById<TextView>(R.id.percent_change_7d).setText(getString(R.string.percent_change, coin.percentChange7d))
-        root.findViewById<TextView>(R.id.marketCap).setText(getString(R.string.price, currencySymbol, coin.marketCap?.priceFormat(decimalFormatSymbols)))
-        root.findViewById<TextView>(R.id.circulatingSupply).setText(coin.availableSupply?.priceFormat(decimalFormatSymbols))
-        root.findViewById<TextView>(R.id.volume_24h).setText(getString(R.string.price, currencySymbol, coin.volume24h?.priceFormat(decimalFormatSymbols)))
-        root.findViewById<TextView>(R.id.max_supply).setText(coin.maxSupply?.priceFormat(decimalFormatSymbols))
-        root.findViewById<TextView>(R.id.totalSupply).setText(coin.totalSupply?.priceFormat(decimalFormatSymbols))
+        root.findViewById<TextView>(R.id.percent_change_1h).text = getString(R.string.percent_change, coin.percentChange1h)
+        root.findViewById<TextView>(R.id.percent_change_24h).text = getString(R.string.percent_change, coin.percentChange24h)
+        root.findViewById<TextView>(R.id.percent_change_7d).text = getString(R.string.percent_change, coin.percentChange7d)
+        root.findViewById<TextView>(R.id.marketCap).text = getString(R.string.price, currencySymbol, coin.marketCap?.priceFormat(decimalFormatSymbols))
+        root.findViewById<TextView>(R.id.circulatingSupply).text = coin.availableSupply?.priceFormat(decimalFormatSymbols)
+        root.findViewById<TextView>(R.id.volume_24h).text = getString(R.string.price, currencySymbol, coin.volume24h?.priceFormat(decimalFormatSymbols))
+        root.findViewById<TextView>(R.id.max_supply).text = coin.maxSupply?.priceFormat(decimalFormatSymbols)
+        root.findViewById<TextView>(R.id.totalSupply).text = coin.totalSupply?.priceFormat(decimalFormatSymbols)
     }
 
     private fun onLoadFailed() {

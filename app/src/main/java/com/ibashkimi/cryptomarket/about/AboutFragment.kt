@@ -63,7 +63,7 @@ class AboutFragment : Fragment() {
             val address = getString(R.string.author_email)
             val subject = getString(R.string.feedback_subject)
 
-            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + address))
+            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$address"))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
 
             val chooserTitle = getString(R.string.feedback_chooser_title)

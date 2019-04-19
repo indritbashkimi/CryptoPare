@@ -18,13 +18,13 @@ object PreferenceHelper {
     val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
 
     var currency: String
-        get() = sharedPreferences.getString(KEY_CURRENCY, DEFAULT_CURRENCY)
+        get() = sharedPreferences.getString(KEY_CURRENCY, DEFAULT_CURRENCY)!!
         set(value) {
             sharedPreferences.edit().putString(KEY_CURRENCY, value).apply()
         }
 
     var nightMode: String
-        get() = sharedPreferences.getString(KEY_NIGHT_MODE, DEFAULT_NIGHT_MODE)
+        get() = sharedPreferences.getString(KEY_NIGHT_MODE, DEFAULT_NIGHT_MODE)!!
         set(value) {
             sharedPreferences.edit().putString(KEY_NIGHT_MODE, value).apply()
         }

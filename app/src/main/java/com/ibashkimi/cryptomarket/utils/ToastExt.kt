@@ -9,6 +9,6 @@ fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
-fun androidx.fragment.app.Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     this.requireContext().toast(message, duration)
 }

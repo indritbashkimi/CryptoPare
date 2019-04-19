@@ -33,7 +33,7 @@ class ChartFragment : Fragment() {
         chart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.rgb(104, 241, 175))
 
-        DataManager.history(arguments!!.getString("coin_symbol"), DataManager.HistoryPeriod.MONTH3, {
+        DataManager.history(arguments!!.getString("coin_symbol")!!, DataManager.HistoryPeriod.MONTH3) {
             when (it) {
                 is ApiResponse.Success -> {
                     //toast("history success")
@@ -87,7 +87,7 @@ class ChartFragment : Fragment() {
                     toast("history failure ${it.error}")
                 }
             }
-        })
+        }
     }
 
     private fun setData(values: ArrayList<Pair<Long, Double>>) {
@@ -121,7 +121,7 @@ class ChartFragment : Fragment() {
             //set1.fillColor = Color.WHITE
             set1.fillAlpha = 100
             set1.setDrawHorizontalHighlightIndicator(false)
-            set1.fillFormatter = IFillFormatter { dataSet, dataProvider -> -10f }
+            set1.fillFormatter = IFillFormatter { _, _ -> -10f }
 
             // create a data object with the datasets
             val data = LineData(set1)
