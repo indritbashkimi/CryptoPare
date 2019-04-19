@@ -12,7 +12,7 @@
         <item name="android:navigationBarDividerColor">#e3e3e3</item>
     </style>
 
-    <style name="AppAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert.Centered">
+    <style name="AppAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
