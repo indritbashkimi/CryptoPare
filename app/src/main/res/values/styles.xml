@@ -1,19 +1,26 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">?android:attr/colorBackground</item>
-        <item name="colorPrimaryDark">?android:attr/colorBackground</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="alertDialogTheme">@style/AppAlertDialog</item>
+        <item name="toolbarStyle">@style/AppToolbar</item>
+        <item name="bottomNavigationStyle">@style/AppBottomBar</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:navigationBarColor">?colorPrimaryDark</item>
-        <item name="android:navigationBarDividerColor">#e3e3e3</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="AppToolbar" parent="@style/Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="AppBottomBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">?android:attr/colorBackground</item>
     </style>
 
     <style name="AppAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
 </resources>

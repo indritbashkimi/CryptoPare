@@ -3,9 +3,7 @@ package com.ibashkimi.cryptomarket.data.api.coincap.model
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 
-fun AssetItem.toCoinList() : List<Coin> {
-    return data.map { it.toCoin() }
-}
+fun AssetItem.toCoinList() : List<Coin> = data.map { it.toCoin() }
 
 fun Asset.toCoin(): Coin {
     return Coin(
@@ -19,13 +17,9 @@ fun Asset.toCoin(): Coin {
             availableSupply = supply)
 }
 
-fun CoinItem.toCoin(): Coin {
-    return data.toCoin()
-}
+fun CoinItem.toCoin(): Coin = data.toCoin()
 
-fun HistoryItem.toChartPointList(): List<ChartPoint> {
-    return data.map { it.toChartPoint() }
-}
+fun HistoryItem.toChartPointList() = data.map { it.toChartPoint() }
 
 fun HistoryPoint.toChartPoint(): ChartPoint {
     return ChartPoint(priceUsd.toDouble(), time)

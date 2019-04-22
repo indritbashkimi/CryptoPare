@@ -34,6 +34,7 @@ class MarketFragment : Fragment() {
 
         val navController = requireActivity().findNavController(R.id.main_nav_host_fragment)
 
+        root.findViewById<AppBarLayout>(R.id.appBar).isLiftOnScroll = true
         root.findViewById<Toolbar>(R.id.toolbar).apply {
             setTitle(R.string.app_name)
             inflateMenu(R.menu.main)
@@ -44,8 +45,6 @@ class MarketFragment : Fragment() {
                 NavigationUI.onNavDestinationSelected(it, navController)
             }
         }
-
-        root.findViewById<AppBarLayout>(R.id.appBar).isLiftOnScroll = true
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())

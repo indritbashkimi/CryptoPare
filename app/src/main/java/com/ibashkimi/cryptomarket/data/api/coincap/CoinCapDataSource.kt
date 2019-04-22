@@ -44,7 +44,14 @@ class CoinCapDataSource : DataSource {
     }
 
     override fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        coinCapApi.getCoins(ids).enqueue(object : Callback<AssetItem?> {
+        val idsRep = StringBuilder()
+        for (i in ids.indices) {
+            idsRep.append(ids[i])
+            if (i < ids.size - 1)
+                idsRep.append(',')
+        }
+
+        coinCapApi.getCoins(idsRep.toString()).enqueue(object : Callback<AssetItem?> {
             override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
                 onResponse(ApiResponse.Failure(t))
             }

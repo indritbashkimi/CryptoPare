@@ -21,7 +21,7 @@ public interface CoinCapApi {
     Call<AssetItem> getCoins(@Query("offset") Integer start, @Query("limit") Integer limit);
 
     @GET("v2/assets/")
-    Call<AssetItem> getCoins(@Query("ids") List<String> ids);
+    Call<AssetItem> getCoins(@Query("ids") String ids);
 
     @GET("v2/assets/{id}/")
     Call<CoinItem> getCoin(@Path("id") String id);

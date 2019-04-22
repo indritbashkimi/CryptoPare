@@ -1,7 +1,6 @@
 package com.ibashkimi.cryptomarket.data.api.coinmarketcap
 
 import com.ibashkimi.cryptomarket.model.Coin
-import com.ibashkimi.cryptomarket.model.SearchItem
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
 fun CoinMarketCapCoin.toCoin(currency: String = PreferenceHelper.DEFAULT_CURRENCY): Coin {
@@ -26,11 +25,3 @@ fun CoinMarketCapCoin.toCoin(currency: String = PreferenceHelper.DEFAULT_CURRENC
             currency = currency
     )
 }
-
-fun TickerQueryItem.toCoins(currency: String = PreferenceHelper.DEFAULT_CURRENCY): List<Coin> {
-    return data.map { it.toCoin(currency) }
-}
-
-fun ListingCoin.toSearchItem() = SearchItem(id, name, symbol)
-
-fun ListingItem.toSearchItems(): List<SearchItem> = this.data.map { it.toSearchItem() }
