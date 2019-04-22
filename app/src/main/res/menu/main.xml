@@ -2,29 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<item
-        android:id="@+id/action_search"
+    <item
+        android:id="@+id/search"
         android:title="@string/search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom"/>-->
+        app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_refresh"
-        android:title="@string/action_refresh"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_currency"
-        android:title="@string/action_currency"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_settings"
+        android:id="@+id/settings"
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_about"
+        android:id="@+id/about"
         android:title="@string/action_about"
         app:showAsAction="never" />
 

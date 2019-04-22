@@ -34,10 +34,12 @@
     <string name="pref_appearance">Appearance</string>
     <string name="pref_night_mode_title">Night mode</string>
     <string name="pref_night_mode_dialog_title">Night mode</string>
+    <string name="pref_general">General</string>
+    <string name="pref_currency">Currency</string>
 
     <string name="version">Version 0.1</string>
     <string name="description">CoinMarketCap app</string>
-    <string name="disclaimer">The information provided on this app does not constitute investment advice, financial advice, trading advice, or any other sort of advice and you should not treat any of the app\'s content as such.\n\The information listed on this app is provided by CoinMarketCap. We do not hold any responsibility for any missing or wrong information. This app provides all information as is. You understand that you are using any and all information available here at your own risk.</string>
+    <string name="disclaimer">The information provided on this app does not constitute investment advice, financial advice, trading advice, or any other sort of advice and you should not treat any of the app\'s content as such.\n\The information listed on this app is provided by CoinCap.io. We do not hold any responsibility for any missing or wrong information. This app provides all information as is. You understand that you are using any and all information available here at your own risk.</string>
     <string name="about_help">Help</string>
     <string name="about_send_feedback">Send feedback</string>
     <string name="about_legal">Legal</string>

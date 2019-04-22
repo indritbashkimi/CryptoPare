@@ -1,6 +1,7 @@
 package com.ibashkimi.cryptomarket.data.api.coincap;
 
 import com.ibashkimi.cryptomarket.data.api.coincap.model.AssetItem;
+import com.ibashkimi.cryptomarket.data.api.coincap.model.CoinItem;
 import com.ibashkimi.cryptomarket.data.api.coincap.model.HistoryItem;
 
 import java.util.List;
@@ -22,11 +23,11 @@ public interface CoinCapApi {
     @GET("v2/assets/")
     Call<AssetItem> getCoins(@Query("ids") List<String> ids);
 
-    @GET("v2/assets/")
-    Call<AssetItem> getCoin(@Query("id") String id);
+    @GET("v2/assets/{id}/")
+    Call<CoinItem> getCoin(@Path("id") String id);
 
     @GET("v2/assets/{id}/history")
-    Call<HistoryItem> getCoinHistory(@Path("id") String id);
+    Call<HistoryItem> getCoinHistory(@Path("id") String id, @Query("interval") String interval);
 
     @GET("v2/assets/")
     Call<AssetItem> search(@Query("search") String search, @Query("offset") Integer start, @Query("limit") Integer limit);

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
-import com.ibashkimi.cryptomarket.utils.priceFormat
+import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 
@@ -56,14 +56,17 @@ class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListen
             rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
             name.text = coin.name
             symbol.text = coin.symbol
+            val priceFormatter = DecimalFormat(if (coin.price!!.toDouble() < 1) "#.########" else ".##")
             price.text = price.context
                     .getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
-                            coin.price?.priceFormat(decimalFormatSymbols))
+                            priceFormatter.format(coin.price.toDouble()))
+            val changeFormatter = DecimalFormat("#.##")
             oneHourChange?.apply {
                 text = context.getString(R.string.percent_change, coin.percentChange1h)
             }
             twentyFourHourChange?.apply {
-                text = context.getString(R.string.percent_change, coin.percentChange24h)
+                val t: String = coin.percentChange24h?.toDoubleOrNull()?.run { changeFormatter.format(this) } ?: "-"
+                text = context.getString(R.string.percent_change, t)
             }
 
             sevenDayChange?.apply {

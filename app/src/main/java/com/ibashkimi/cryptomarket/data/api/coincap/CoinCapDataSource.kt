@@ -2,8 +2,9 @@ package com.ibashkimi.cryptomarket.data.api.coincap
 
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataSource
-import com.ibashkimi.cryptomarket.data.api.coincap.model.AssetItem
-import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinList
+import com.ibashkimi.cryptomarket.data.HistoryPeriod
+import com.ibashkimi.cryptomarket.data.api.coincap.model.*
+import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import retrofit2.Call
 import retrofit2.Callback
@@ -66,16 +67,32 @@ class CoinCapDataSource : DataSource {
     }
 
     override fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit) {
-        coinCapApi.getCoin(id).enqueue(object : Callback<AssetItem?> {
-            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
+        coinCapApi.getCoin(id).enqueue(object : Callback<CoinItem?> {
+            override fun onFailure(call: Call<CoinItem?>, t: Throwable) {
                 onResponse(ApiResponse.Failure())
             }
 
-            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
+            override fun onResponse(call: Call<CoinItem?>, response: Response<CoinItem?>) {
                 if (response.isSuccessful)
-                    onResponse(ApiResponse.Success(response.body()!!.toCoinList()[0]))
+                    onResponse(ApiResponse.Success(response.body()!!.toCoin()))
                 else
                     onResponse(ApiResponse.Failure())
+            }
+        })
+    }
+
+    override fun getHistory(id: String, interval: String, onResponse: (ApiResponse<List<ChartPoint>>) -> Unit) {
+        coinCapApi.getCoinHistory(id, interval).enqueue(object: Callback<HistoryItem?> {
+            override fun onFailure(call: Call<HistoryItem?>, t: Throwable) {
+                onResponse(ApiResponse.Failure())
+            }
+
+            override fun onResponse(call: Call<HistoryItem?>, response: Response<HistoryItem?>) {
+                if (response.isSuccessful) {
+                    onResponse(ApiResponse.Success(response.body()!!.toChartPointList()))
+                } else {
+                    onResponse(ApiResponse.Failure())
+                }
             }
         })
     }

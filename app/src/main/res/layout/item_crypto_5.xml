@@ -15,124 +15,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         tools:text="#1" />
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="@string/coin_icon_description"
-        android:visibility="gone"
-        tools:srcCompat="@mipmap/ic_launcher_round" />
-
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                tools:text="Bitcoin" />
-
-            <TextView
-                android:id="@+id/symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:textColor="?android:textColorSecondary"
-                tools:text="BTC" />
-
-        </LinearLayout>
+        android:gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:gravity="end"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            tools:text="$0.00" />
-
-        <LinearLayout
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            tools:text="Bitcoin" />
 
-            <TextView
-                android:id="@+id/change7d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="2dp"
-                android:gravity="end"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:visibility="gone"
-                tools:text="0.00%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/sevenDays"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/change24h"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="2dp"
-                android:gravity="end"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:visibility="visible"
-                tools:text="0.00%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/twentyFourHour"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/change1h"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginEnd="2dp"
-                android:visibility="gone"
-                android:gravity="end"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                android:textColor="@color/colorPrimary"
-                tools:text="0.00%" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/oneHour"
-                android:visibility="gone" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?android:textColorSecondary"
+            tools:text="BTC" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        tools:text="$0.00" />
+
+    <TextView
+        android:id="@+id/change24h"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="2dp"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:visibility="visible"
+        tools:text="-00.00%" />
 
 </LinearLayout>

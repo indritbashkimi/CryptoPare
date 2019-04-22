@@ -1,5 +1,6 @@
 package com.ibashkimi.cryptomarket.data
 
+import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 
 interface DataSource {
@@ -10,9 +11,7 @@ interface DataSource {
 
     fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit)
 
-    fun getHistory(id: String, period: HistoryPeriod, onResponse: (ApiResponse<String>) -> Unit) {
-        onResponse(ApiResponse.Failure(""))
-    }
+    fun getHistory(id: String, interval: String, onResponse: (ApiResponse<List<ChartPoint>>) -> Unit)
 }
 
 enum class HistoryPeriod {

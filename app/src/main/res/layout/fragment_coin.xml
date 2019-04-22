@@ -26,6 +26,8 @@
             app:layout_scrollFlags="scroll|enterAlways"
             tools:text="$1000" />
 
+        <include layout="@layout/chart"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

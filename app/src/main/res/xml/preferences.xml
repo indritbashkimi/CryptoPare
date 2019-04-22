@@ -14,4 +14,17 @@
 
     </androidx.preference.PreferenceCategory>
 
+    <androidx.preference.PreferenceCategory android:title="@string/pref_general">
+
+        <ListPreference
+            android:defaultValue="USD"
+            android:dialogTitle="@string/pref_currency"
+            android:entries="@array/currencies"
+            android:entryValues="@array/currencies"
+            android:key="currency"
+            android:summary="%s"
+            android:title="@string/pref_currency" />
+
+    </androidx.preference.PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>
