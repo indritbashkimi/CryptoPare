@@ -48,7 +48,15 @@
     <fragment
         android:id="@+id/search"
         android:name="com.ibashkimi.cryptomarket.SearchFragment"
-        android:label="@string/search" />
+        android:label="@string/search" >
+        <action
+            android:id="@+id/action_search_to_coin"
+            app:destination="@id/coin"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/coin"
         android:name="com.ibashkimi.cryptomarket.CoinFragment"

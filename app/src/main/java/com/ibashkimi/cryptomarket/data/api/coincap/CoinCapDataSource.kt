@@ -2,7 +2,6 @@ package com.ibashkimi.cryptomarket.data.api.coincap
 
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataSource
-import com.ibashkimi.cryptomarket.data.HistoryPeriod
 import com.ibashkimi.cryptomarket.data.api.coincap.model.*
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
@@ -44,7 +43,7 @@ class CoinCapDataSource : DataSource {
         })
     }
 
-    override fun getCoins(ids: List<String>, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+    override fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
         coinCapApi.getCoins(ids).enqueue(object : Callback<AssetItem?> {
             override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
                 onResponse(ApiResponse.Failure(t))
@@ -90,6 +89,28 @@ class CoinCapDataSource : DataSource {
             override fun onResponse(call: Call<HistoryItem?>, response: Response<HistoryItem?>) {
                 if (response.isSuccessful) {
                     onResponse(ApiResponse.Success(response.body()!!.toChartPointList()))
+                } else {
+                    onResponse(ApiResponse.Failure())
+                }
+            }
+        })
+    }
+
+    override fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        coinCapApi.search(search, start, limit).enqueue(object: Callback<AssetItem?> {
+            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
+                onResponse(ApiResponse.Failure())
+            }
+
+            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
+                if (response.isSuccessful) {
+                    val data = response.body()?.toCoinList()
+                    val res: ApiResponse<List<Coin>> = if (data != null) {
+                        ApiResponse.Success(data)
+                    } else {
+                        ApiResponse.Failure()
+                    }
+                    onResponse(res)
                 } else {
                     onResponse(ApiResponse.Failure())
                 }

@@ -1,30 +1,27 @@
 package com.ibashkimi.cryptomarket.livedata
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import com.ibashkimi.cryptomarket.data.ApiResponse
+import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
 
 class FavoriteCoinsViewModel : ViewModel() {
 
-    private val pageSize = 100
-
-    var coins: LiveData<PagedList<Coin>>
-
-    private val sourceFactory: FavoriteCoinsDataSourceFactory = FavoriteCoinsDataSourceFactory()
+    var coins: MutableLiveData<List<Coin>?> = MutableLiveData()
 
     init {
-        val config = PagedList.Config.Builder()
-                .setPageSize(pageSize)
-                .setInitialLoadSizeHint(pageSize * 2)
-                .setEnablePlaceholders(false)
-                .build()
-        coins = LivePagedListBuilder<Int, Coin>(sourceFactory, config).build()
+        refresh()
     }
 
     fun refresh() {
-        sourceFactory.invalidate()
+        DataManager.getCoins(PreferenceHelper.favoriteCoins.toList(), "USD") {
+            when (it) {
+                is ApiResponse.Success -> coins.value = it.result
+                is ApiResponse.Failure -> coins.value = null
+            }
+        }
     }
 }

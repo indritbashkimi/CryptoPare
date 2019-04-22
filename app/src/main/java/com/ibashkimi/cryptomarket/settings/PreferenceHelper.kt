@@ -29,8 +29,8 @@ object PreferenceHelper {
             sharedPreferences.edit().putString(KEY_NIGHT_MODE, value).apply()
         }
 
-    var favoriteCoins: Set<String>?
-        get() = sharedPreferences.getStringSet(KEY_FAVORITE_COINS, null)
+    var favoriteCoins: Set<String>
+        get() = sharedPreferences.getStringSet(KEY_FAVORITE_COINS, null) ?: emptySet()
         set(value) {
             sharedPreferences.edit().putStringSet(KEY_FAVORITE_COINS, value).apply()
         }

@@ -35,11 +35,11 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = CoinAdapter(object : CoinAdapter.ImageLoader {
+        adapter = CoinAdapter(object : ImageLoader {
             override fun loadImage(coin: Coin, imageView: ImageView) {
                 Glide.with(imageView.context).load(CoinIconUrlResolver.resolve(coin)).into(imageView)
             }
-        }, object : CoinAdapter.OnCoinClicked {
+        }, object : OnCoinClickedListener {
             override fun onCoinClicked(coin: Coin) {
                 mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
             }
@@ -52,7 +52,7 @@ class FavoriteFragment : androidx.fragment.app.Fragment(), SharedPreferences.OnS
         isLoading = true
         viewModel.coins.observe(this, Observer {
             isLoading = false
-            adapter.submitList(it)
+            //adapter.submitList(it) // todo
             if (it == null)
                 onLoadFailed()
         })

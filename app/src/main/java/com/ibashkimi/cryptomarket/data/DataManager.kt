@@ -11,11 +11,12 @@ object DataManager {
 
     private val source: DataSource = CoinCapDataSource()
 
-    fun loadSupportedCoins(onResponse: (ApiResponse<List<SearchItem>>) -> Unit) {
-    }
-
     fun getCoins(start: Int, limit: Int, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
         source.getCoins(start, limit, currency, onResponse)
+    }
+
+    fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        source.getCoins(ids, currency, onResponse)
     }
 
     fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit) {
@@ -26,11 +27,7 @@ object DataManager {
         return source.getHistory(id, interval, onResponse)
     }
 
-    fun history(coinId: String, period: HistoryPeriod, onResponse: (ApiResponse<String>) -> Unit) {
-        onResponse(ApiResponse.Failure(""))
-    }
-
-    fun favoriteCoins(onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-
+    fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        source.search(search, start, limit, onResponse)
     }
 }

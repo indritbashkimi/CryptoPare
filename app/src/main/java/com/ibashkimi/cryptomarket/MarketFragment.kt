@@ -52,7 +52,7 @@ class MarketFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = CoinAdapter(null, object : CoinAdapter.OnCoinClicked {
+        adapter = CoinAdapter(null, object : OnCoinClickedListener {
             override fun onCoinClicked(coin: Coin) {
                 navController.navigate(HomeFragmentDirections
                         .actionMainToCoin(coin.id, coin.name, coin.symbol))
