@@ -31,12 +31,6 @@ android {
     }
 }
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
-
 dependencies {
     testImplementation deps.test.junit
     androidTestImplementation 'androidx.test:runner:1.1.1'

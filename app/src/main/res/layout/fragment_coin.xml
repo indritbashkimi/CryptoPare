@@ -9,13 +9,14 @@
         android:id="@+id/appBar"
         style="?toolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="exitUntilCollapsed"/>
+            app:layout_scrollFlags="exitUntilCollapsed" />
 
         <TextView
             android:id="@+id/price_toolbar"
@@ -27,7 +28,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             tools:text="$1000" />
 
-        <include layout="@layout/chart"/>
+        <include layout="@layout/chart" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -249,10 +250,10 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_favorite_border"
         android:visibility="invisible"
-        android:layout_gravity="bottom|end"
         tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
