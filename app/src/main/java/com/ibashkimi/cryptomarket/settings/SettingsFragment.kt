@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.ibashkimi.cryptomarket.BaseActivity
 import com.ibashkimi.cryptomarket.R
-import com.ibashkimi.cryptomarket.utils.toast
 
 class SettingsFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -40,12 +39,10 @@ class SettingsFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeL
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (PreferenceHelper.KEY_NIGHT_MODE == key) {
-            val mainActivity = requireActivity() as BaseActivity?
-            mainActivity?.apply {
+            val mainActivity = requireActivity() as BaseActivity
+            mainActivity.apply {
                 applyNightMode(PreferenceHelper.nightMode)
                 recreate()
-            } ?.apply {
-                toast("Cannot change theme")
             }
         }
     }

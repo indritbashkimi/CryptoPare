@@ -14,7 +14,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun applyNightMode(nightMode: String) {
         delegate.localNightMode = when (nightMode) {
-            "auto", "daynight" -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            "auto" -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             "night" -> AppCompatDelegate.MODE_NIGHT_YES
             "light" -> AppCompatDelegate.MODE_NIGHT_NO
             else -> throw IllegalArgumentException("Invalid night mode $nightMode.")
