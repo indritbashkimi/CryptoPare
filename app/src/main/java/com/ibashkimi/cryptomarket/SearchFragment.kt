@@ -34,19 +34,19 @@ class SearchFragment : Fragment(), OnCoinClickedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
-        root.findViewById<Toolbar>(R.id.toolbar).apply {
+        /*root.findViewById<Toolbar>(R.id.toolbar).apply {
             //title = getString(R.string.title_settings)
             setNavigationIcon(R.drawable.ic_back_nav)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
-        }
+        }*/
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
-        recyclerView.addItemDecoration(dividerItemDecoration)
+        //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null, this)
         recyclerView.adapter = adapter
 
@@ -79,6 +79,8 @@ class SearchFragment : Fragment(), OnCoinClickedListener {
     }
 
     override fun onCoinClicked(coin: Coin) {
-        findNavController().navigate(SearchFragmentDirections.actionSearchToCoin(coin.id, coin.name, coin.symbol))
+        requireActivity().findNavController(R.id.main_nav_host_fragment)
+                .navigate(HomeFragmentDirections
+                        .actionMainToCoin(coin.id, coin.name, coin.symbol))
     }
 }

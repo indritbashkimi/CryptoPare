@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_market"/>
 
     <item
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search"/>
+
+    <item
         android:id="@+id/favorite"
         android:title="@string/page_favorite"
         android:icon="@drawable/ic_favorite"/>

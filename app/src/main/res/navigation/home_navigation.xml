@@ -15,4 +15,10 @@
         android:name="com.ibashkimi.cryptomarket.FavoriteFragment"
         android:label="@string/page_favorite"
         app:layout="@layout/fragment_favorite"/>
+
+    <fragment
+        android:id="@+id/search"
+        android:name="com.ibashkimi.cryptomarket.SearchFragment"
+        android:label="@string/search"
+        app:layout="@layout/fragment_search"/>
 </navigation>
