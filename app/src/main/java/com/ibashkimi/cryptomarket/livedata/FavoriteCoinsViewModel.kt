@@ -17,10 +17,15 @@ class FavoriteCoinsViewModel : ViewModel() {
     }
 
     fun refresh() {
-        DataManager.getCoins(PreferenceHelper.favoriteCoins.toList(), "USD") {
-            when (it) {
-                is ApiResponse.Success -> coins.value = it.result
-                is ApiResponse.Failure -> coins.value = null
+        val favorites = PreferenceHelper.favoriteCoins.toList()
+        if (favorites.isEmpty()) {
+            coins.value = emptyList()
+        } else {
+            DataManager.getCoins(favorites, "USD") {
+                when (it) {
+                    is ApiResponse.Success -> coins.value = it.result
+                    is ApiResponse.Failure -> coins.value = null
+                }
             }
         }
     }
