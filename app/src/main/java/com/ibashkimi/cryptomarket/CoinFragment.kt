@@ -1,6 +1,5 @@
 package com.ibashkimi.cryptomarket
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -26,9 +25,14 @@ import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
-import com.ibashkimi.cryptomarket.utils.priceFormat
 import com.ibashkimi.cryptomarket.utils.toast
-import java.text.DecimalFormatSymbols
+import java.text.DecimalFormat
+import android.R.attr
+import android.R.attr.colorAccent
+import android.R.attr.data
+import android.content.res.TypedArray
+import android.util.TypedValue
+import com.google.android.material.tabs.TabLayout
 
 
 class CoinFragment : Fragment() {
@@ -38,7 +42,7 @@ class CoinFragment : Fragment() {
     private val args: CoinFragmentArgs by navArgs()
 
     private val viewModel: CoinViewModel by lazy {
-        ViewModelProviders.of(this, CoinViewModel.Factory(args.id))
+        ViewModelProviders.of(this, CoinViewModel.Factory(args.id, "m1"))
                 .get(CoinViewModel::class.java)
     }
 
@@ -57,6 +61,7 @@ class CoinFragment : Fragment() {
 
         root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
             viewModel.coin.refresh()
+            viewModel.chartData.refresh()
         }
 
         isLoading = true
@@ -75,6 +80,23 @@ class CoinFragment : Fragment() {
                 onChartDataLoaded(it)
             } ?: toast("Cannot load chart")
         })
+
+        root.findViewById<TabLayout>(R.id.tabLayout).apply {
+            addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+                override fun onTabReselected(tab: TabLayout.Tab) {
+                    // nothing
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    // nothing
+                }
+
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    android.util.Log.d("CoinFragment", "onTabSelected")
+                    viewModel.chartData.setInterval(tab.text.toString())
+                }
+            })
+        }
 
         return this.root
     }
@@ -95,7 +117,11 @@ class CoinFragment : Fragment() {
 
             axisLeft.apply {
                 isEnabled = false
+                //setLabelCount(5, false)
+                //isGranularityEnabled = true
             }
+            //axisLeft.setDrawTopYLabelEntry(true)
+            //description.isEnabled = true
 
             axisRight.isEnabled = false
 
@@ -104,7 +130,7 @@ class CoinFragment : Fragment() {
 
             legend.isEnabled = false
 
-            animateXY(0, 1000)
+            animateXY(0, 500)
 
             // don't forget to refresh the drawing
             invalidate()
@@ -133,11 +159,12 @@ class CoinFragment : Fragment() {
             set1.circleRadius = 4f
             //set1.setCircleColor(Color.WHITE)
             //set1.highLightColor = Color.rgb(244, 117, 117)
-            //set1.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
-            //set1.fillColor = Color.WHITE
-            set1.fillAlpha = 100
+            val accentColor = fetchAccentColor()
+            set1.color = accentColor//fetchAccentColor()//ContextCompat.getColor(requireContext(), R.color.colorAccent)
+            set1.fillColor = accentColor//Color.WHITE
+            //set1.fillAlpha = 100
             set1.setDrawHorizontalHighlightIndicator(false)
-            set1.fillFormatter = IFillFormatter { _, _ -> -10f }
+            //set1.fillFormatter = IFillFormatter { _, _ -> -10f }
 
             // create a data object with the datasets
             val data = LineData(set1)
@@ -149,6 +176,17 @@ class CoinFragment : Fragment() {
         }
     }
 
+    private fun fetchAccentColor(): Int {
+        val typedValue = TypedValue()
+
+        val a = requireContext().obtainStyledAttributes(typedValue.data, intArrayOf(R.attr.colorAccent))
+        val color = a.getColor(0, 0)
+
+        a.recycle()
+
+        return color
+    }
+
     private var isLoading: Boolean = true
         set(value) {
             root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
@@ -156,11 +194,9 @@ class CoinFragment : Fragment() {
         }
 
     private fun onDataLoaded(coin: Coin) {
-        val currencySymbol = CurrencySymbolResolver.resolve(requireContext(), coin.currency)
-        val decimalFormatSymbols = DecimalFormatSymbols()
         root.findViewById<Toolbar>(R.id.toolbar).apply {
-            title = "${coin.name}(${coin.symbol})"
-            //subtitle = coin.symbol
+            title = coin.name
+            subtitle = coin.symbol
         }
 
         var isFavorite = PreferenceHelper.isFavorite(coin)
@@ -181,25 +217,52 @@ class CoinFragment : Fragment() {
         fab.visibility = View.VISIBLE
         fab.show()
 
+        currencySymbol = CurrencySymbolResolver.resolve(requireContext(), coin.currency)
+
         root.findViewById<TextView>(R.id.name).text = coin.name
         root.findViewById<TextView>(R.id.symbol).text = coin.symbol
         root.findViewById<TextView>(R.id.rank).text = getString(R.string.rank_value, coin.rank)
+        root.findViewById<TextView>(R.id.price_toolbar)?.showPrice(coin.price)
+        root.findViewById<TextView>(R.id.price)?.showPrice(coin.price)
+        root.findViewById<TextView>(R.id.change_toolbar)?.showChange(coin.percentChange24h)
+        root.findViewById<TextView>(R.id.percent_change_1h)?.showChange(coin.percentChange1h)
+        root.findViewById<TextView>(R.id.percent_change_24h)?.showChange(coin.percentChange24h)
+        root.findViewById<TextView>(R.id.percent_change_7d)?.showChange(coin.percentChange7d)
+        root.findViewById<TextView>(R.id.marketCap)?.showPrice(coin.marketCap)
+        root.findViewById<TextView>(R.id.available_supply)?.showPrice(coin.availableSupply)
+        root.findViewById<TextView>(R.id.max_supply)?.showPrice(coin.maxSupply)
+        root.findViewById<TextView>(R.id.volume_24h)?.showPrice(coin.volume24h)
+        root.findViewById<TextView>(R.id.average_price_24h)?.showPrice(coin.averagePrice24h)
+        root.findViewById<TextView>(R.id.lastUpdated)?.text = coin.lastUpdated?.toRelativeTimeSpan()
+    }
 
-        root.findViewById<TextView>(R.id.price_toolbar).text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
+    private val changeFormatter = DecimalFormat("#.##")
 
-        root.findViewById<TextView>(R.id.price).text = getString(R.string.price, currencySymbol, coin.price?.priceFormat(decimalFormatSymbols))
+    private lateinit var currencySymbol: String
 
-        val lastUpdated = root.findViewById<TextView>(R.id.lastUpdated)
-        lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
+    private fun TextView.showPrice(priceRep: String?) {
+        val price = priceRep?.toDoubleOrNull()
+        if (price == null) {
+            this.text = "-"
+        } else {
+            val priceFormatter = DecimalFormat(if (price.toDouble() < 1) "#.########" else ".##")
+            text = getString(R.string.price, currencySymbol, priceFormatter.format(price))
+        }
+    }
 
-        root.findViewById<TextView>(R.id.percent_change_1h).text = getString(R.string.percent_change, coin.percentChange1h)
-        root.findViewById<TextView>(R.id.percent_change_24h).text = getString(R.string.percent_change, coin.percentChange24h)
-        root.findViewById<TextView>(R.id.percent_change_7d).text = getString(R.string.percent_change, coin.percentChange7d)
-        root.findViewById<TextView>(R.id.marketCap).text = getString(R.string.price, currencySymbol, coin.marketCap?.priceFormat(decimalFormatSymbols))
-        root.findViewById<TextView>(R.id.circulatingSupply).text = coin.availableSupply?.priceFormat(decimalFormatSymbols)
-        root.findViewById<TextView>(R.id.volume_24h).text = getString(R.string.price, currencySymbol, coin.volume24h?.priceFormat(decimalFormatSymbols))
-        root.findViewById<TextView>(R.id.max_supply).text = coin.maxSupply?.priceFormat(decimalFormatSymbols)
-        root.findViewById<TextView>(R.id.totalSupply).text = coin.totalSupply?.priceFormat(decimalFormatSymbols)
+    private fun TextView.showChange(change: String?) {
+        if (change == null) {
+            text = "-"
+        } else {
+            val t: String = change.toDoubleOrNull()?.run { changeFormatter.format(this) } ?: "-"
+            text = context.getString(R.string.percent_change, t)
+            val positiveColor = ContextCompat.getColor(requireContext(), R.color.positive_color)
+            val negativeColor = ContextCompat.getColor(requireContext(), R.color.negative_color)
+            setTextColor(when {
+                change.contains("-") -> negativeColor
+                else -> positiveColor
+            })
+        }
     }
 
     private fun onLoadFailed() {
