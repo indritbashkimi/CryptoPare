@@ -14,13 +14,14 @@ fun Asset.toCoin(): Coin {
             price = priceUsd,
             percentChange24h = changePercent24Hr,
             maxSupply = maxSupply,
-            availableSupply = supply)
+            availableSupply = supply,
+            marketCap = marketCapUsd,
+            volume24h = volumeUsd24Hr,
+            averagePrice24h = vwap24Hr)
 }
 
 fun CoinItem.toCoin(): Coin = data.toCoin()
 
 fun HistoryItem.toChartPointList() = data.map { it.toChartPoint() }
 
-fun HistoryPoint.toChartPoint(): ChartPoint {
-    return ChartPoint(priceUsd.toDouble(), time)
-}
+fun HistoryPoint.toChartPoint() = ChartPoint(priceUsd.toDouble(), time)

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.material.appbar.AppBarLayout
 import com.ibashkimi.cryptomarket.BaseActivity
 import com.ibashkimi.cryptomarket.R
 
@@ -22,6 +23,10 @@ class SettingsFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeL
             setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+        }
+
+        root.findViewById<AppBarLayout>(R.id.appBar).apply {
+            isLiftOnScroll = true
         }
 
         return root

@@ -1,6 +1,10 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorAccent">?colorPrimary</item>
+        <item name="colorSecondary">?colorPrimary</item>
+        <item name="colorOnPrimary">#fff</item>
+        <item name="colorOnSecondary">#fff</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="alertDialogTheme">@style/AppAlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>

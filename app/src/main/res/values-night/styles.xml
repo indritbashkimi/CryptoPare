@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">?android:attr/colorBackground</item>
-        <item name="colorPrimaryDark">?android:attr/colorBackground</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">?colorPrimary</item>
+        <item name="colorSecondary">?colorPrimary</item>
+        <item name="colorOnPrimary">#fff</item>
+        <item name="colorOnSecondary">#fff</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="alertDialogTheme">@style/AppAlertDialog</item>
+        <item name="toolbarStyle">@style/AppToolbar</item>
+        <item name="bottomNavigationStyle">@style/AppBottomBar</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:navigationBarColor">?colorPrimaryDark</item>
-        <item name="android:navigationBarDividerColor">@null</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
     </style>
 </resources>

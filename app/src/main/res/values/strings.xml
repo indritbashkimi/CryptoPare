@@ -22,7 +22,7 @@
     <string name="name">Name</string>
     <string name="symbol">Symbol</string>
     <string name="market_cap">Market Cap</string>
-    <string name="circulating_supply">Circulating Supply</string>
+    <string name="available_supply">Available Supply</string>
     <string name="volume_24h">Volume (24H)</string>
     <string name="max_supply">Max Supply</string>
     <string name="percent_change_1h">Percent Change (1H)</string>
@@ -38,13 +38,13 @@
     <string name="pref_currency">Currency</string>
 
     <string name="version">Version 0.1</string>
-    <string name="description">CoinMarketCap app</string>
+    <string name="description">API provided by CoinCap.io</string>
     <string name="disclaimer">The information provided on this app does not constitute investment advice, financial advice, trading advice, or any other sort of advice and you should not treat any of the app\'s content as such.\n\The information listed on this app is provided by CoinCap.io. We do not hold any responsibility for any missing or wrong information. This app provides all information as is. You understand that you are using any and all information available here at your own risk.</string>
     <string name="about_help">Help</string>
     <string name="about_send_feedback">Send feedback</string>
     <string name="about_legal">Legal</string>
     <string name="about_licenses">Licenses</string>
-    <string name="feedback_subject">TicTacToe feedback</string>
+    <string name="feedback_subject">CoinCap feedback</string>
     <string name="feedback_chooser_title">Send email…</string>
     <string name="author_name">Indrit Bashkimi</string>
     <string name="author_email">Indrit Bashkimi &lt;indrit.bashkimi@gmail.com&gt;</string>
@@ -52,9 +52,6 @@
     <string name="search_hint">Search coins</string>
     <string name="page_all">All</string>
     <string name="page_favorite">Favorite</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="average_price_24h">Average price (24H)</string>
 
 </resources>

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         tools:text="#1" />
 
     <LinearLayout
@@ -26,19 +26,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            tools:text="Bitcoin" />
-
-        <TextView
             android:id="@+id/symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="?android:textColorSecondary"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             tools:text="BTC" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            tools:text="Bitcoin" />
 
     </LinearLayout>
 
@@ -54,12 +53,12 @@
 
     <TextView
         android:id="@+id/change24h"
-        android:layout_width="56dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
         android:layout_marginEnd="2dp"
         android:gravity="end"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:visibility="visible"
         tools:text="-00.00%" />
 
