@@ -33,34 +33,37 @@ android {
 
 dependencies {
     testImplementation deps.test.junit
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.coroutines
     implementation deps.google.material
     implementation deps.androidx.appcompat
     implementation deps.androidx.cardview
     implementation deps.androidx.constraintlayout
+    implementation "androidx.core:core-ktx:1.0.2"
     implementation deps.androidx.fragment
     implementation deps.androidx.recyclerview
+    implementation deps.androidx.paging.runtime
     implementation deps.androidx.preference
-    implementation deps.androidx.legacypreference
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
-    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.common
     implementation deps.lifecycle.extensions
-    annotationProcessor deps.lifecycle.compiler
-    implementation 'androidx.paging:paging-runtime:2.1.0'
-    implementation "androidx.core:core-ktx:1.0.1"
-    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+    implementation deps.lifecycle.runtime
     implementation deps.navigation.fragmentktx
     implementation deps.navigation.uiktx
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.6.0"
     implementation "com.squareup.moshi:moshi:1.8.0"
     implementation "com.squareup.moshi:moshi-adapters:1.8.0"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
-    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 }
