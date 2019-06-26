@@ -1,7 +1,9 @@
-package com.ibashkimi.cryptomarket.livedata
+package com.ibashkimi.cryptomarket.coininfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ibashkimi.cryptomarket.livedata.CoinChartLiveData
+import com.ibashkimi.cryptomarket.livedata.CoinLiveData
 
 class CoinViewModel(coinId: String, chartInterval: String) : ViewModel() {
 

@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket.livedata
+package com.ibashkimi.cryptomarket.favorites
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

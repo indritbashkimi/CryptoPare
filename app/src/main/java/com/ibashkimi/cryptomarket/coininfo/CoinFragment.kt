@@ -1,7 +1,9 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.coininfo
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,21 +20,16 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.ibashkimi.cryptomarket.livedata.CoinViewModel
+import com.google.android.material.tabs.TabLayout
+import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.toast
 import java.text.DecimalFormat
-import android.R.attr
-import android.R.attr.colorAccent
-import android.R.attr.data
-import android.content.res.TypedArray
-import android.util.TypedValue
-import com.google.android.material.tabs.TabLayout
+import java.util.*
 
 
 class CoinFragment : Fragment() {
@@ -82,7 +79,7 @@ class CoinFragment : Fragment() {
         })
 
         root.findViewById<TabLayout>(R.id.tabLayout).apply {
-            addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     // nothing
                 }
@@ -92,7 +89,7 @@ class CoinFragment : Fragment() {
                 }
 
                 override fun onTabSelected(tab: TabLayout.Tab) {
-                    android.util.Log.d("CoinFragment", "onTabSelected")
+                    android.util.Log.d("CoinFragment", "onTabSelected ${tab.text}")
                     viewModel.chartData.setInterval(tab.text.toString())
                 }
             })
@@ -102,6 +99,7 @@ class CoinFragment : Fragment() {
     }
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
+        Log.d("CoinFragment", "chart data loaded. fist: ${data.first().time.asDateString()}, last: ${data.last().time.asDateString()} ")
         chart.apply {
             description.isEnabled = false
             setTouchEnabled(true)
@@ -270,6 +268,15 @@ class CoinFragment : Fragment() {
     }
 
     private fun String.toRelativeTimeSpan(): CharSequence =
-            DateUtils.getRelativeTimeSpanString(requireContext(), this.toLong() * 1000)
+            this.toLong().toRelativeTimeSpan()
+
+    private fun Long.toRelativeTimeSpan(): CharSequence =
+            DateUtils.getRelativeTimeSpanString(requireContext(), this * 1000)
+
+    private fun Long.toRelativeTimeSpan2(): CharSequence =
+            DateUtils.getRelativeTimeSpanString(requireContext(), this)
+
+    private fun Long.asDateString(): CharSequence =
+            Date(this).toString()
 }
 

@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.coinlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.ibashkimi.cryptomarket.livedata.CoinsViewModel
+import com.ibashkimi.cryptomarket.HomeFragmentDirections
+import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.utils.toast
 
 
 class MarketFragment : Fragment() {
@@ -53,8 +55,7 @@ class MarketFragment : Fragment() {
         //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null, object : OnCoinClickedListener {
             override fun onCoinClicked(coin: Coin) {
-                navController.navigate(HomeFragmentDirections
-                        .actionMainToCoin(coin.id, coin.name, coin.symbol))
+                navController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
             }
         })
         recyclerView.adapter = adapter
@@ -95,7 +96,7 @@ class MarketFragment : Fragment() {
         }
 
     private fun onLoadFailed() {
-        Toast.makeText(requireContext(), "Load error", Toast.LENGTH_SHORT).show()
+        toast("Cannot load content")
     }
 
     private fun refresh() {

@@ -47,7 +47,7 @@
         android:label="@string/title_about" />
     <fragment
         android:id="@+id/search"
-        android:name="com.ibashkimi.cryptomarket.SearchFragment"
+        android:name="com.ibashkimi.cryptomarket.search.SearchFragment"
         android:label="@string/search" >
         <action
             android:id="@+id/action_search_to_coin"
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/coin"
-        android:name="com.ibashkimi.cryptomarket.CoinFragment"
+        android:name="com.ibashkimi.cryptomarket.coininfo.CoinFragment"
         android:label="CoinActivity">
         <argument
             android:name="id"

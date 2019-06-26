@@ -6,19 +6,19 @@
 
     <fragment
         android:id="@+id/market"
-        android:name="com.ibashkimi.cryptomarket.MarketFragment"
+        android:name="com.ibashkimi.cryptomarket.coinlist.MarketFragment"
         android:label="@string/app_name"
         app:layout="@layout/fragment_market"/>
 
     <fragment
         android:id="@+id/favorite"
-        android:name="com.ibashkimi.cryptomarket.FavoriteFragment"
+        android:name="com.ibashkimi.cryptomarket.favorites.FavoriteFragment"
         android:label="@string/page_favorite"
         app:layout="@layout/fragment_favorite"/>
 
     <fragment
         android:id="@+id/search"
-        android:name="com.ibashkimi.cryptomarket.SearchFragment"
+        android:name="com.ibashkimi.cryptomarket.search.SearchFragment"
         android:label="@string/search"
         app:layout="@layout/fragment_search"/>
 </navigation>

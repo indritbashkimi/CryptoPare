@@ -1,7 +1,7 @@
 package com.ibashkimi.cryptomarket.settings
 
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.ibashkimi.cryptomarket.App
 import com.ibashkimi.cryptomarket.model.Coin
 
@@ -36,7 +36,7 @@ object PreferenceHelper {
         }
 
     fun addFavorite(coin: Coin) {
-        val favorites: MutableList<String> = favoriteCoins?.toMutableList() ?: ArrayList(1)
+        val favorites: MutableList<String> = favoriteCoins.toMutableList()
         if (coin.id !in favorites) {
             favorites.add(coin.id)
             favoriteCoins = favorites.toSortedSet()
@@ -50,6 +50,6 @@ object PreferenceHelper {
     }
 
     fun isFavorite(coin: Coin): Boolean {
-        return favoriteCoins?.contains(coin.id) ?: false
+        return favoriteCoins.contains(coin.id)
     }
 }

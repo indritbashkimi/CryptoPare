@@ -1,10 +1,11 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.coinlist
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import java.text.DecimalFormat
@@ -35,7 +36,7 @@ class CoinViewHolder(itemView: View, val clickListener: OnCoinClickedListener) :
         rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
         name.text = coin.name
         symbol.text = coin.symbol
-        val priceFormatter = DecimalFormat(if (coin.price!!.toDouble() < 1) "#.########" else ".##")
+        val priceFormatter = DecimalFormat(if (coin.price.toDouble() < 1) "#.########" else ".##")
         price.text = price.context
                 .getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
                         priceFormatter.format(coin.price.toDouble()))

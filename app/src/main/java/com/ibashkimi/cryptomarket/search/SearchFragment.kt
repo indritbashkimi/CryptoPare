@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.search
 
 import android.os.Bundle
 import android.text.Editable
@@ -7,21 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ibashkimi.cryptomarket.livedata.SearchViewModel
+import com.ibashkimi.cryptomarket.HomeFragmentDirections
+import com.ibashkimi.cryptomarket.R
+import com.ibashkimi.cryptomarket.coinlist.CoinAdapter
+import com.ibashkimi.cryptomarket.coinlist.OnCoinClickedListener
 import com.ibashkimi.cryptomarket.model.Coin
 
 
@@ -80,7 +77,6 @@ class SearchFragment : Fragment(), OnCoinClickedListener {
 
     override fun onCoinClicked(coin: Coin) {
         requireActivity().findNavController(R.id.main_nav_host_fragment)
-                .navigate(HomeFragmentDirections
-                        .actionMainToCoin(coin.id, coin.name, coin.symbol))
+                .navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
     }
 }

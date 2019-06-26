@@ -1,10 +1,11 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.coinlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
 import java.text.DecimalFormatSymbols
 

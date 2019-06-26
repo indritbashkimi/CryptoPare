@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket
+package com.ibashkimi.cryptomarket.favorites
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
-import com.ibashkimi.cryptomarket.livedata.FavoriteCoinsViewModel
+import com.ibashkimi.cryptomarket.HomeFragmentDirections
+import com.ibashkimi.cryptomarket.R
+import com.ibashkimi.cryptomarket.coinlist.CoinViewHolder
+import com.ibashkimi.cryptomarket.coinlist.OnCoinClickedListener
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
@@ -95,8 +98,8 @@ class FavoriteFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeL
 
     fun refresh() {
         if (isAdded) {
-            viewModel.refresh()
             isLoading = true
+            viewModel.refresh()
         }
     }
 

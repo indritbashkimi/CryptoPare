@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket.livedata
+package com.ibashkimi.cryptomarket.search
 
 import androidx.paging.PageKeyedDataSource
 import com.ibashkimi.cryptomarket.data.ApiResponse

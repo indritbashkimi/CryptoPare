@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket.livedata
+package com.ibashkimi.cryptomarket.coinlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,7 @@ class CoinsViewModel : ViewModel() {
                 .setInitialLoadSizeHint(pageSize * 2)
                 .setEnablePlaceholders(false)
                 .build()
-        coins = LivePagedListBuilder<Int, Coin>(sourceFactory, config).build()
+        coins = LivePagedListBuilder(sourceFactory, config).build()
     }
 
     fun refresh() {
