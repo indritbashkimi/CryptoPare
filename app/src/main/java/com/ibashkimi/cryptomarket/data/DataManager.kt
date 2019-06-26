@@ -13,8 +13,8 @@ object DataManager {
         source.getCoins(start, limit, currency, onResponse)
     }
 
-    fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        source.getCoins(ids, currency, onResponse)
+    fun getCoins(ids: Set<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+        source.getCoins(ids.toList(), currency, onResponse)
     }
 
     fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit) {

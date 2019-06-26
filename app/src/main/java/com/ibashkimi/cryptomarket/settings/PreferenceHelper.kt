@@ -1,9 +1,11 @@
 package com.ibashkimi.cryptomarket.settings
 
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
 import com.ibashkimi.cryptomarket.App
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.utils.PreferenceLiveData
 
 object PreferenceHelper {
 
@@ -35,6 +37,11 @@ object PreferenceHelper {
             sharedPreferences.edit().putStringSet(KEY_FAVORITE_COINS, value).apply()
         }
 
+    val favoriteCoinsLiveData: LiveData<Set<String>> =
+            PreferenceLiveData(sharedPreferences, KEY_FAVORITE_COINS) {
+                getStringSet(it, null) ?: emptySet()
+            }
+
     fun addFavorite(coin: Coin) {
         val favorites: MutableList<String> = favoriteCoins.toMutableList()
         if (coin.id !in favorites) {
@@ -44,7 +51,7 @@ object PreferenceHelper {
     }
 
     fun removeFavorite(coin: Coin) {
-        val favorites: MutableList<String> = favoriteCoins?.toMutableList() ?: ArrayList(1)
+        val favorites: MutableList<String> = favoriteCoins.toMutableList()
         favorites.remove(coin.id)
         favoriteCoins = favorites.toSortedSet()
     }

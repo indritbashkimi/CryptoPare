@@ -1,6 +1,6 @@
 package com.ibashkimi.cryptomarket.favorites
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataManager
@@ -10,14 +10,17 @@ import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
 class FavoriteCoinsViewModel : ViewModel() {
 
-    var coins: MutableLiveData<List<Coin>?> = MutableLiveData()
-
-    init {
-        refresh()
+    val coins = MediatorLiveData<List<Coin>?>().apply {
+        addSource(PreferenceHelper.favoriteCoinsLiveData) {
+            refresh(it)
+        }
     }
 
     fun refresh() {
-        val favorites = PreferenceHelper.favoriteCoins.toList()
+        refresh(PreferenceHelper.favoriteCoins)
+    }
+
+    private fun refresh(favorites: Set<String>) {
         if (favorites.isEmpty()) {
             coins.value = emptyList()
         } else {
