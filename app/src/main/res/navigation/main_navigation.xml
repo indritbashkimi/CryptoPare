@@ -62,13 +62,7 @@
         android:name="com.ibashkimi.cryptomarket.coininfo.CoinFragment"
         android:label="CoinActivity">
         <argument
-            android:name="id"
-            app:argType="string" />
-        <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="symbol"
-            app:argType="string" />
+            android:name="coin"
+            app:argType="com.ibashkimi.cryptomarket.model.Coin" />
     </fragment>
 </navigation>

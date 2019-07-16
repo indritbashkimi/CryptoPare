@@ -11,8 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,8 +23,10 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.ibashkimi.cryptomarket.R
+import com.ibashkimi.cryptomarket.model.ChartInterval
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.HistoryKey
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.toast
@@ -38,10 +40,7 @@ class CoinFragment : Fragment() {
 
     private val args: CoinFragmentArgs by navArgs()
 
-    private val viewModel: CoinViewModel by lazy {
-        ViewModelProviders.of(this, CoinViewModel.Factory(args.id, "m1"))
-                .get(CoinViewModel::class.java)
-    }
+    private val viewModel: CoinViewModel by viewModels()
 
     private lateinit var chart: LineChart
 
@@ -49,7 +48,6 @@ class CoinFragment : Fragment() {
         this.root = inflater.inflate(R.layout.fragment_coin, container, false)
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {
-            title = "${args.name}(${args.symbol})"
             setNavigationIcon(R.drawable.ic_back_nav)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
@@ -57,43 +55,41 @@ class CoinFragment : Fragment() {
         }
 
         root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
-            viewModel.coin.refresh()
-            viewModel.chartData.refresh()
+            viewModel.refresh()
         }
 
-        isLoading = true
-        viewModel.coin.observe(this, Observer {
-            isLoading = false
-            it?.let { onDataLoaded(it) } ?: onLoadFailed()
-        })
-
+        onDataLoaded(args.coin) // use saved per caricare inizialmente questo coin
 
         chart = root.findViewById(R.id.chart1) as LineChart
         chart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.TRANSPARENT)
 
-        viewModel.chartData.observe(viewLifecycleOwner, Observer {
+        root.findViewById<TabLayout>(R.id.tabLayout).apply {
+            viewModel.historyKeys.forEach {
+                addTab(it)
+            }
+            onTabSelected {
+                Log.d("CoinFragment", "onTabSelected $text")
+                viewModel.historyKey.value = tag as HistoryKey
+            }
+            //selectTab(getTabAt(0)) // this sets historyKey todo use bundle to save selected tab on rotation
+        }
+
+        viewModel.coinId.value = args.coin.id
+        viewModel.historyKey.value = viewModel.historyKeys.firstOrNull()
+
+        isLoading = true
+
+        viewModel.coin.observe(this, Observer {
+            isLoading = false
+            it?.let { onDataLoaded(it) } ?: onLoadFailed()
+        })
+
+        viewModel.history.observe(viewLifecycleOwner, Observer {
             it?.apply {
                 onChartDataLoaded(it)
             } ?: toast("Cannot load chart")
         })
-
-        root.findViewById<TabLayout>(R.id.tabLayout).apply {
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabReselected(tab: TabLayout.Tab) {
-                    // nothing
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab) {
-                    // nothing
-                }
-
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    android.util.Log.d("CoinFragment", "onTabSelected ${tab.text}")
-                    viewModel.chartData.setInterval(tab.text.toString())
-                }
-            })
-        }
 
         return this.root
     }
@@ -157,8 +153,8 @@ class CoinFragment : Fragment() {
             set1.circleRadius = 4f
             //set1.setCircleColor(Color.WHITE)
             //set1.highLightColor = Color.rgb(244, 117, 117)
-            val accentColor = fetchAccentColor()
-            set1.color = accentColor//fetchAccentColor()//ContextCompat.getColor(requireContext(), R.color.colorAccent)
+            val accentColor = fetchColorSecondary()
+            set1.color = accentColor//fetchColorSecondary()//ContextCompat.getColor(requireContext(), R.color.colorAccent)
             set1.fillColor = accentColor//Color.WHITE
             //set1.fillAlpha = 100
             set1.setDrawHorizontalHighlightIndicator(false)
@@ -174,10 +170,10 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun fetchAccentColor(): Int {
+    private fun fetchColorSecondary(): Int {
         val typedValue = TypedValue()
 
-        val a = requireContext().obtainStyledAttributes(typedValue.data, intArrayOf(R.attr.colorAccent))
+        val a = requireContext().obtainStyledAttributes(typedValue.data, intArrayOf(R.attr.colorSecondary))
         val color = a.getColor(0, 0)
 
         a.recycle()
@@ -273,10 +269,48 @@ class CoinFragment : Fragment() {
     private fun Long.toRelativeTimeSpan(): CharSequence =
             DateUtils.getRelativeTimeSpanString(requireContext(), this * 1000)
 
-    private fun Long.toRelativeTimeSpan2(): CharSequence =
-            DateUtils.getRelativeTimeSpanString(requireContext(), this)
-
     private fun Long.asDateString(): CharSequence =
             Date(this).toString()
+
+    private val ChartInterval.textResId: Int
+        get() {
+            return when (this) {
+                ChartInterval.ALL -> R.string.chart_all
+                ChartInterval.DAY -> R.string.chart_day
+                ChartInterval.DAY2 -> R.string.chart_2_days
+                ChartInterval.WEEK -> R.string.chart_week
+                ChartInterval.WEEK2 -> R.string.chart_2_weeks
+                ChartInterval.WEEK3 -> R.string.chart_3_weeks
+                ChartInterval.MONTH -> R.string.chart_month
+                ChartInterval.MONTH2 -> R.string.chart_2_months
+                ChartInterval.MONTH3 -> R.string.chart_3_months
+                ChartInterval.MONTH6 -> R.string.chart_6_months
+                ChartInterval.YEAR -> R.string.chart_year
+                ChartInterval.YEAR2 -> R.string.chart_2_years
+            }
+        }
+
+    private fun TabLayout.addTab(historyKey: HistoryKey) {
+        addTab(this.newTab().apply {
+            setText(historyKey.chartInterval.textResId)
+            tag = historyKey
+        })
+    }
+
+    private fun TabLayout.onTabSelected(onSelect: TabLayout.Tab.() -> Unit) {
+        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                // nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                // nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                tab.onSelect()
+            }
+        })
+    }
 }
 

@@ -53,5 +53,17 @@
     <string name="page_all">All</string>
     <string name="page_favorite">Favorite</string>
     <string name="average_price_24h">Average price (24H)</string>
+    <string name="chart_all">All</string>
+    <string name="chart_day">24H</string>
+    <string name="chart_2_days">48H</string>
+    <string name="chart_week">7D</string>
+    <string name="chart_2_weeks">14D</string>
+    <string name="chart_3_weeks">21D</string>
+    <string name="chart_month">1M</string>
+    <string name="chart_2_months">2M</string>
+    <string name="chart_3_months">3M</string>
+    <string name="chart_6_months">6M</string>
+    <string name="chart_year">1Y</string>
+    <string name="chart_2_years">2Y</string>
 
 </resources>

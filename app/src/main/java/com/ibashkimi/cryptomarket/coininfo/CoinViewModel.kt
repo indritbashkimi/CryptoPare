@@ -1,21 +1,65 @@
 package com.ibashkimi.cryptomarket.coininfo
 
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.ibashkimi.cryptomarket.livedata.CoinChartLiveData
-import com.ibashkimi.cryptomarket.livedata.CoinLiveData
+import com.ibashkimi.cryptomarket.data.ApiResponse
+import com.ibashkimi.cryptomarket.data.DataManager
+import com.ibashkimi.cryptomarket.model.ChartPoint
+import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.HistoryKey
+import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 
-class CoinViewModel(coinId: String, chartInterval: String) : ViewModel() {
+class CoinViewModel : ViewModel() {
 
-    val coin = CoinLiveData(coinId)
+    val coinId = MutableLiveData<String?>()
 
-    val chartData = CoinChartLiveData(coinId, chartInterval)
-
-    class Factory(private val coinId: String, private val chartInterval: String) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return CoinViewModel(coinId, chartInterval) as T
+    val coin = MediatorLiveData<Coin?>().apply {
+        addSource(coinId) {
+            if (it == null) {
+                value = null
+            } else {
+                refreshCoin(it)
+            }
         }
+    }
 
+    val historyKey = MutableLiveData<HistoryKey>()
+
+    val history = MediatorLiveData<List<ChartPoint>?>().apply {
+        addSource(historyKey) {
+            val coinId = coinId.value
+            if (it == null || coinId == null) {
+                value = null
+            } else {
+                refreshChart(coinId, it)
+            }
+        }
+    }
+
+    val historyKeys = DataManager.getHistoryKeys()
+
+    fun refresh() {
+        coinId.value = coinId.value
+        historyKey.value = historyKey.value
+    }
+
+    private fun refreshCoin(coinId: String) {
+        DataManager.getCoin(coinId, PreferenceHelper.currency,
+                onResponse = {
+                    when (it) {
+                        is ApiResponse.Failure -> coin.value = null
+                        is ApiResponse.Success -> coin.value = it.result
+                    }
+                })
+    }
+
+    private fun refreshChart(coinId: String, interval: HistoryKey) {
+        DataManager.getHistory(coinId, interval.key, "USD") {
+            when (it) {
+                is ApiResponse.Success -> history.value = it.result
+                is ApiResponse.Failure -> history.value = null
+            }
+        }
     }
 }

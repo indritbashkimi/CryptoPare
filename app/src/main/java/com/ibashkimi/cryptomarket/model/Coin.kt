@@ -1,6 +1,10 @@
 package com.ibashkimi.cryptomarket.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+
+@Parcelize
 data class Coin(
         val id: String,
         val rank: String,
@@ -25,4 +29,4 @@ data class Coin(
         val lastUpdated: String? = "-1",
         val currency: String = "USD",
         val averagePrice24h: String? = null
-)
+) : Parcelable

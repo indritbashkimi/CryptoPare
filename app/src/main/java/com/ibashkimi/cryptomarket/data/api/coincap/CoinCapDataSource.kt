@@ -3,8 +3,7 @@ package com.ibashkimi.cryptomarket.data.api.coincap
 import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataSource
 import com.ibashkimi.cryptomarket.data.api.coincap.model.*
-import com.ibashkimi.cryptomarket.model.ChartPoint
-import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,7 +87,7 @@ class CoinCapDataSource : DataSource {
     }
 
     override fun getHistory(id: String, interval: String, onResponse: (ApiResponse<List<ChartPoint>>) -> Unit) {
-        coinCapApi.getCoinHistory(id, interval).enqueue(object: Callback<HistoryItem?> {
+        coinCapApi.getCoinHistory(id, interval).enqueue(object : Callback<HistoryItem?> {
             override fun onFailure(call: Call<HistoryItem?>, t: Throwable) {
                 onResponse(ApiResponse.Failure())
             }
@@ -102,6 +101,18 @@ class CoinCapDataSource : DataSource {
             }
         })
     }
+
+    override fun getHistoryKeys() = historyKeysOf(
+            ChartInterval.DAY to "m1",
+            ChartInterval.WEEK to "m15",
+            ChartInterval.WEEK2 to "m30",
+            ChartInterval.MONTH to "h1",
+            ChartInterval.MONTH2 to "h2",
+            ChartInterval.MONTH6 to "h6",
+            ChartInterval.YEAR to "h12",
+            ChartInterval.YEAR2 to "d1"
+    )
+
 
     override fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
         coinCapApi.search(search, start, limit).enqueue(object: Callback<AssetItem?> {
