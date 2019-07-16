@@ -27,13 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="?textAppearanceHeadline4" />
 
             <TextView
                 android:id="@+id/version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="?textAppearanceCaption"
                 tools:text="Version 0.1" />
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textAppearance="?textAppearanceSubtitle1"
                 tools:text="This a description for this awesome app" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textAppearance="?textAppearanceSubtitle2"
                 tools:text="This a description for this awesome app" />
 
             <fragment

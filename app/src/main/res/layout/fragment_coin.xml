@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+                    android:textAppearance="?textAppearanceHeadline4"
                     app:layout_scrollFlags="scroll|enterAlways"
                     tools:text="$1000" />
 
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textAppearance="?textAppearanceHeadline6"
                     app:layout_scrollFlags="scroll|enterAlways"
                     tools:text="$1000" />
 
@@ -69,14 +69,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/rank"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/rank"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -84,14 +84,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/name"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -99,40 +99,40 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/symbol"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/symbol"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/price_title"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/price"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="$1000" />
 
                     <TextView
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/average_price_24h"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/average_price_24h"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="$1000" />
 
                     <TextView
@@ -140,7 +140,7 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/percent_change_1h"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:textAppearance="?textAppearanceBody2"
                         android:visibility="gone" />
 
                     <TextView
@@ -148,7 +148,7 @@
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         android:visibility="gone"
                         tools:text="#1" />
 
@@ -157,14 +157,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/percent_change_24h"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/percent_change_24h"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -172,7 +172,7 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/percent_change_7d"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:textAppearance="?textAppearanceBody2"
                         android:visibility="gone" />
 
                     <TextView
@@ -180,7 +180,7 @@
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         android:visibility="gone"
                         tools:text="#1" />
 
@@ -189,14 +189,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/available_supply"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/available_supply"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -204,14 +204,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/max_supply"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/max_supply"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -219,14 +219,14 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/market_cap"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/marketCap"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
@@ -234,27 +234,27 @@
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/volume_24h"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/volume_24h"
                         android:layout_columnWeight="1"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
                     <TextView
                         android:layout_gravity="start"
                         android:gravity="start"
                         android:text="@string/last_updated"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                        android:textAppearance="?textAppearanceBody2" />
 
                     <TextView
                         android:id="@+id/lastUpdated"
                         android:layout_gravity="start"
                         android:gravity="start"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textAppearance="?textAppearanceBody1"
                         tools:text="$1000" />
 
                 </GridLayout>
