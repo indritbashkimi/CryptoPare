@@ -11,7 +11,7 @@ import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import java.text.DecimalFormat
 
 
-class CoinViewHolder(itemView: View, val clickListener: OnCoinClickedListener) : RecyclerView.ViewHolder(itemView) {
+class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : RecyclerView.ViewHolder(itemView) {
     private var rank: TextView = itemView.findViewById(R.id.rank)
     private var icon: ImageView? = itemView.findViewById(R.id.icon)
     private var name: TextView = itemView.findViewById(R.id.name)
@@ -83,7 +83,7 @@ class CoinViewHolder(itemView: View, val clickListener: OnCoinClickedListener) :
                 else -> positiveColor
             })
         itemView.setOnClickListener {
-            clickListener.onCoinClicked(coin)
+            clickListener(coin)
         }
     }
 }

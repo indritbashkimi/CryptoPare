@@ -18,10 +18,9 @@ import com.google.android.material.appbar.AppBarLayout
 import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.coinlist.CoinViewHolder
-import com.ibashkimi.cryptomarket.coinlist.OnCoinClickedListener
 import com.ibashkimi.cryptomarket.model.Coin
 
-class FavoriteFragment : Fragment(), OnCoinClickedListener {
+class FavoriteFragment : Fragment() {
 
     private lateinit var adapter: Adapter
 
@@ -40,7 +39,9 @@ class FavoriteFragment : Fragment(), OnCoinClickedListener {
         recyclerView.layoutManager = layoutManager
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = Adapter()
+        adapter = Adapter {
+            navController.navigate(HomeFragmentDirections.actionMainToCoin(it))
+        }
         recyclerView.adapter = adapter
 
         swipeRefresh = root.findViewById(R.id.swipeRefresh)
@@ -58,11 +59,7 @@ class FavoriteFragment : Fragment(), OnCoinClickedListener {
         return root
     }
 
-    override fun onCoinClicked(coin: Coin) {
-        mainNavController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
-    }
-
-    private val mainNavController: NavController
+    private val navController: NavController
         get() = requireActivity().findNavController(R.id.main_nav_host_fragment)
 
     private fun setIsLoading(loading: Boolean) {
@@ -84,12 +81,12 @@ class FavoriteFragment : Fragment(), OnCoinClickedListener {
         viewModel.refresh()
     }
 
-    inner class Adapter : RecyclerView.Adapter<CoinViewHolder>() {
+    class Adapter(private val onClick: (Coin) -> Unit) : RecyclerView.Adapter<CoinViewHolder>() {
 
         val data = ArrayList<Coin>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
-            return CoinViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false), this@FavoriteFragment)
+            return CoinViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false), onClick)
         }
 
         override fun getItemCount(): Int {

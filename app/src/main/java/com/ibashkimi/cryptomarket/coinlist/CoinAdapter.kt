@@ -7,13 +7,12 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
-import java.text.DecimalFormatSymbols
 
 
-class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListener: OnCoinClickedListener)
+class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListener: (Coin) -> Unit)
     : PagedListAdapter<Coin, CoinViewHolder>(coinDiffCallback) {
 
-    val decimalFormatSymbols = DecimalFormatSymbols()
+    //val decimalFormatSymbols = DecimalFormatSymbols()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder = CoinViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false), clickListener)
@@ -41,8 +40,4 @@ class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListen
 
 interface ImageLoader {
     fun loadImage(coin: Coin, imageView: ImageView)
-}
-
-interface OnCoinClickedListener {
-    fun onCoinClicked(coin: Coin)
 }

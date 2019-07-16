@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
-import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.utils.toast
 
 
@@ -51,13 +48,11 @@ class MarketFragment : Fragment() {
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
+        //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = CoinAdapter(null, object : OnCoinClickedListener {
-            override fun onCoinClicked(coin: Coin) {
-                navController.navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
-            }
-        })
+        adapter = CoinAdapter(null) {
+            navController.navigate(HomeFragmentDirections.actionMainToCoin(it))
+        }
         recyclerView.adapter = adapter
 
         swipeRefresh = root.findViewById(R.id.swipeRefresh)

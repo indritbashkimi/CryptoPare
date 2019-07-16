@@ -18,11 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.coinlist.CoinAdapter
-import com.ibashkimi.cryptomarket.coinlist.OnCoinClickedListener
 import com.ibashkimi.cryptomarket.model.Coin
 
 
-class SearchFragment : Fragment(), OnCoinClickedListener {
+class SearchFragment : Fragment() {
 
     private lateinit var adapter: CoinAdapter
 
@@ -44,7 +43,10 @@ class SearchFragment : Fragment(), OnCoinClickedListener {
         recyclerView.layoutManager = layoutManager
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)
-        adapter = CoinAdapter(null, this)
+        adapter = CoinAdapter(null) {
+            requireActivity().findNavController(R.id.main_nav_host_fragment)
+                    .navigate(HomeFragmentDirections.actionMainToCoin(it))
+        }
         recyclerView.adapter = adapter
 
         val searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
@@ -73,10 +75,5 @@ class SearchFragment : Fragment(), OnCoinClickedListener {
         })
 
         return root
-    }
-
-    override fun onCoinClicked(coin: Coin) {
-        requireActivity().findNavController(R.id.main_nav_host_fragment)
-                .navigate(HomeFragmentDirections.actionMainToCoin(coin.id, coin.name, coin.symbol))
     }
 }
