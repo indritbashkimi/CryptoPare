@@ -6,15 +6,15 @@ import com.ibashkimi.cryptomarket.model.HistoryKey
 
 interface DataSource {
 
-    fun getCoins(start: Int, limit: Int, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit)
+    suspend fun getCoins(start: Int, limit: Int, currency: String): List<Coin>?
 
-    fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit)
+    suspend fun getCoins(ids: List<String>, currency: String): List<Coin>?
 
-    fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit)
+    suspend fun getCoin(id: String, currency: String): Coin?
 
-    fun getHistory(id: String, interval: String, onResponse: (ApiResponse<List<ChartPoint>>) -> Unit)
+    suspend fun getHistory(id: String, interval: String): List<ChartPoint>?
 
     fun getHistoryKeys(): Set<HistoryKey>
 
-    fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit)
+    suspend fun search(search: String, start: Int, limit: Int): List<Coin>?
 }

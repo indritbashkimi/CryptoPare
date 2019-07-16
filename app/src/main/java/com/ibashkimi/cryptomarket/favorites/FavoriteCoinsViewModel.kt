@@ -2,10 +2,12 @@ package com.ibashkimi.cryptomarket.favorites
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.ibashkimi.cryptomarket.data.ApiResponse
+import androidx.lifecycle.viewModelScope
 import com.ibashkimi.cryptomarket.data.DataManager
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FavoriteCoinsViewModel : ViewModel() {
@@ -24,11 +26,8 @@ class FavoriteCoinsViewModel : ViewModel() {
         if (favorites.isEmpty()) {
             coins.value = emptyList()
         } else {
-            DataManager.getCoins(favorites, "USD") {
-                when (it) {
-                    is ApiResponse.Success -> coins.value = it.result
-                    is ApiResponse.Failure -> coins.value = null
-                }
+            viewModelScope.launch(Dispatchers.IO) {
+                coins.postValue(DataManager.getCoins(favorites, "USD"))
             }
         }
     }

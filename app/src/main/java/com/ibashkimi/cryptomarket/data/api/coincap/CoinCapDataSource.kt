@@ -1,12 +1,13 @@
 package com.ibashkimi.cryptomarket.data.api.coincap
 
-import com.ibashkimi.cryptomarket.data.ApiResponse
 import com.ibashkimi.cryptomarket.data.DataSource
-import com.ibashkimi.cryptomarket.data.api.coincap.model.*
-import com.ibashkimi.cryptomarket.model.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toChartPointList
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoin
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinList
+import com.ibashkimi.cryptomarket.model.ChartInterval
+import com.ibashkimi.cryptomarket.model.ChartPoint
+import com.ibashkimi.cryptomarket.model.Coin
+import com.ibashkimi.cryptomarket.model.historyKeysOf
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -20,29 +21,11 @@ class CoinCapDataSource : DataSource {
                 .create(CoinCapApi::class.java)
     }
 
-    override fun getCoins(start: Int, limit: Int, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        coinCapApi.getCoins(start, limit).enqueue(object : Callback<AssetItem?> {
-            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
-                onResponse(ApiResponse.Failure(t))
-            }
-
-            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
-                if (response.isSuccessful) {
-                    val data = response.body()?.toCoinList()
-                    val res: ApiResponse<List<Coin>> = if (data != null) {
-                        ApiResponse.Success(data)
-                    } else {
-                        ApiResponse.Failure()
-                    }
-                    onResponse(res)
-                } else {
-                    onResponse(ApiResponse.Failure())
-                }
-            }
-        })
+    override suspend fun getCoins(start: Int, limit: Int, currency: String): List<Coin>? {
+        return coinCapApi.getCoins(start, limit).body()?.toCoinList()
     }
 
-    override fun getCoins(ids: List<String>, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
+    override suspend fun getCoins(ids: List<String>, currency: String): List<Coin>? {
         val idsRep = StringBuilder()
         for (i in ids.indices) {
             idsRep.append(ids[i])
@@ -50,56 +33,19 @@ class CoinCapDataSource : DataSource {
                 idsRep.append(',')
         }
 
-        coinCapApi.getCoins(idsRep.toString()).enqueue(object : Callback<AssetItem?> {
-            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
-                onResponse(ApiResponse.Failure(t))
-            }
-
-            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
-                if (response.isSuccessful) {
-                    val data = response.body()?.toCoinList()
-                    val res: ApiResponse<List<Coin>> = if (data != null) {
-                        ApiResponse.Success(data)
-                    } else {
-                        ApiResponse.Failure()
-                    }
-                    onResponse(res)
-                } else {
-                    onResponse(ApiResponse.Failure())
-                }
-            }
-        })
+        return coinCapApi.getCoins(idsRep.toString()).body()?.toCoinList()
     }
 
-    override fun getCoin(id: String, currency: String, onResponse: (ApiResponse<Coin>) -> Unit) {
-        coinCapApi.getCoin(id).enqueue(object : Callback<CoinItem?> {
-            override fun onFailure(call: Call<CoinItem?>, t: Throwable) {
-                onResponse(ApiResponse.Failure())
-            }
-
-            override fun onResponse(call: Call<CoinItem?>, response: Response<CoinItem?>) {
-                if (response.isSuccessful)
-                    onResponse(ApiResponse.Success(response.body()!!.toCoin()))
-                else
-                    onResponse(ApiResponse.Failure())
-            }
-        })
+    override suspend fun getCoin(id: String, currency: String): Coin? {
+        return coinCapApi.getCoin(id).body()?.toCoin()
     }
 
-    override fun getHistory(id: String, interval: String, onResponse: (ApiResponse<List<ChartPoint>>) -> Unit) {
-        coinCapApi.getCoinHistory(id, interval).enqueue(object : Callback<HistoryItem?> {
-            override fun onFailure(call: Call<HistoryItem?>, t: Throwable) {
-                onResponse(ApiResponse.Failure())
-            }
+    override suspend fun getHistory(id: String, interval: String): List<ChartPoint>? {
+        return coinCapApi.getCoinHistory(id, interval).body()?.toChartPointList()
+    }
 
-            override fun onResponse(call: Call<HistoryItem?>, response: Response<HistoryItem?>) {
-                if (response.isSuccessful) {
-                    onResponse(ApiResponse.Success(response.body()!!.toChartPointList()))
-                } else {
-                    onResponse(ApiResponse.Failure())
-                }
-            }
-        })
+    override suspend fun search(search: String, start: Int, limit: Int): List<Coin>? {
+        return coinCapApi.search(search, start, limit).body()?.toCoinList()
     }
 
     override fun getHistoryKeys() = historyKeysOf(
@@ -112,27 +58,4 @@ class CoinCapDataSource : DataSource {
             ChartInterval.YEAR to "h12",
             ChartInterval.YEAR2 to "d1"
     )
-
-
-    override fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        coinCapApi.search(search, start, limit).enqueue(object : Callback<AssetItem?> {
-            override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
-                onResponse(ApiResponse.Failure())
-            }
-
-            override fun onResponse(call: Call<AssetItem?>, response: Response<AssetItem?>) {
-                if (response.isSuccessful) {
-                    val data = response.body()?.toCoinList()
-                    val res: ApiResponse<List<Coin>> = if (data != null) {
-                        ApiResponse.Success(data)
-                    } else {
-                        ApiResponse.Failure()
-                    }
-                    onResponse(res)
-                } else {
-                    onResponse(ApiResponse.Failure())
-                }
-            }
-        })
-    }
 }
