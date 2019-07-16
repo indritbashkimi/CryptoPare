@@ -17,7 +17,7 @@ class CoinCapDataSource : DataSource {
                 .baseUrl(CoinCapApi.ENDPOINT)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
-                .create<CoinCapApi>(CoinCapApi::class.java)
+                .create(CoinCapApi::class.java)
     }
 
     override fun getCoins(start: Int, limit: Int, currency: String, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
@@ -115,7 +115,7 @@ class CoinCapDataSource : DataSource {
 
 
     override fun search(search: String, start: Int, limit: Int, onResponse: (ApiResponse<List<Coin>>) -> Unit) {
-        coinCapApi.search(search, start, limit).enqueue(object: Callback<AssetItem?> {
+        coinCapApi.search(search, start, limit).enqueue(object : Callback<AssetItem?> {
             override fun onFailure(call: Call<AssetItem?>, t: Throwable) {
                 onResponse(ApiResponse.Failure())
             }
