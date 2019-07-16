@@ -10,7 +10,7 @@ data class Coin(
         val rank: String,
         val symbol: String,
         val name: String,
-        val price: String,
+        val price: String?,
 
         val percentChange1h: String? = null,
         val percentChange24h: String? = null,

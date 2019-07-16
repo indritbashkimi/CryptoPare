@@ -36,16 +36,20 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
         rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
         name.text = coin.name
         symbol.text = coin.symbol
-        val priceFormatter = DecimalFormat(if (coin.price.toDouble() < 1) "#.########" else ".##")
-        price.text = price.context
-                .getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
-                        priceFormatter.format(coin.price.toDouble()))
+        val priceFormatter = DecimalFormat(if ((coin.price?.toDouble()
+                        ?: 0.0) < 1) "#.########" else ".##")
+        price.text = coin.price?.let { p ->
+            price.context.getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
+                    priceFormatter.format(p.toDouble()))
+        }
+
         val changeFormatter = DecimalFormat("#.##")
         oneHourChange?.apply {
             text = context.getString(R.string.percent_change, coin.percentChange1h)
         }
         twentyFourHourChange?.apply {
-            val t: String = coin.percentChange24h?.toDoubleOrNull()?.run { changeFormatter.format(this) } ?: "-"
+            val t: String = coin.percentChange24h?.toDoubleOrNull()?.run { changeFormatter.format(this) }
+                    ?: "-"
             text = context.getString(R.string.percent_change, t)
         }
 
