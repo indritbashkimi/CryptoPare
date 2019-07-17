@@ -41,6 +41,7 @@ dependencies {
     implementation deps.kotlin.coroutines
     implementation deps.google.material
     implementation deps.androidx.appcompat
+    implementation deps.androidx.browser
     implementation deps.androidx.cardview
     implementation deps.androidx.constraintlayout
     implementation "androidx.core:core-ktx:1.0.2"

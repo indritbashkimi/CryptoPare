@@ -48,7 +48,11 @@
     <fragment
         android:id="@+id/about"
         android:name="com.ibashkimi.cryptomarket.about.AboutFragment"
-        android:label="@string/title_about" />
+        android:label="@string/title_about">
+        <action
+            android:id="@+id/action_about_to_licenses"
+            app:destination="@id/licenses" />
+    </fragment>
     <fragment
         android:id="@+id/search"
         android:name="com.ibashkimi.cryptomarket.search.SearchFragment"
@@ -73,4 +77,8 @@
         android:id="@+id/currencyPicker"
         android:name="com.ibashkimi.cryptomarket.settings.CurrencyPickerFragment"
         android:label="@string/select_currency" />
+    <fragment
+        android:id="@+id/licenses"
+        android:name="com.ibashkimi.cryptomarket.about.LicensesFragment"
+        android:label="@string/title_licenses" />
 </navigation>

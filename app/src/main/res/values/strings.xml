@@ -44,6 +44,7 @@
     <string name="about_send_feedback">Send feedback</string>
     <string name="about_legal">Legal</string>
     <string name="about_licenses">Licenses</string>
+    <string name="about_lib_intro">This app uses the following open source libraries.</string>
     <string name="feedback_subject">CoinCap feedback</string>
     <string name="feedback_chooser_title">Send email…</string>
     <string name="author_name">Indrit Bashkimi</string>
@@ -68,5 +69,6 @@
     <string name="currency">%s %s</string>
     <string name="select_currency">Select currency</string>
     <string name="currencies_load_error">Something went wrong. Try again.</string>
+    <string name="title_licenses">Licenses</string>
 
 </resources>

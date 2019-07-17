@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="apache_v2" translatable="false">Apache License, Version 2.0</string>
+
+    <string name="android_jetpack_name" translatable="false">Android Jetpack</string>
+    <string name="android_jetpack_website" translatable="false">https://developer.android.com/jetpack</string>
+
+    <string name="material_components_name" translatable="false">Material Components for Android</string>
+    <string name="material_components_website" translatable="false">https://github.com/material-components/material-components-android</string>
+
+    <string name="kotlin_name" translatable="false">Kotlin</string>
+    <string name="kotlin_website" translatable="false">https://github.com/JetBrains/kotlin</string>
+
+    <string name="glide_name" translatable="false">Glide</string>
+    <string name="glide_license" translatable="false">BSD, part MIT and Apache 2.0</string>
+    <string name="glide_website" translatable="false">https://github.com/bumptech/glide</string>
+
+    <string name="moshi_name" translatable="false">Moshi</string>
+    <string name="moshi_website" translatable="false">https://github.com/square/moshi</string>
+
+    <string name="MPAndroidChart_name" translatable="false">MPAndroidChart</string>
+    <string name="MPAndroidChart_website" translatable="false">https://github.com/PhilJay/MPAndroidChart</string>
+
+    <string name="retrofit_name" translatable="false">Retrofit</string>
+    <string name="retrofit_website" translatable="false">https://github.com/square/retrofit</string>
+</resources>

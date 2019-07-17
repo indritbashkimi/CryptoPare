@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ibashkimi.cryptomarket.R
@@ -47,7 +47,7 @@ class AboutFragment : Fragment() {
                     sendFeedback()
                     true
                 }
-                "licenses" -> {
+                "licences" -> {
                     showLicenses()
                     true
                 }
@@ -56,7 +56,7 @@ class AboutFragment : Fragment() {
         }
 
         private fun showLicenses() {
-            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(AboutFragmentDirections.actionAboutToLicenses())
         }
 
         private fun sendFeedback() {
