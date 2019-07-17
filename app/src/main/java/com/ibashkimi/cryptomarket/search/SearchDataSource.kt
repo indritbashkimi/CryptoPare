@@ -17,7 +17,7 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Coin>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val res = DataManager.getCoins(0, params.requestedLoadSize, PreferenceHelper.currency)
+            val res = DataManager.search(search, 0, params.requestedLoadSize, PreferenceHelper.currency)
             //val nextKey = if (res != null) params.requestedLoadSize else null
             withContext(Dispatchers.Main) {
                 callback.onResult(res
@@ -28,7 +28,7 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Coin>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val res = DataManager.getCoins(params.key, params.requestedLoadSize, PreferenceHelper.currency)
+            val res = DataManager.search(search, params.key, params.requestedLoadSize, PreferenceHelper.currency)
             withContext(Dispatchers.Main) {
                 callback.onResult(res ?: emptyList(),
                         if (res?.size == params.requestedLoadSize)
