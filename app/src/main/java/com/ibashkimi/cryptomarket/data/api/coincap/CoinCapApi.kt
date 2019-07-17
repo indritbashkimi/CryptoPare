@@ -1,8 +1,6 @@
 package com.ibashkimi.cryptomarket.data.api.coincap
 
-import com.ibashkimi.cryptomarket.data.api.coincap.model.AssetItem
-import com.ibashkimi.cryptomarket.data.api.coincap.model.CoinItem
-import com.ibashkimi.cryptomarket.data.api.coincap.model.HistoryItem
+import com.ibashkimi.cryptomarket.data.api.coincap.model.*
 
 import retrofit2.Response
 import retrofit2.http.GET
@@ -28,6 +26,12 @@ interface CoinCapApi {
 
     @GET("v2/assets/")
     suspend fun search(@Query("search") search: String, @Query("offset") start: Int?, @Query("limit") limit: Int?): Response<AssetItem>
+
+    @GET("v2/rates")
+    suspend fun getRates(): Response<RatesResult>
+
+    @GET("v2/rates/{id}")
+    suspend fun getRate(@Path("id") id: String): Response<RateResult>
 
     companion object {
         const val ENDPOINT = "https://api.coincap.io/"

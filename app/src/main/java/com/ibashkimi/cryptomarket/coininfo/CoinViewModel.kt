@@ -54,7 +54,7 @@ class CoinViewModel : ViewModel() {
 
     private fun refreshChart(coinId: String, interval: HistoryKey) {
         viewModelScope.launch(Dispatchers.IO) {
-            history.postValue(DataManager.getHistory(coinId, interval.key, "USD"))
+            history.postValue(DataManager.getHistory(coinId, interval.key, "united-states-dollar"))
         }
     }
 }

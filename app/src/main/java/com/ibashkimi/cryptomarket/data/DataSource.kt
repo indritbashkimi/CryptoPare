@@ -12,9 +12,9 @@ interface DataSource {
 
     suspend fun getCoin(id: String, currency: String): Coin?
 
-    suspend fun getHistory(id: String, interval: String): List<ChartPoint>?
+    suspend fun getHistory(id: String, interval: String, currency: String): List<ChartPoint>?
 
     fun getHistoryKeys(): Set<HistoryKey>
 
-    suspend fun search(search: String, start: Int, limit: Int): List<Coin>?
+    suspend fun search(search: String, start: Int, limit: Int, currency: String): List<Coin>?
 }

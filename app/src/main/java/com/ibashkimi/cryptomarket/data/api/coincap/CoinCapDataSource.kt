@@ -1,61 +1,115 @@
 package com.ibashkimi.cryptomarket.data.api.coincap
 
 import com.ibashkimi.cryptomarket.data.DataSource
-import com.ibashkimi.cryptomarket.data.api.coincap.model.toChartPointList
-import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoin
-import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinList
-import com.ibashkimi.cryptomarket.model.ChartInterval
+import com.ibashkimi.cryptomarket.data.api.coincap.model.*
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
-import com.ibashkimi.cryptomarket.model.historyKeysOf
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import kotlinx.coroutines.*
 
 class CoinCapDataSource : DataSource {
+    private val source = CoinCapApiImplementor()
 
-    private val coinCapApi: CoinCapApi by lazy {
-        Retrofit.Builder()
-                .baseUrl(CoinCapApi.ENDPOINT)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
-                .create(CoinCapApi::class.java)
-    }
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     override suspend fun getCoins(start: Int, limit: Int, currency: String): List<Coin>? {
-        return coinCapApi.getCoins(start, limit).body()?.toCoinList()
+        val coinsDeferred = CompletableDeferred<AssetItem?>()
+        scope.launch {
+            coinsDeferred.complete(source.getCoins(start, limit))
+        }
+        val rate = getRate(currency).await()?.rateUsd?.toDouble()
+        val coins = coinsDeferred.await()
+
+        return if (rate != null && coins != null) {
+            coins.toCoinList(rate)
+        } else {
+            null
+        }
     }
 
     override suspend fun getCoins(ids: List<String>, currency: String): List<Coin>? {
-        val idsRep = StringBuilder()
-        for (i in ids.indices) {
-            idsRep.append(ids[i])
-            if (i < ids.size - 1)
-                idsRep.append(',')
+        val rateDeferred = getRate(currency)
+        val coinsDeferred = scope.async {
+            source.getCoins(ids)
         }
+        /*val coinsDeferred = deferredCall {
+            source.getCoins(ids)
+        }*/
 
-        return coinCapApi.getCoins(idsRep.toString()).body()?.toCoinList()
+        //joinAll(rateDeferred, coinsDeferred)
+        val rate = rateDeferred.await()?.rateUsd?.toDouble()
+        val coins = coinsDeferred.await()
+
+        return if (rate != null && coins != null) {
+            coins.toCoinList(rate)
+        } else {
+            null
+        }
     }
 
     override suspend fun getCoin(id: String, currency: String): Coin? {
-        return coinCapApi.getCoin(id).body()?.toCoin()
+        val rateDeferred = getRate(currency)
+        val coinDeferred = deferredCall {
+            source.getCoin(id)
+        }
+
+        val rate = rateDeferred.await()?.rateUsd?.toDouble()
+        val coin = coinDeferred.await()
+
+        return if (rate != null && coin != null) {
+            coin.toCoin(rate)
+        } else {
+            null
+        }
     }
 
-    override suspend fun getHistory(id: String, interval: String): List<ChartPoint>? {
-        return coinCapApi.getCoinHistory(id, interval).body()?.toChartPointList()
+    override suspend fun getHistory(id: String, interval: String, currency: String): List<ChartPoint>? {
+        val rateDeferred = getRate(currency)
+        val coinHistoryDeferred = deferredCall {
+            source.getHistory(id, interval)
+        }
+
+        val rate = rateDeferred.await()?.rateUsd?.toDouble()
+        val history = coinHistoryDeferred.await()
+
+        return if (rate != null && history != null) {
+            history.toChartPointList(rate)
+        } else {
+            null
+        }
     }
 
-    override suspend fun search(search: String, start: Int, limit: Int): List<Coin>? {
-        return coinCapApi.search(search, start, limit).body()?.toCoinList()
+    override suspend fun search(search: String, start: Int, limit: Int, currency: String): List<Coin>? {
+        val rateDeferred = getRate(currency)
+        val coinsDeferred = deferredCall {
+            source.search(search, start, limit)
+        }
+
+        val rate = rateDeferred.await()?.rateUsd?.toDouble()
+        val coins = coinsDeferred.await()
+
+        return if (rate != null && coins != null) {
+            coins.toCoinList(rate)
+        } else {
+            null
+        }
     }
 
-    override fun getHistoryKeys() = historyKeysOf(
-            ChartInterval.DAY to "m1",
-            ChartInterval.WEEK to "m15",
-            ChartInterval.WEEK2 to "m30",
-            ChartInterval.MONTH to "h1",
-            ChartInterval.MONTH2 to "h2",
-            ChartInterval.MONTH6 to "h6",
-            ChartInterval.YEAR to "h12",
-            ChartInterval.YEAR2 to "d1"
-    )
+    override fun getHistoryKeys() = source.getHistoryKeys()
+
+    private suspend fun getRate(currency: String): CompletableDeferred<RateItem?> {
+        return deferredCall {
+            source.getRate(currency)?.data
+        }
+    }
+
+    private suspend fun <T> deferredCall(call: suspend () -> T): CompletableDeferred<T?> {
+        val deferred = CompletableDeferred<T?>()
+        scope.launch {
+            deferred.complete(call())
+        }
+        return deferred
+    }
+
 }
+
+

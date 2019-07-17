@@ -28,7 +28,6 @@ import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.HistoryKey
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
-import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
 import com.ibashkimi.cryptomarket.utils.toast
 import java.text.DecimalFormat
 import java.util.*
@@ -211,7 +210,7 @@ class CoinFragment : Fragment() {
         fab.visibility = View.VISIBLE
         fab.show()
 
-        currencySymbol = CurrencySymbolResolver.resolve(requireContext(), coin.currency)
+        currencySymbol = PreferenceHelper.currencySymbol ?: PreferenceHelper.currencyName
 
         root.findViewById<TextView>(R.id.name).text = coin.name
         root.findViewById<TextView>(R.id.symbol).text = coin.symbol
@@ -232,7 +231,7 @@ class CoinFragment : Fragment() {
 
     private val changeFormatter = DecimalFormat("#.##")
 
-    private lateinit var currencySymbol: String
+    private var currencySymbol: String? = null
 
     private fun TextView.showPrice(priceRep: String?) {
         val price = priceRep?.toDoubleOrNull()

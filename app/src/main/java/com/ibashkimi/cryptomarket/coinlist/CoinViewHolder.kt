@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
-import com.ibashkimi.cryptomarket.utils.CurrencySymbolResolver
+import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import java.text.DecimalFormat
 
 
@@ -39,7 +39,8 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
         val priceFormatter = DecimalFormat(if ((coin.price?.toDouble()
                         ?: 0.0) < 1) "#.########" else ".##")
         price.text = coin.price?.let { p ->
-            price.context.getString(R.string.price, CurrencySymbolResolver.resolve(price.context, coin.currency),
+            price.context.getString(R.string.price, PreferenceHelper.currencySymbol
+                    ?: PreferenceHelper.currencyName,
                     priceFormatter.format(p.toDouble()))
         }
 
@@ -78,7 +79,6 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
                 coin.percentChange24h.contains("-") -> negativeColor
                 else -> positiveColor
             })
-
         if (coin.percentChange7d == null)
             sevenDayChange?.text = "?"
         else

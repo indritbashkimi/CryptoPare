@@ -26,8 +26,9 @@ class FavoriteCoinsViewModel : ViewModel() {
         if (favorites.isEmpty()) {
             coins.value = emptyList()
         } else {
+            val currency = PreferenceHelper.currency
             viewModelScope.launch(Dispatchers.IO) {
-                coins.postValue(DataManager.getCoins(favorites, "USD"))
+                coins.postValue(DataManager.getCoins(favorites, currency))
             }
         }
     }

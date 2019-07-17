@@ -28,3 +28,17 @@ data class Asset(
 
 @JsonClass(generateAdapter = true)
 data class HistoryPoint(val priceUsd: String, val time: Long)
+
+@JsonClass(generateAdapter = true)
+data class RatesResult(val data: List<RateItem>, val timestamp: Long)
+
+@JsonClass(generateAdapter = true)
+data class RateResult(val data: RateItem, val timestamp: Long)
+
+@JsonClass(generateAdapter = true)
+data class RateItem(val id: String,
+                val symbol: String,
+                val currencySymbol: String?,
+                val rateUsd: String,
+                val type: String// type of currency - fiat or crypto
+)
