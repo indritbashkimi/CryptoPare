@@ -1,11 +1,28 @@
-<!-- drawable/finance.xml -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="108dp"
-        android:height="108dp"
-        android:viewportWidth="55.813953"
-        android:viewportHeight="55.813953">
-    <group android:translateX="15.906977"
-            android:translateY="15.906977">
-        <path android:fillColor="#fff" android:pathData="M3,13H7V23H3V13M10,14H14V23H10V14M17,9H21V23H17V9M17,1H21V5H20V3.06L11.97,11.09L8,7.12L3.4,11.72L2.34,10.66L8,5L11.97,8.97L18.94,2H17V1Z" />
-    </group>
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="38.70968"
+    android:viewportHeight="38.70968">
+  <group android:translateX="7.354839"
+      android:translateY="7.354839">
+    <path
+        android:pathData="M13,2.05V5.08C16.39,5.57 19,8.47 19,12C19,12.9 18.82,13.75 18.5,14.54L21.12,16.07C21.68,14.83 22,13.45 22,12C22,6.82 18.05,2.55 13,2.05M12,19A7,7 0,0 1,5 12C5,8.47 7.61,5.57 11,5.08V2.05C5.94,2.55 2,6.81 2,12A10,10 0,0 0,12 22C15.3,22 18.23,20.39 20.05,17.91L17.45,16.38C16.17,18 14.21,19 12,19Z"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M4.8004,13.7942 L5.2124,13.8559 8.9774,9.8333C8.8291,9.2612 8.9692,8.6098 9.4058,8.1521c0.6426,-0.6954 1.6807,-0.6954 2.3233,0 0.4366,0.4577 0.5767,1.1091 0.4284,1.6812l2.1173,2.2621 0.4119,-0.0616c0.1483,0 0.2884,0 0.4119,0.0616l2.9412,-3.1423C17.9823,8.8211 17.9823,8.6714 17.9823,8.513A1.6477,1.7604 0,0 1,19.63 6.7526,1.6477 1.7604,0 0,1 21.2777,8.513 1.6477,1.7604 0,0 1,19.63 10.2734c-0.1483,0 -0.2884,0 -0.4119,-0.0616l-2.9412,3.1423c0.0576,0.132 0.0576,0.2817 0.0576,0.4401a1.6477,1.7604 0,0 1,-1.6477 1.7604,1.6477 1.7604,0 0,1 -1.6477,-1.7604l0.0576,-0.4401 -2.1173,-2.2621c-0.2636,0.0616 -0.5602,0.0616 -0.8239,0l-3.7651,4.0226 0.0577,0.4401A1.6477,1.7604 0,0 1,4.8004 17.3151,1.6477 1.7604,0 0,1 3.1527,15.5546 1.6477,1.7604 0,0 1,4.8004 13.7942Z"
+        android:strokeWidth="0.85156995"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M10.2675,3.0251h3v1h-3z"
+        android:strokeWidth="0.89087689"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M5.75,14.3125h3.3125v2h-3.3125z"
+        android:strokeWidth="1.20604539"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M9.25,15.3125m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0"
+        android:strokeWidth="0.87679458"
+        android:fillColor="#ffffff"/>
+  </group>
 </vector>
