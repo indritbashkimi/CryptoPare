@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.ibashkimi.cryptomarket.BaseActivity
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.applyNightMode
 
@@ -53,8 +52,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPref
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             PreferenceHelper.KEY_NIGHT_MODE -> {
-                val mainActivity = requireActivity() as BaseActivity
-                mainActivity.apply {
+                requireActivity().apply {
                     applyNightMode(PreferenceHelper.nightMode)
                 }
             }
