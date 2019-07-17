@@ -22,7 +22,7 @@ class SearchViewModel : ViewModel() {
                 .setInitialLoadSizeHint(PAGE_SIZE * 2)
                 .setEnablePlaceholders(false)
                 .build()
-        searchLiveData = LivePagedListBuilder<Int, Coin>(sourceFactory, config).build()
+        searchLiveData = LivePagedListBuilder(sourceFactory, config).build()
         searchChanged.addSource(searchLiveData!!) {
             searchChanged.value = searchLiveData
         }
