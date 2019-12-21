@@ -14,13 +14,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ibashkimi.cryptomarket.R
+import com.ibashkimi.cryptomarket.databinding.FragmentAboutBinding
 
 class AboutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_about, container, false)
+        val binding = FragmentAboutBinding.inflate(inflater, container, false)
 
-        root.findViewById<Toolbar>(R.id.toolbar).apply {
+        binding.root.findViewById<Toolbar>(R.id.toolbar).apply {
             title = getString(R.string.title_about)
             setNavigationIcon(R.drawable.ic_back_nav)
             setNavigationOnClickListener {
@@ -28,12 +29,12 @@ class AboutFragment : Fragment() {
             }
         }
 
-        root.findViewById<TextView>(R.id.about_title).text = getString(R.string.app_name)
-        root.findViewById<TextView>(R.id.version).text = getString(R.string.version)
-        root.findViewById<TextView>(R.id.description).text = getString(R.string.description)
-        root.findViewById<TextView>(R.id.disclaimer).text = getString(R.string.disclaimer)
+        binding.aboutTitle.text = getString(R.string.app_name)
+        binding.version.text = getString(R.string.version)
+        binding.description.text = getString(R.string.description)
+        binding.disclaimer.text = getString(R.string.disclaimer)
 
-        return root
+        return binding.root
     }
 
     class AboutFragment : PreferenceFragmentCompat() {

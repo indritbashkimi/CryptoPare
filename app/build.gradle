@@ -16,6 +16,7 @@ android {
         resConfigs "en", "it", "sq"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    viewBinding.enabled = true
     buildTypes {
         release {
             minifyEnabled true

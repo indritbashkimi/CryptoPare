@@ -3,26 +3,21 @@ package com.ibashkimi.cryptomarket.coininfo
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
 import com.ibashkimi.cryptomarket.R
+import com.ibashkimi.cryptomarket.databinding.FragmentCoinBinding
 import com.ibashkimi.cryptomarket.model.ChartInterval
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
@@ -32,40 +27,36 @@ import com.ibashkimi.cryptomarket.utils.toast
 import java.text.DecimalFormat
 import java.util.*
 
-
 class CoinFragment : Fragment() {
-
-    private lateinit var root: View
 
     private val args: CoinFragmentArgs by navArgs()
 
     private val viewModel: CoinViewModel by viewModels()
 
-    private lateinit var chart: LineChart
+    private lateinit var binding: FragmentCoinBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        this.root = inflater.inflate(R.layout.fragment_coin, container, false)
+        binding = FragmentCoinBinding.inflate(inflater, container, false)
 
-        root.findViewById<Toolbar>(R.id.toolbar).apply {
+        binding.toolbar.apply {
             setNavigationIcon(R.drawable.ic_back_nav)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
         }
 
-        root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
         }
 
         onDataLoaded(args.coin) // use saved per caricare inizialmente questo coin
 
-        chart = root.findViewById(R.id.chart1) as LineChart
-        chart.setViewPortOffsets(0f, 0f, 0f, 0f)
+        binding.historyChart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.TRANSPARENT)
 
-        root.findViewById<TabLayout>(R.id.tabLayout).apply {
+        binding.tabLayout.apply {
             viewModel.historyKeys.forEach {
-                addTab(it)
+                addTab(it.chartInterval.textResId, it)
             }
             onTabSelected {
                 Log.d("CoinFragment", "onTabSelected $text")
@@ -79,7 +70,7 @@ class CoinFragment : Fragment() {
 
         isLoading = true
 
-        viewModel.coin.observe(this, Observer {
+        viewModel.coin.observe(viewLifecycleOwner, Observer {
             isLoading = false
             it?.let { onDataLoaded(it) } ?: onLoadFailed()
         })
@@ -90,7 +81,7 @@ class CoinFragment : Fragment() {
             } ?: toast("Cannot load chart")
         })
 
-        return this.root
+        return binding.root
     }
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
@@ -108,25 +99,10 @@ class CoinFragment : Fragment() {
                 isEnabled = false
             }
 
-            axisLeft.apply {
-                isEnabled = false
-                //setLabelCount(5, false)
-                //isGranularityEnabled = true
-            }
-            //axisLeft.setDrawTopYLabelEntry(true)
-            //description.isEnabled = true
-
-            axisRight.isEnabled = false
-
-            // add data
             setChartData(data)
 
-            legend.isEnabled = false
-
             animateXY(0, 500)
-
-            // don't forget to refresh the drawing
-            invalidate()
+            // invalidate() not necessary because animate invalidates it
         }
     }
 
@@ -134,7 +110,7 @@ class CoinFragment : Fragment() {
         val values = chartData.map { Entry(it.time.toFloat(), it.price.toFloat()) }
 
         val set1: LineDataSet
-
+        val chart = binding.historyChart
         if (chart.data != null && chart.data.dataSetCount > 0) {
             set1 = chart.data.getDataSetByIndex(0) as LineDataSet
             set1.values = values
@@ -169,31 +145,20 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun fetchColorSecondary(): Int {
-        val typedValue = TypedValue()
-
-        val a = requireContext().obtainStyledAttributes(typedValue.data, intArrayOf(R.attr.colorSecondary))
-        val color = a.getColor(0, 0)
-
-        a.recycle()
-
-        return color
-    }
-
     private var isLoading: Boolean = true
         set(value) {
-            root.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh).isRefreshing = value
+            binding.swipeRefresh.isRefreshing = value
             field = value
         }
 
     private fun onDataLoaded(coin: Coin) {
-        root.findViewById<Toolbar>(R.id.toolbar).apply {
+        binding.toolbar.apply {
             title = coin.name
             subtitle = coin.symbol
         }
 
         var isFavorite = PreferenceHelper.isFavorite(coin)
-        val fab = root.findViewById<FloatingActionButton>(R.id.fab)
+        val fab = binding.fab
         fab.hide()
         fab.setImageDrawable(requireContext().getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
         fab.setOnClickListener {
@@ -212,21 +177,23 @@ class CoinFragment : Fragment() {
 
         currencySymbol = PreferenceHelper.currencySymbol ?: PreferenceHelper.currencyName
 
-        root.findViewById<TextView>(R.id.name).text = coin.name
-        root.findViewById<TextView>(R.id.symbol).text = coin.symbol
-        root.findViewById<TextView>(R.id.rank).text = getString(R.string.rank_value, coin.rank)
-        root.findViewById<TextView>(R.id.price_toolbar)?.showPrice(coin.price)
-        root.findViewById<TextView>(R.id.price)?.showPrice(coin.price)
-        root.findViewById<TextView>(R.id.change_toolbar)?.showChange(coin.percentChange24h)
-        root.findViewById<TextView>(R.id.percent_change_1h)?.showChange(coin.percentChange1h)
-        root.findViewById<TextView>(R.id.percent_change_24h)?.showChange(coin.percentChange24h)
-        root.findViewById<TextView>(R.id.percent_change_7d)?.showChange(coin.percentChange7d)
-        root.findViewById<TextView>(R.id.marketCap)?.showPrice(coin.marketCap)
-        root.findViewById<TextView>(R.id.available_supply)?.showPrice(coin.availableSupply)
-        root.findViewById<TextView>(R.id.max_supply)?.showPrice(coin.maxSupply)
-        root.findViewById<TextView>(R.id.volume_24h)?.showPrice(coin.volume24h)
-        root.findViewById<TextView>(R.id.average_price_24h)?.showPrice(coin.averagePrice24h)
-        root.findViewById<TextView>(R.id.lastUpdated)?.text = coin.lastUpdated?.toRelativeTimeSpan()
+        binding.apply {
+            name.text = coin.name
+            symbol.text = coin.symbol
+            rank.text = getString(R.string.rank_value, coin.rank)
+            priceToolbar.showPrice(coin.price)
+            price.showPrice(coin.price)
+            changeToolbar.showChange(coin.percentChange24h)
+            percentChange1h.showChange(coin.percentChange1h)
+            percentChange24h.showChange(coin.percentChange24h)
+            percentChange7d.showChange(coin.percentChange7d)
+            marketCap.showPrice(coin.marketCap)
+            availableSupply.showPrice(coin.availableSupply)
+            maxSupply.showPrice(coin.maxSupply)
+            volume24h.showPrice(coin.volume24h)
+            averagePrice24h.showPrice(coin.averagePrice24h)
+            lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
+        }
     }
 
     private val changeFormatter = DecimalFormat("#.##")

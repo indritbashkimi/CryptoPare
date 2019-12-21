@@ -72,7 +72,7 @@
                     </com.google.android.material.tabs.TabLayout>
 
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chart1"
+                        android:id="@+id/historyChart"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
