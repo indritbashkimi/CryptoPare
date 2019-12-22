@@ -52,16 +52,18 @@ dependencies {
     implementation deps.androidx.browser
     implementation deps.androidx.cardview
     implementation deps.androidx.constraintlayout
-    implementation "androidx.core:core-ktx:1.0.2"
+    implementation deps.androidx.corektx
     implementation deps.androidx.fragment
     implementation deps.androidx.recyclerview
     implementation deps.androidx.paging.runtime
     implementation deps.androidx.preference
+    implementation deps.androidx.swiperefreshlayout
     implementation deps.lifecycle.common
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.runtime
-    implementation deps.navigation.fragmentktx
-    implementation deps.navigation.uiktx
+    implementation deps.lifecycle.livedata
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'

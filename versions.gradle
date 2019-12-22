@@ -12,38 +12,38 @@ def versions = [
         ],
         androidx: [
                 annotation          : '1.1.0',
-                appcompat           : '1.1.0-rc01',
-                browser             : '1.2.0-alpha07',
+                appcompat           : '1.2.0-alpha01',
+                browser             : '1.2.0-rc01',
                 cardview            : '1.0.0',
-                constraintlayout    : '2.0.0-beta2',
-                core                : '1.2.0-alpha03',
-                fragment            : '1.2.0-alpha02',
+                constraintlayout    : '2.0.0-beta4',
+                core                : '1.2.0-rc01',
+                fragment            : '1.2.0-rc03',
                 gridlayout          : '1.0.0',
-                lifecycle           : '2.2.0-alpha03',
-                media               : '1.1.0-rc01',
-                navigation          : '2.2.0-alpha01',
+                lifecycle           : '2.2.0-rc03',
+                media               : '1.2.0-alpha01',
+                navigation          : '2.2.0-rc03',
                 paging              : '2.1.0',
                 palette             : '1.0.0',
-                preference          : '1.1.0-rc01',
+                preference          : '1.1.0',
                 percentlayout       : '1.0.0',
-                room                : '2.2.0-alpha02',
-                recyclerview        : '1.1.0-beta02',
-                swiperefreshlayout  : '1.1.0-alpha02',
-                vectordrawable      : '1.1.0-rc01',
+                room                : '2.2.2',
+                recyclerview        : '1.1.0',
+                swiperefreshlayout  : '1.1.0-alpha03',
+                vectordrawable      : '1.1.0',
         ],
         firebase : [
-                auth        : '18.1.0',
-                database    : '18.0.1',
-                firestore   : '20.2.0',
-                storage     : '18.1.1',
-                core        : '17.0.1',
-                uiauth      : '5.0.0'
+                auth        : '19.1.0',
+                database    : '19.2.0',
+                firestore   : '21.2.1',
+                storage     : '19.1.0',
+                core        : '17.2.1',
+                uiauth      : '6.0.2'
         ],
         google: [
-                material    : '1.1.0-alpha09',
+                material    : '1.2.0-alpha02',
                 places      : '2.0.0'
         ],
-        kotlin : '1.3.41',
+        kotlin : '1.3.61',
         playservices : [
                 auth        : '17.0.0',
                 location    : '17.0.0',
@@ -65,16 +65,15 @@ def deps = [
                 constraintlayout    : "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintlayout}",
                 core                : "androidx.core:core:${versions.androidx.core}",
                 corektx             : "androidx.core:core-ktx:${versions.androidx.core}",
-                fragment            : "androidx.fragment:fragment:${versions.androidx.fragment}",
+                fragment            : "androidx.fragment:fragment-ktx:${versions.androidx.fragment}",
                 gridlayout          : "androidx.gridlayout:gridlayout:${versions.androidx.gridlayout}",
                 media               : "androidx.media:media:${versions.androidx.media}",
                 paging              : [
-                        runtime: "androidx.paging:paging-runtime:${versions.androidx.paging}",
-                        runtimektx: "androidx.paging:paging-runtime-ktx:${versions.androidx.paging}"
+                        runtime     : "androidx.paging:paging-runtime-ktx:${versions.androidx.paging}"
                 ],
                 palette             : "androidx.palette:palette:${versions.androidx.palette}",
                 percentlayout       : "androidx.percentlayout:percentlayout:${versions.androidx.percentlayout}",
-                preference          : "androidx.preference:preference:${versions.androidx.preference}",
+                preference          : "androidx.preference:preference-ktx:${versions.androidx.preference}",
                 recyclerview        : "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}",
                 recyclerviewselection  : "androidx.recyclerview:recyclerview-selection:${versions.androidx.recyclerview}",
                 swiperefreshlayout  : "androidx.swiperefreshlayout:swiperefreshlayout:${versions.androidx.swiperefreshlayout}",
@@ -98,24 +97,22 @@ def deps = [
                 test            : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin",
                 plugin          : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
                 allopen         : "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin",
-                coroutines      : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
+                coroutines      : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
         ],
         lifecycle : [
                 common      : "androidx.lifecycle:lifecycle-common-java8:${versions.androidx.lifecycle}",
                 compiler    : "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycle}",
                 extensions  : "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}",
-                livedata    : "androidx.lifecycle:lifecycle-livedata:${versions.androidx.lifecycle}",
+                livedata    : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidx.lifecycle}",
                 runtime     : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx.lifecycle}",
-                viewmodel   : "androidx.lifecycle:lifecycle-viewmodel:${versions.androidx.lifecycle}"
+                viewmodel   : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
         ],
         navigation : [
-                fragment    : "androidx.navigation:navigation-fragment:${versions.androidx.navigation}",
-                fragmentktx : "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}",
+                fragment     : "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}",
                 safeArgs: [
                         plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.androidx.navigation}"
                 ],
-                ui          : "androidx.navigation:navigation-ui:${versions.androidx.navigation}",
-                uiktx       : "androidx.navigation:navigation-ui-ktx:${versions.androidx.navigation}"
+                ui         : "androidx.navigation:navigation-ui-ktx:${versions.androidx.navigation}"
         ],
         playservices : [
                 auth        : "com.google.android.gms:play-services-maps:${versions.playservices.maps}",
