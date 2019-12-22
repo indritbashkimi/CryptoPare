@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ibashkimi.cryptomarket.HomeFragmentDirections
@@ -75,12 +78,16 @@ class MarketFragment : Fragment() {
             }
         })
 
+        val errorView = root.findViewById<View>(R.id.error)
+
         isLoading = true
         viewModel.coins.observe(viewLifecycleOwner, Observer {
             isLoading = false
+            errorView.isVisible = false
             adapter.submitList(it)
-            if (it == null)
-                onLoadFailed()
+            if (it == null) {
+                errorView.isVisible = true
+            }
         })
         return root
     }
@@ -91,12 +98,8 @@ class MarketFragment : Fragment() {
             field = value
         }
 
-    private fun onLoadFailed() {
-        toast("Cannot load content")
-    }
-
     private fun refresh() {
-        viewModel.refresh()
+        adapter.currentList?.dataSource?.invalidate()
         isLoading = true
     }
 

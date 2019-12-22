@@ -1,34 +1,25 @@
 package com.ibashkimi.cryptomarket.favorites
 
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ibashkimi.cryptomarket.data.DataManager
+import com.ibashkimi.cryptomarket.data.UseCases
 import com.ibashkimi.cryptomarket.model.Coin
-import com.ibashkimi.cryptomarket.settings.PreferenceHelper
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class FavoriteCoinsViewModel : ViewModel() {
 
-    val coins = MediatorLiveData<List<Coin>?>().apply {
-        addSource(PreferenceHelper.favoriteCoinsLiveData) {
-            refresh(it)
-        }
-    }
+    val coins = MutableLiveData<List<Coin>?>().apply { refresh() }
 
     fun refresh() {
-        refresh(PreferenceHelper.favoriteCoins)
-    }
-
-    private fun refresh(favorites: Set<String>) {
-        if (favorites.isEmpty()) {
-            coins.value = emptyList()
-        } else {
-            val currency = PreferenceHelper.currency
-            viewModelScope.launch(Dispatchers.IO) {
-                coins.postValue(DataManager.getCoins(favorites, currency))
+        viewModelScope.launch {
+            // TODO
+            UseCases.favoriteCoins.collect {
+                it.collect { res ->
+                    coins.postValue(res)
+                }
             }
         }
     }

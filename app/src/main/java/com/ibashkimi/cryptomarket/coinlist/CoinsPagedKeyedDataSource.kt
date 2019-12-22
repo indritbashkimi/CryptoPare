@@ -1,4 +1,4 @@
-package com.ibashkimi.cryptomarket.search
+package com.ibashkimi.cryptomarket.coinlist
 
 import androidx.paging.PageKeyedDataSource
 import com.ibashkimi.cryptomarket.data.UseCases
@@ -9,7 +9,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
+
+class CoinsPagedKeyedDataSource : PageKeyedDataSource<Int, Coin>() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -22,7 +23,10 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
         callback: LoadInitialCallback<Int, Coin>
     ) {
         scope.launch {
-            UseCases.search(search, 0, params.requestedLoadSize).collect {
+            UseCases.coins(
+                0,
+                params.requestedLoadSize
+            ).collect {
                 callback.onResult(
                     it ?: emptyList(), null, params.requestedLoadSize
                 )
@@ -32,7 +36,10 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Coin>) {
         scope.launch {
-            UseCases.coins(params.key, params.requestedLoadSize).collect {
+            UseCases.coins(
+                params.key,
+                params.requestedLoadSize
+            ).collect {
                 callback.onResult(
                     it ?: emptyList(),
                     if (it?.size == params.requestedLoadSize)
@@ -43,7 +50,7 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
     }
 
     override fun invalidate() {
-        android.util.Log.d("SearchDataSource", "invalidate")
+        android.util.Log.d("CoinsDataSource", "invalidate")
         super.invalidate()
         scope.cancel()
     }

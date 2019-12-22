@@ -1,12 +1,11 @@
 package com.ibashkimi.cryptomarket.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -51,7 +50,7 @@ class SearchFragment : Fragment() {
         //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null) {
             requireActivity().findNavController(R.id.main_nav_host_fragment)
-                    .navigate(HomeFragmentDirections.actionMainToCoin(it))
+                .navigate(HomeFragmentDirections.actionMainToCoin(it))
         }
         recyclerView.adapter = adapter
 
@@ -63,20 +62,9 @@ class SearchFragment : Fragment() {
             })
         })
 
-        val editTex = root.findViewById<EditText>(R.id.editText)
-        editTex.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                searchViewModel.search(s.toString())
-            }
-        })
+        root.findViewById<EditText>(R.id.editText).addTextChangedListener {
+            searchViewModel.search(it.toString())
+        }
 
         return root
     }

@@ -3,7 +3,6 @@ package com.ibashkimi.cryptomarket.settings
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.ibashkimi.cryptomarket.App
 import com.ibashkimi.cryptomarket.model.Coin
@@ -21,7 +20,8 @@ object PreferenceHelper {
 
     const val KEY_FAVORITE_COINS = "favorite_coins"
 
-    val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
+    val sharedPreferences: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(App.getInstance())
 
     var isFirstTime: Boolean
         get() = sharedPreferences.getBoolean("is_first_time", true)
@@ -48,9 +48,11 @@ object PreferenceHelper {
         }
 
     val currencyLiveData: LiveData<String> =
-            PreferenceLiveData(sharedPreferences, KEY_CURRENCY) {
-                getString(KEY_CURRENCY, DEFAULT_CURRENCY)!!
-            }
+        PreferenceLiveData(sharedPreferences, KEY_CURRENCY) {
+            getString(KEY_CURRENCY, DEFAULT_CURRENCY)!!
+        }
+
+    val currencyFlow = preferenceFlow(KEY_CURRENCY) { currency }
 
     var nightMode: String
         get() = sharedPreferences.getString(KEY_NIGHT_MODE, DEFAULT_NIGHT_MODE)!!
@@ -65,9 +67,11 @@ object PreferenceHelper {
         }
 
     val favoriteCoinsLiveData: LiveData<Set<String>> =
-            PreferenceLiveData(sharedPreferences, KEY_FAVORITE_COINS) {
-                getStringSet(it, null) ?: emptySet()
-            }
+        PreferenceLiveData(sharedPreferences, KEY_FAVORITE_COINS) {
+            getStringSet(it, null) ?: emptySet()
+        }
+
+    val favoriteCoinsFlow = preferenceFlow(KEY_FAVORITE_COINS) { favoriteCoins }
 
     fun initIfFirstTimeAnd(doAlso: () -> Unit = {}) {
         if (isFirstTime) {
@@ -92,46 +96,5 @@ object PreferenceHelper {
 
     fun isFavorite(coin: Coin): Boolean {
         return favoriteCoins.contains(coin.id)
-    }
-}
-
-class PreferenceChangedLiveData(private val sharedPreferences: SharedPreferences,
-                                private val keys: List<String>) : MutableLiveData<String>(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    override fun onActive() {
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onInactive() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key in keys) {
-            value = key
-        }
-    }
-}
-
-class PreferenceLiveData<T>(private val sharedPreferences: SharedPreferences,
-                            private val key: String,
-                            private val loadFirst: Boolean = true,
-                            private val onKeyChanged: (String) -> T) : MutableLiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    override fun onActive() {
-        if (loadFirst) {
-            value = onKeyChanged(key)
-        }
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onInactive() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, changed: String) {
-        if (key == changed) {
-            value = onKeyChanged(key)
-        }
     }
 }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ibashkimi.cryptomarket.R
-import com.ibashkimi.cryptomarket.data.api.coincap.model.RateItem
+import com.ibashkimi.cryptomarket.model.Currency
 
 class CurrencyPickerFragment : Fragment() {
 
@@ -67,9 +67,9 @@ class CurrencyPickerFragment : Fragment() {
 
     inner class CurrencyAdapter : RecyclerView.Adapter<CurrencyViewHolder>() {
 
-        private val currencies = ArrayList<RateItem>()
+        private val currencies = ArrayList<Currency>()
 
-        var data: List<RateItem>
+        var data: List<Currency>
             get() = currencies
             set(value) {
                 currencies.clear()

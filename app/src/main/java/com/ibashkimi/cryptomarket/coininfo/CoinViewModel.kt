@@ -1,30 +1,21 @@
 package com.ibashkimi.cryptomarket.coininfo
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.ibashkimi.cryptomarket.data.DataManager
+import androidx.lifecycle.*
+import com.ibashkimi.cryptomarket.data.UseCases
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.HistoryKey
-import com.ibashkimi.cryptomarket.settings.PreferenceHelper
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CoinViewModel : ViewModel() {
 
     val coinId = MutableLiveData<String?>()
 
-    val coin = MediatorLiveData<Coin?>().apply {
-        addSource(coinId) {
-            if (it == null) {
-                value = null
-            } else {
-                refreshCoin(it)
-            }
-        }
-    }
+    val coin: LiveData<Coin?> = coinId.asFlow()
+        .map { id -> id?.let { UseCases.getCoin(it) } }
+        .asLiveData()
 
     val historyKey = MutableLiveData<HistoryKey>()
 
@@ -39,22 +30,22 @@ class CoinViewModel : ViewModel() {
         }
     }
 
-    val historyKeys = DataManager.getHistoryKeys()
+    /*val history: LiveData<List<ChartPoint>?> = historyKey.asFlow()
+        .map { key -> key?.let { UseCases.getHistory(coinId, it) } }
+        .asLiveData()*/
+
+    val historyKeys = UseCases.getHistoryKeys()
 
     fun refresh() {
         coinId.value = coinId.value
         historyKey.value = historyKey.value
     }
 
-    private fun refreshCoin(coinId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            coin.postValue(DataManager.getCoin(coinId, PreferenceHelper.currency))
-        }
-    }
-
     private fun refreshChart(coinId: String, interval: HistoryKey) {
-        viewModelScope.launch(Dispatchers.IO) {
-            history.postValue(DataManager.getHistory(coinId, interval.key, "united-states-dollar"))
+        viewModelScope.launch {
+            UseCases.getHistory(coinId, interval).collect {
+                history.value = it
+            }
         }
     }
 }

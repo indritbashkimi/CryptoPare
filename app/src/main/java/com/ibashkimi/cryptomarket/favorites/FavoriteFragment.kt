@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,11 @@ import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.coinlist.CoinViewHolder
 import com.ibashkimi.cryptomarket.model.Coin
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 
 class FavoriteFragment : Fragment() {
 
@@ -28,9 +35,27 @@ class FavoriteFragment : Fragment() {
 
     private val viewModel: FavoriteCoinsViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_favorite, container, false)
+    fun SwipeRefreshLayout.refreshes(): Flow<Unit> = callbackFlow {
+        this@refreshes.setOnRefreshListener {
+            offer(Unit)
+        }
+        awaitClose { this@refreshes.setOnRefreshListener(null) }
+    }
 
+    fun View.clicks(): Flow<Unit> = callbackFlow {
+        this@clicks.setOnClickListener {
+            this.offer(Unit)
+        }
+        awaitClose { this@clicks.setOnClickListener(null) }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val root = inflater.inflate(R.layout.fragment_favorite, container, false)
+        root.findViewById<Button>(R.id.fab).clicks()
         root.findViewById<Toolbar>(R.id.toolbar).setTitle(R.string.page_favorite)
         root.findViewById<AppBarLayout>(R.id.appBar).isLiftOnScroll = true
 
@@ -45,9 +70,12 @@ class FavoriteFragment : Fragment() {
         recyclerView.adapter = adapter
 
         swipeRefresh = root.findViewById(R.id.swipeRefresh)
-        swipeRefresh.setOnRefreshListener { refresh() }
+        //swipeRefresh.setOnRefreshListener { refresh() }
+
+        swipeRefresh.refreshes().map { refresh() }.launchIn(lifecycleScope)
 
         setIsLoading(true)
+
         viewModel.coins.observe(viewLifecycleOwner, Observer {
             setIsLoading(false)
             if (it == null) {

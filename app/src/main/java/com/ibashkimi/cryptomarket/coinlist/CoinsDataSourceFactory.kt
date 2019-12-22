@@ -7,17 +7,14 @@ import com.ibashkimi.cryptomarket.model.Coin
 
 class CoinsDataSourceFactory : DataSource.Factory<Int, Coin>() {
 
-    private lateinit var coinsDataSource: CoinsDataSource
+    private lateinit var coinsDataSource: CoinsPagedKeyedDataSource
 
-    private val coinsDataSourceLiveData = MutableLiveData<CoinsDataSource>()
+    private val coinsDataSourceLiveData = MutableLiveData<CoinsPagedKeyedDataSource>()
 
     override fun create(): DataSource<Int, Coin> {
-        coinsDataSource = CoinsDataSource()
+        coinsDataSource = CoinsPagedKeyedDataSource()
         coinsDataSourceLiveData.postValue(coinsDataSource)
         return coinsDataSource
     }
 
-    fun invalidate() {
-        coinsDataSource.invalidate()
-    }
 }
