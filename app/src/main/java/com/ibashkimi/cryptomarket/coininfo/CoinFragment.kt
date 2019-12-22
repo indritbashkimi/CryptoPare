@@ -86,18 +86,8 @@ class CoinFragment : Fragment() {
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
         Log.d("CoinFragment", "chart data loaded. fist: ${data.first().time.asDateString()}, last: ${data.last().time.asDateString()} ")
-        chart.apply {
-            description.isEnabled = false
-            setTouchEnabled(true)
-            isDragEnabled = false
-            setScaleEnabled(false)
-            setPinchZoom(false)
-            setDrawGridBackground(false)
-            //chart.setMaxHighlightDistance(300)
-
-            xAxis.apply {
-                isEnabled = false
-            }
+        binding.historyChart.apply {
+            configureChart()
 
             setChartData(data)
 
@@ -120,20 +110,7 @@ class CoinFragment : Fragment() {
             // create a dataset and give it a type
             set1 = LineDataSet(values, "DataSet 1")
 
-            set1.mode = LineDataSet.Mode.CUBIC_BEZIER
-            set1.cubicIntensity = 0.2f
-            set1.setDrawFilled(false)
-            set1.setDrawCircles(false)
-            set1.lineWidth = 1.8f
-            set1.circleRadius = 4f
-            //set1.setCircleColor(Color.WHITE)
-            //set1.highLightColor = Color.rgb(244, 117, 117)
-            val accentColor = fetchColorSecondary()
-            set1.color = accentColor//fetchColorSecondary()//ContextCompat.getColor(requireContext(), R.color.colorAccent)
-            set1.fillColor = accentColor//Color.WHITE
-            //set1.fillAlpha = 100
-            set1.setDrawHorizontalHighlightIndicator(false)
-            //set1.fillFormatter = IFillFormatter { _, _ -> -10f }
+            set1.configureDataSet(binding.historyChart)
 
             // create a data object with the datasets
             val data = LineData(set1)
@@ -255,28 +232,5 @@ class CoinFragment : Fragment() {
                 ChartInterval.YEAR2 -> R.string.chart_2_years
             }
         }
-
-    private fun TabLayout.addTab(historyKey: HistoryKey) {
-        addTab(this.newTab().apply {
-            setText(historyKey.chartInterval.textResId)
-            tag = historyKey
-        })
-    }
-
-    private fun TabLayout.onTabSelected(onSelect: TabLayout.Tab.() -> Unit) {
-        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // nothing
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                // nothing
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.onSelect()
-            }
-        })
-    }
 }
 
