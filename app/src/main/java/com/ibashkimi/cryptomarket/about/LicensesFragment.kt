@@ -21,29 +21,48 @@ class LicensesFragment : Fragment() {
     private val intro: Int = R.string.about_lib_intro
 
     private val libraries: Array<Library> = arrayOf(
-            Library(R.string.android_jetpack_name,
-                    R.string.android_jetpack_website,
-                    R.string.apache_v2),
-            Library(R.string.kotlin_name,
-                    R.string.kotlin_website,
-                    R.string.apache_v2),
-            Library(R.string.glide_name,
-                    R.string.glide_website,
-                    R.string.glide_license),
-            Library(R.string.material_components_name,
-                    R.string.material_components_website,
-                    R.string.apache_v2),
-            Library(R.string.moshi_name,
-                    R.string.moshi_website,
-                    R.string.apache_v2),
-            Library(R.string.MPAndroidChart_name,
-                    R.string.MPAndroidChart_website,
-                    R.string.apache_v2),
-            Library(R.string.retrofit_name,
-                    R.string.retrofit_website,
-                    R.string.apache_v2))
+        Library(
+            R.string.android_jetpack_name,
+            R.string.android_jetpack_website,
+            R.string.apache_v2
+        ),
+        Library(
+            R.string.kotlin_name,
+            R.string.kotlin_website,
+            R.string.apache_v2
+        ),
+        Library(
+            R.string.glide_name,
+            R.string.glide_website,
+            R.string.glide_license
+        ),
+        Library(
+            R.string.material_components_name,
+            R.string.material_components_website,
+            R.string.apache_v2
+        ),
+        Library(
+            R.string.moshi_name,
+            R.string.moshi_website,
+            R.string.apache_v2
+        ),
+        Library(
+            R.string.MPAndroidChart_name,
+            R.string.MPAndroidChart_website,
+            R.string.apache_v2
+        ),
+        Library(
+            R.string.retrofit_name,
+            R.string.retrofit_website,
+            R.string.apache_v2
+        )
+    )
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_licenses, container, false)
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {
@@ -61,20 +80,25 @@ class LicensesFragment : Fragment() {
     }
 
 
-    private inner class LibraryAdapter(val libs: Array<Library>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private inner class LibraryAdapter(val libs: Array<Library>) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             when (viewType) {
-                VIEW_TYPE_INTRO -> return LibraryIntroHolder(LayoutInflater.from(parent.context)
-                        .inflate(R.layout.about_lib_intro, parent, false))
+                VIEW_TYPE_INTRO -> return LibraryIntroHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.about_lib_intro, parent, false)
+                )
                 VIEW_TYPE_LIBRARY -> return createLibraryHolder(parent)
             }
             throw InvalidParameterException()
         }
 
         private fun createLibraryHolder(parent: ViewGroup): LibraryHolder {
-            return LibraryHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.about_library, parent, false))
+            return LibraryHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.about_library, parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -101,8 +125,10 @@ class LicensesFragment : Fragment() {
             val clickListener: View.OnClickListener = View.OnClickListener {
                 val position = holder.adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    CustomTabsIntent.Builder().build().launchUrl(requireContext(),
-                            Uri.parse(getString(lib.website)))
+                    CustomTabsIntent.Builder().build().launchUrl(
+                        requireContext(),
+                        Uri.parse(getString(lib.website))
+                    )
                 }
             }
             holder.itemView.setOnClickListener(clickListener)
@@ -122,9 +148,11 @@ class LicensesFragment : Fragment() {
     /**
      * Models an open source library we want to credit
      */
-    data class Library(@StringRes val name: Int,
-                       @StringRes val website: Int,
-                       @StringRes val license: Int)
+    data class Library(
+        @StringRes val name: Int,
+        @StringRes val website: Int,
+        @StringRes val license: Int
+    )
 
     companion object {
 

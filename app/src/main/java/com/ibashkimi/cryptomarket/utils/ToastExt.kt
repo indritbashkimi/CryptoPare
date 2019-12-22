@@ -1,8 +1,8 @@
 package com.ibashkimi.cryptomarket.utils
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 
 
 fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {

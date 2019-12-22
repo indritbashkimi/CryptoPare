@@ -15,20 +15,21 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
-import com.ibashkimi.cryptomarket.utils.toast
 
 
 class MarketFragment : Fragment() {
 
     private lateinit var adapter: CoinAdapter
 
-    private lateinit var swipeRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
-    private val viewModel: CoinsViewModel by lazy {
-        ViewModelProviders.of(this).get(CoinsViewModel::class.java)
-    }
+    private val viewModel: CoinsViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_market, container, false)
 
         val navController = requireActivity().findNavController(R.id.main_nav_host_fragment)
@@ -46,7 +47,7 @@ class MarketFragment : Fragment() {
         }
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)

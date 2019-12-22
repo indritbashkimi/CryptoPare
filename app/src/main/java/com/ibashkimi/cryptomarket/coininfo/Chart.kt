@@ -40,7 +40,7 @@ fun LineDataSet.configureDataSet(chart: LineChart) {
     //setCircleColor(Color.WHITE)
     //highLightColor = Color.rgb(244, 117, 117)
     val accentColor = chart.context.fetchColor(R.attr.colorSecondary)
-    color = accentColor//fetchColorSecondary()//ContextCompat.getColor(requireContext(), R.color.colorAccent)
+    color = accentColor
     fillColor = accentColor//Color.WHITE
     //fillAlpha = 100
     setDrawHorizontalHighlightIndicator(false)

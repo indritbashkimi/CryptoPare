@@ -35,7 +35,11 @@ class CoinFragment : Fragment() {
 
     private lateinit var binding: FragmentCoinBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentCoinBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {
@@ -195,10 +199,12 @@ class CoinFragment : Fragment() {
             text = context.getString(R.string.percent_change, t)
             val positiveColor = ContextCompat.getColor(requireContext(), R.color.positive_color)
             val negativeColor = ContextCompat.getColor(requireContext(), R.color.negative_color)
-            setTextColor(when {
-                change.contains("-") -> negativeColor
-                else -> positiveColor
-            })
+            setTextColor(
+                when {
+                    change.contains("-") -> negativeColor
+                    else -> positiveColor
+                }
+            )
         }
     }
 
@@ -207,13 +213,13 @@ class CoinFragment : Fragment() {
     }
 
     private fun String.toRelativeTimeSpan(): CharSequence =
-            this.toLong().toRelativeTimeSpan()
+        this.toLong().toRelativeTimeSpan()
 
     private fun Long.toRelativeTimeSpan(): CharSequence =
-            DateUtils.getRelativeTimeSpanString(requireContext(), this * 1000)
+        DateUtils.getRelativeTimeSpanString(requireContext(), this * 1000)
 
     private fun Long.asDateString(): CharSequence =
-            Date(this).toString()
+        Date(this).toString()
 
     private val ChartInterval.textResId: Int
         get() {

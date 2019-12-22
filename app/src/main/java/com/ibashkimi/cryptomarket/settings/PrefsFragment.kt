@@ -13,14 +13,19 @@ import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.applyNightMode
 
 
-class PrefsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PrefsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
         onSharedPreferenceChanged(preferenceScreen.sharedPreferences, PreferenceHelper.KEY_CURRENCY)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         PreferenceLiveData(preferenceScreen.sharedPreferences, PreferenceHelper.KEY_CURRENCY) {
             PreferenceHelper.currencyName
         }.observe(viewLifecycleOwner, Observer {

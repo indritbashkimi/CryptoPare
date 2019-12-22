@@ -1,6 +1,8 @@
 package com.ibashkimi.cryptomarket.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.ibashkimi.cryptomarket.model.Coin
@@ -18,10 +20,10 @@ class SearchViewModel : ViewModel() {
 
         val sourceFactory = SearchDataSourceFactory(search)
         val config = PagedList.Config.Builder()
-                .setPageSize(PAGE_SIZE)
-                .setInitialLoadSizeHint(PAGE_SIZE * 2)
-                .setEnablePlaceholders(false)
-                .build()
+            .setPageSize(PAGE_SIZE)
+            .setInitialLoadSizeHint(PAGE_SIZE * 2)
+            .setEnablePlaceholders(false)
+            .build()
         searchLiveData = LivePagedListBuilder(sourceFactory, config).build()
         searchChanged.addSource(searchLiveData!!) {
             searchChanged.value = searchLiveData

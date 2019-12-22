@@ -56,6 +56,7 @@ class FavoriteFragment : Fragment() {
                 onDataReady(it)
             }
         })
+
         return root
     }
 
@@ -86,7 +87,13 @@ class FavoriteFragment : Fragment() {
         val data = ArrayList<Coin>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
-            return CoinViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false), onClick)
+            return CoinViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_crypto_5,
+                    parent,
+                    false
+                ), onClick
+            )
         }
 
         override fun getItemCount(): Int {

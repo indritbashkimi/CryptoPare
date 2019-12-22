@@ -27,9 +27,13 @@ class SearchFragment : Fragment() {
 
     private var searchLiveData: LiveData<PagedList<Coin>>? = null
 
-    val searchViewModel: SearchViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
         /*root.findViewById<Toolbar>(R.id.toolbar).apply {

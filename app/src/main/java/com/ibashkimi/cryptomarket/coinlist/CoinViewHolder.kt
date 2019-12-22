@@ -11,7 +11,8 @@ import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import java.text.DecimalFormat
 
 
-class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : RecyclerView.ViewHolder(itemView) {
+class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) :
+    RecyclerView.ViewHolder(itemView) {
     private var rank: TextView = itemView.findViewById(R.id.rank)
     private var icon: ImageView? = itemView.findViewById(R.id.icon)
     private var name: TextView = itemView.findViewById(R.id.name)
@@ -36,12 +37,17 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
         rank.text = itemView.context.getString(R.string.rank_value, coin.rank)
         name.text = coin.name
         symbol.text = coin.symbol
-        val priceFormatter = DecimalFormat(if ((coin.price?.toDouble()
-                        ?: 0.0) < 1) "#.########" else ".##")
+        val priceFormatter = DecimalFormat(
+            if ((coin.price?.toDouble()
+                    ?: 0.0) < 1
+            ) "#.########" else ".##"
+        )
         price.text = coin.price?.let { p ->
-            price.context.getString(R.string.price, PreferenceHelper.currencySymbol
+            price.context.getString(
+                R.string.price, PreferenceHelper.currencySymbol
                     ?: PreferenceHelper.currencyName,
-                    priceFormatter.format(p.toDouble()))
+                priceFormatter.format(p.toDouble())
+            )
         }
 
         val changeFormatter = DecimalFormat("#.##")
@@ -49,7 +55,8 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
             text = context.getString(R.string.percent_change, coin.percentChange1h)
         }
         twentyFourHourChange?.apply {
-            val t: String = coin.percentChange24h?.toDoubleOrNull()?.run { changeFormatter.format(this) }
+            val t: String =
+                coin.percentChange24h?.toDoubleOrNull()?.run { changeFormatter.format(this) }
                     ?: "-"
             text = context.getString(R.string.percent_change, t)
         }
@@ -66,26 +73,32 @@ class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) : Recycl
         if (coin.percentChange1h == null) {
             oneHourChange?.text = "?"
         } else {
-            oneHourChange?.setTextColor(when {
-                coin.percentChange1h.contains("-") -> negativeColor
-                else -> positiveColor
-            })
+            oneHourChange?.setTextColor(
+                when {
+                    coin.percentChange1h.contains("-") -> negativeColor
+                    else -> positiveColor
+                }
+            )
         }
 
         if (coin.percentChange24h == null)
             twentyFourHourChange?.text = "?"
         else
-            twentyFourHourChange?.setTextColor(when {
-                coin.percentChange24h.contains("-") -> negativeColor
-                else -> positiveColor
-            })
+            twentyFourHourChange?.setTextColor(
+                when {
+                    coin.percentChange24h.contains("-") -> negativeColor
+                    else -> positiveColor
+                }
+            )
         if (coin.percentChange7d == null)
             sevenDayChange?.text = "?"
         else
-            sevenDayChange?.setTextColor(when {
-                coin.percentChange7d.contains("-") -> negativeColor
-                else -> positiveColor
-            })
+            sevenDayChange?.setTextColor(
+                when {
+                    coin.percentChange7d.contains("-") -> negativeColor
+                    else -> positiveColor
+                }
+            )
         itemView.setOnClickListener {
             clickListener(coin)
         }

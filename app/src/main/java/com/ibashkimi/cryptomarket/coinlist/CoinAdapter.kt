@@ -9,13 +9,18 @@ import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
 
 
-class CoinAdapter(private val imageLoader: ImageLoader?, private val clickListener: (Coin) -> Unit)
-    : PagedListAdapter<Coin, CoinViewHolder>(coinDiffCallback) {
+class CoinAdapter(
+    private val imageLoader: ImageLoader?,
+    private val clickListener: (Coin) -> Unit
+) : PagedListAdapter<Coin, CoinViewHolder>(coinDiffCallback) {
 
     //val decimalFormatSymbols = DecimalFormatSymbols()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder = CoinViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false), clickListener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder =
+        CoinViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_crypto_5, parent, false),
+            clickListener
+        )
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
         val coin: Coin? = getItem(position)

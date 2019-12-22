@@ -12,7 +12,11 @@ import com.ibashkimi.cryptomarket.R
 
 class SettingsFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.activity_settings, container, false)
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {

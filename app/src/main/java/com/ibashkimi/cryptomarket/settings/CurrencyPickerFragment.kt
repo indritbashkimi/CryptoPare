@@ -24,7 +24,11 @@ class CurrencyPickerFragment : Fragment() {
 
     private lateinit var selectedCurrency: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_currency_picker, container, false)
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {
@@ -74,7 +78,7 @@ class CurrencyPickerFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
             return CurrencyViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_currency, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_currency, parent, false)
             )
         }
 
