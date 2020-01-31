@@ -43,7 +43,11 @@
         android:label="@string/title_settings">
         <action
             android:id="@+id/action_settings_to_currencyPicker"
-            app:destination="@id/currencyPicker" />
+            app:destination="@id/currencyPicker"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/about"
@@ -51,7 +55,11 @@
         android:label="@string/title_about">
         <action
             android:id="@+id/action_about_to_licenses"
-            app:destination="@id/licenses" />
+            app:destination="@id/licenses"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/search"
