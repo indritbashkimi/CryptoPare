@@ -22,6 +22,11 @@ class LicensesFragment : Fragment() {
 
     private val libraries: Array<Library> = arrayOf(
         Library(
+            R.string.coil_name,
+            R.string.coil_website,
+            R.string.apache_v2
+        ),
+        Library(
             R.string.android_jetpack_name,
             R.string.android_jetpack_website,
             R.string.apache_v2
@@ -32,9 +37,9 @@ class LicensesFragment : Fragment() {
             R.string.apache_v2
         ),
         Library(
-            R.string.glide_name,
-            R.string.glide_website,
-            R.string.glide_license
+            R.string.kotlinx_coroutines_name,
+            R.string.kotlinx_coroutines_website,
+            R.string.apache_v2
         ),
         Library(
             R.string.material_components_name,
