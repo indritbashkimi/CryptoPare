@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    
+
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.coroutines
     implementation deps.google.material

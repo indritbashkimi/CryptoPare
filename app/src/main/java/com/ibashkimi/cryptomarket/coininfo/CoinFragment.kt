@@ -2,7 +2,6 @@ package com.ibashkimi.cryptomarket.coininfo
 
 import android.os.Bundle
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +64,6 @@ class CoinFragment : Fragment() {
                 addTab(it.chartInterval.textResId, it)
             }
             onTabSelected {
-                Log.d("CoinFragment", "onTabSelected $text")
                 viewModel.historyKey.value = tag as HistoryKey
             }
             //selectTab(getTabAt(0)) // this sets historyKey todo use bundle to save selected tab on rotation
@@ -96,7 +94,10 @@ class CoinFragment : Fragment() {
     }
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
-        Log.d("CoinFragment", "chart data loaded. fist: ${data.first().time.asDateString()}, last: ${data.last().time.asDateString()} ")
+        /*Log.d(
+            "CoinFragment",
+            "chart data loaded. fist: ${data.first().time.asDateString()}, last: ${data.last().time.asDateString()} "
+        )*/
         binding.historyChart.apply {
             configureChart()
 

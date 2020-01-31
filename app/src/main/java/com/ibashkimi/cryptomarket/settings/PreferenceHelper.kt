@@ -2,11 +2,9 @@ package com.ibashkimi.cryptomarket.settings
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
 import com.ibashkimi.cryptomarket.App
 import com.ibashkimi.cryptomarket.model.Coin
-import com.ibashkimi.cryptomarket.utils.PreferenceLiveData
 
 object PreferenceHelper {
 
@@ -47,11 +45,6 @@ object PreferenceHelper {
             sharedPreferences.edit().putString(KEY_CURRENCY_NAME, value).apply()
         }
 
-    val currencyLiveData: LiveData<String> =
-        PreferenceLiveData(sharedPreferences, KEY_CURRENCY) {
-            getString(KEY_CURRENCY, DEFAULT_CURRENCY)!!
-        }
-
     val currencyFlow = preferenceFlow(KEY_CURRENCY) { currency }
 
     var nightMode: String
@@ -64,11 +57,6 @@ object PreferenceHelper {
         get() = sharedPreferences.getStringSet(KEY_FAVORITE_COINS, null) ?: emptySet()
         set(value) {
             sharedPreferences.edit().putStringSet(KEY_FAVORITE_COINS, value).apply()
-        }
-
-    val favoriteCoinsLiveData: LiveData<Set<String>> =
-        PreferenceLiveData(sharedPreferences, KEY_FAVORITE_COINS) {
-            getStringSet(it, null) ?: emptySet()
         }
 
     val favoriteCoinsFlow = preferenceFlow(KEY_FAVORITE_COINS) { favoriteCoins }

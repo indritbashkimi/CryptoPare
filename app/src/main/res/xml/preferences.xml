@@ -19,7 +19,6 @@
         <Preference
             android:defaultValue="united-states-dollar"
             android:key="currency"
-            android:summary="%s"
             android:title="@string/pref_currency" />
 
     </androidx.preference.PreferenceCategory>

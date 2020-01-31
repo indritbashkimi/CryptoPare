@@ -70,5 +70,6 @@
     <string name="select_currency">Select currency</string>
     <string name="currencies_load_error">Something went wrong. Try again.</string>
     <string name="title_licenses">Licenses</string>
+    <string name="title_market">Market</string>
 
 </resources>

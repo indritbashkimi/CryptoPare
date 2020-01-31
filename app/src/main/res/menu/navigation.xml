@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/market"
-        android:title="@string/app_name"
-        android:icon="@drawable/ic_market"/>
+        android:icon="@drawable/ic_market"
+        android:title="@string/title_market" />
 
     <item
         android:id="@+id/search"
-        android:title="@string/search"
-        android:icon="@drawable/ic_search"/>
+        android:icon="@drawable/ic_search"
+        android:title="@string/search" />
 
     <item
         android:id="@+id/favorite"
-        android:title="@string/page_favorite"
-        android:icon="@drawable/ic_favorite"/>
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/page_favorite" />
 
 </menu>

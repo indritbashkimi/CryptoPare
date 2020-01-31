@@ -4,8 +4,8 @@
     <androidx.preference.PreferenceCategory android:title="@string/about_help">
 
         <Preference
-            android:key="send_feedback"
             android:icon="@drawable/ic_feedback"
+            android:key="send_feedback"
             android:title="@string/about_send_feedback" />
 
     </androidx.preference.PreferenceCategory>
@@ -13,8 +13,8 @@
     <androidx.preference.PreferenceCategory android:title="@string/about_legal">
 
         <Preference
-            android:key="licences"
             android:icon="@drawable/ic_licenses"
+            android:key="licences"
             android:title="@string/about_licenses" />
 
     </androidx.preference.PreferenceCategory>
