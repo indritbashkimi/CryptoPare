@@ -33,14 +33,16 @@ class CoinFragment : Fragment() {
 
     private val viewModel: CoinViewModel by viewModels()
 
-    private lateinit var binding: FragmentCoinBinding
+    private var _binding: FragmentCoinBinding? = null
+
+    private val binding: FragmentCoinBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCoinBinding.inflate(inflater, container, false)
+        _binding = FragmentCoinBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {
             setNavigationIcon(R.drawable.ic_back_nav)
@@ -86,6 +88,11 @@ class CoinFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
