@@ -54,7 +54,7 @@ class CoinFragment : Fragment() {
             viewModel.refresh()
         }
 
-        onDataLoaded(args.coin) // use saved per caricare inizialmente questo coin
+        onDataLoaded(args.coin)
 
         binding.historyChart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.TRANSPARENT)
@@ -94,10 +94,6 @@ class CoinFragment : Fragment() {
     }
 
     private fun onChartDataLoaded(data: List<ChartPoint>) {
-        /*Log.d(
-            "CoinFragment",
-            "chart data loaded. fist: ${data.first().time.asDateString()}, last: ${data.last().time.asDateString()} "
-        )*/
         binding.historyChart.apply {
             configureChart()
 
@@ -181,7 +177,7 @@ class CoinFragment : Fragment() {
             maxSupply.showPrice(coin.maxSupply)
             volume24h.showPrice(coin.volume24h)
             averagePrice24h.showPrice(coin.averagePrice24h)
-            lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
+            //lastUpdated.text = coin.lastUpdated?.toRelativeTimeSpan()
         }
     }
 

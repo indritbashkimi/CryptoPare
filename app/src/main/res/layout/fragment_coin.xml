@@ -270,19 +270,6 @@
                         android:textAppearance="?textAppearanceBody1"
                         tools:text="#1" />
 
-                    <TextView
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:text="@string/last_updated"
-                        android:textAppearance="?textAppearanceBody2" />
-
-                    <TextView
-                        android:id="@+id/lastUpdated"
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:textAppearance="?textAppearanceBody1"
-                        tools:text="$1000" />
-
                 </GridLayout>
 
             </LinearLayout>
