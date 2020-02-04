@@ -11,15 +11,16 @@ import kotlinx.coroutines.launch
 
 class FavoriteCoinsViewModel : ViewModel() {
 
-    val coins = MutableLiveData<List<Coin>?>().apply { refresh() }
+    val coins = MutableLiveData<List<Coin>?>()
+
+    init {
+        refresh()
+    }
 
     fun refresh() {
         viewModelScope.launch {
-            // TODO
             UseCases.favoriteCoins.collect {
-                it.collect { res ->
-                    coins.postValue(res)
-                }
+                coins.postValue(it)
             }
         }
     }
