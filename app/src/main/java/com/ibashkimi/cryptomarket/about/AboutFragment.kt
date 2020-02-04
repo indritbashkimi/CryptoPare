@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.ibashkimi.cryptomarket.BuildConfig
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.databinding.FragmentAboutBinding
 
@@ -33,11 +35,26 @@ class AboutFragment : Fragment() {
         }
 
         binding.aboutTitle.text = getString(R.string.app_name)
-        binding.version.text = getString(R.string.version)
-        binding.description.text = getString(R.string.description)
+        binding.version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        binding.description.apply {
+            text = getString(R.string.description)
+            setOnClickListener {
+                openUrl("https://docs.coincap.io/")
+            }
+        }
         binding.disclaimer.text = getString(R.string.disclaimer)
+        binding.sourceCode.setOnClickListener {
+            openUrl(requireContext().getString(R.string.source_code_url))
+        }
 
         return binding.root
+    }
+
+    private fun openUrl(url: String) {
+        CustomTabsIntent.Builder().build().launchUrl(
+            requireContext(),
+            Uri.parse(url)
+        )
     }
 
     class AboutFragment : PreferenceFragmentCompat() {
