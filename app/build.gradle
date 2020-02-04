@@ -13,7 +13,6 @@ android {
         targetSdkVersion versions.android.targetSdk
         versionCode 1
         versionName "1.0"
-        resConfigs "en", "it", "sq"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     viewBinding.enabled = true
