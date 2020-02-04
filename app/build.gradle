@@ -18,6 +18,10 @@ android {
     }
     viewBinding.enabled = true
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix '-dev'
+        }
         release {
             minifyEnabled true
             shrinkResources true
