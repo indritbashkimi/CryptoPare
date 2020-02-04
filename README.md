@@ -6,6 +6,8 @@ CryptoPare is a simple android app to view cryptocurrency and exchange trade dat
 
 Built with Kotlin + Retrofit + Coroutines + Flow.
 
+<a href="https://play.google.com/store/apps/details?id=com.ibashkimi.cryptomarket"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="200px"/></a>
+
 ## Screenshots
 |<img src="doc/screenshots/home.png" width="300">|<img src="doc/screenshots/coin_info.png" width="300">|
 
