@@ -65,7 +65,7 @@ class FavoriteFragment : Fragment() {
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = Adapter {
-            navController.navigate(HomeFragmentDirections.actionMainToCoin(it))
+            navController.navigate(HomeFragmentDirections.actionMainToCoin(it.id))
         }
         recyclerView.adapter = adapter
 

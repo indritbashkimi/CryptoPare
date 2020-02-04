@@ -54,8 +54,6 @@ class CoinFragment : Fragment() {
             viewModel.refresh()
         }
 
-        onDataLoaded(args.coin)
-
         binding.historyChart.setViewPortOffsets(0f, 0f, 0f, 0f)
         //chart.setBackgroundColor(Color.TRANSPARENT)
 
@@ -69,7 +67,7 @@ class CoinFragment : Fragment() {
             //selectTab(getTabAt(0)) // this sets historyKey todo use bundle to save selected tab on rotation
         }
 
-        viewModel.coinId.value = args.coin.id
+        viewModel.coinId.value = args.coinId
         viewModel.historyKey.value = viewModel.historyKeys.firstOrNull()
 
         isLoading = true

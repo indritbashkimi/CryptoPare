@@ -78,8 +78,8 @@
         android:name="com.ibashkimi.cryptomarket.coininfo.CoinFragment"
         android:label="CoinActivity">
         <argument
-            android:name="coin"
-            app:argType="com.ibashkimi.cryptomarket.model.Coin" />
+            android:name="coinId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/currencyPicker"

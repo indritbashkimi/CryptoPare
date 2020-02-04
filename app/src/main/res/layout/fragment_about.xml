@@ -76,9 +76,9 @@
                 android:text="@string/source_code_title"
                 android:textAppearance="?textAppearanceSubtitle1" />
 
-            <androidx.fragment.app.FragmentContainerView
+            <fragment
                 android:id="@+id/prefs"
-                android:name="com.ibashkimi.cryptomarket.about.AboutFragment$AboutFragment"
+                android:name="com.ibashkimi.cryptomarket.about.AboutSectionsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

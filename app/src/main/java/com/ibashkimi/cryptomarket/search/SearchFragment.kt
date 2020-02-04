@@ -50,7 +50,7 @@ class SearchFragment : Fragment() {
         //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null) {
             requireActivity().findNavController(R.id.main_nav_host_fragment)
-                .navigate(HomeFragmentDirections.actionMainToCoin(it))
+                .navigate(HomeFragmentDirections.actionMainToCoin(it.id))
         }
         recyclerView.adapter = adapter
 

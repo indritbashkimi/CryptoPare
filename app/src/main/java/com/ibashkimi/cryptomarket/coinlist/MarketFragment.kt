@@ -55,7 +55,7 @@ class MarketFragment : Fragment() {
         //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
         //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null) {
-            navController.navigate(HomeFragmentDirections.actionMainToCoin(it))
+            navController.navigate(HomeFragmentDirections.actionMainToCoin(it.id))
         }
         recyclerView.adapter = adapter
 
