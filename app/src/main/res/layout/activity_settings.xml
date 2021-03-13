@@ -6,7 +6,7 @@
 
     <include layout="@layout/app_bar" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/prefs"
         android:name="com.ibashkimi.cryptomarket.settings.PrefsFragment"
         android:layout_width="match_parent"
