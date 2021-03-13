@@ -53,7 +53,7 @@ class PreferenceLiveData<T>(
     }
 }
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 fun preferencesChangedFlow(
     sharedPreferences: SharedPreferences,
     keys: List<String>,
@@ -74,7 +74,7 @@ fun preferencesChangedFlow(
 
 }
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 fun <T> preferenceFlow(
     sharedPreferences: SharedPreferences,
     key: String,
@@ -92,6 +92,7 @@ fun <T> preferenceFlow(
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 fun <T> PreferenceHelper.preferenceFlow(
     key: String,
     onKeyChanged: (String) -> T

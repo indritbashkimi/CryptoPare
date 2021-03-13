@@ -3,6 +3,7 @@ package com.ibashkimi.cryptomarket.data
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.HistoryKey
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -17,6 +18,7 @@ object UseCases {
 
     private val currencyFlow: Flow<String> = PreferenceHelper.currencyFlow
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val favoriteCoins: Flow<List<Coin>?> = favoriteCoinsIds
         .zip(currencyFlow) { ids, currency -> Pair(ids, currency) }
         .flatMapLatest {
