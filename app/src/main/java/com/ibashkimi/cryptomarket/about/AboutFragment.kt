@@ -19,7 +19,7 @@ class AboutFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentAboutBinding.inflate(inflater, container, false)
 
         binding.root.findViewById<Toolbar>(R.id.toolbar).apply {

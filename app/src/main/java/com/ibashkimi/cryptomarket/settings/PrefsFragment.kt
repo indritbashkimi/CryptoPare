@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -28,7 +27,7 @@ class PrefsFragment : PreferenceFragmentCompat(),
     ): View? {
         PreferenceLiveData(preferenceScreen.sharedPreferences, PreferenceHelper.KEY_CURRENCY) {
             PreferenceHelper.currencyName
-        }.observe(viewLifecycleOwner, Observer {
+        }.observe(viewLifecycleOwner, {
             findPreference<Preference>(PreferenceHelper.KEY_CURRENCY)?.summary = it
         })
         return super.onCreateView(inflater, container, savedInstanceState)

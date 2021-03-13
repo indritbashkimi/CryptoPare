@@ -9,7 +9,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,10 +53,10 @@ class SearchFragment : Fragment() {
         }
         recyclerView.adapter = adapter
 
-        searchViewModel.searchChanged.observe(viewLifecycleOwner, Observer {
+        searchViewModel.searchChanged.observe(viewLifecycleOwner, {
             searchLiveData?.apply { removeObservers(viewLifecycleOwner) }
             searchLiveData = it
-            it.observe(viewLifecycleOwner, Observer { searchResult ->
+            it.observe(viewLifecycleOwner, { searchResult ->
                 adapter.submitList(searchResult)
             })
         })

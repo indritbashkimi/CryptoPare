@@ -40,7 +40,7 @@ class CoinFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {

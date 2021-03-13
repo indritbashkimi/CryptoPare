@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,7 +51,7 @@ class CurrencyPickerFragment : Fragment() {
 
         selectedCurrency = PreferenceHelper.currency
 
-        viewModel.currencies.observe(viewLifecycleOwner, Observer {
+        viewModel.currencies.observe(viewLifecycleOwner, {
             currencyAdapter.data = it ?: emptyList()
             progress.isVisible = false
             currencyAdapter.notifyDataSetChanged()

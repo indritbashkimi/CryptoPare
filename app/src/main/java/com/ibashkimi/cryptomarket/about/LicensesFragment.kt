@@ -67,7 +67,7 @@ class LicensesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val root = inflater.inflate(R.layout.fragment_licenses, container, false)
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {

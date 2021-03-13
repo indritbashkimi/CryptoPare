@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.ibashkimi.cryptomarket.R
 
 class AboutSectionsFragment : PreferenceFragmentCompat() {
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.about)
     }
