@@ -143,7 +143,12 @@ class CoinFragment : Fragment() {
         var isFavorite = PreferenceHelper.isFavorite(coin)
         val fab = binding.fab
         fab.hide()
-        fab.setImageDrawable(requireContext().getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
+        fab.setImageDrawable(
+            ContextCompat.getDrawable(
+                fab.context,
+                if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            )
+        )
         fab.setOnClickListener {
             if (!isFavorite) {
                 PreferenceHelper.addFavorite(coin)
@@ -153,7 +158,12 @@ class CoinFragment : Fragment() {
                 toast("Removed from favorites")
             }
             isFavorite = !isFavorite
-            fab.setImageDrawable(requireContext().getDrawable(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border))
+            fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    fab.context,
+                    if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                )
+            )
         }
         fab.visibility = View.VISIBLE
         fab.show()
