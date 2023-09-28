@@ -1,6 +1,10 @@
 package com.ibashkimi.cryptomarket.data.api.coincap
 
-import com.ibashkimi.cryptomarket.data.api.coincap.model.*
+import com.ibashkimi.cryptomarket.data.api.coincap.model.AssetItem
+import com.ibashkimi.cryptomarket.data.api.coincap.model.CoinItem
+import com.ibashkimi.cryptomarket.data.api.coincap.model.HistoryItem
+import com.ibashkimi.cryptomarket.data.api.coincap.model.RateResult
+import com.ibashkimi.cryptomarket.data.api.coincap.model.RatesResult
 import com.ibashkimi.cryptomarket.model.ChartInterval
 import com.ibashkimi.cryptomarket.model.historyKeysOf
 import kotlinx.coroutines.flow.Flow

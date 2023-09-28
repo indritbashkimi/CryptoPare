@@ -12,7 +12,6 @@ fun LineChart.configureChart() {
     setScaleEnabled(false)
     setPinchZoom(false)
     setDrawGridBackground(false)
-    //chart.setMaxHighlightDistance(300)
 
     xAxis.apply {
         isEnabled = false
@@ -20,11 +19,7 @@ fun LineChart.configureChart() {
 
     axisLeft.apply {
         isEnabled = false
-        //setLabelCount(5, false)
-        //isGranularityEnabled = true
     }
-    //axisLeft.setDrawTopYLabelEntry(true)
-    //description.isEnabled = true
 
     axisRight.isEnabled = false
     legend.isEnabled = false
@@ -37,12 +32,8 @@ fun LineDataSet.configureDataSet(chart: LineChart) {
     setDrawCircles(false)
     lineWidth = 1.8f
     circleRadius = 4f
-    //setCircleColor(Color.WHITE)
-    //highLightColor = Color.rgb(244, 117, 117)
     val accentColor = chart.context.fetchColor(R.attr.colorSecondary)
     color = accentColor
-    fillColor = accentColor//Color.WHITE
-    //fillAlpha = 100
+    fillColor = accentColor
     setDrawHorizontalHighlightIndicator(false)
-    //fillFormatter = IFillFormatter { _, _ -> -10f }
 }

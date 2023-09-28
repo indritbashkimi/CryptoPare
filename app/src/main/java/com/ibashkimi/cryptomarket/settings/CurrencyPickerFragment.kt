@@ -51,15 +51,14 @@ class CurrencyPickerFragment : Fragment() {
 
         selectedCurrency = PreferenceHelper.currency
 
-        viewModel.currencies.observe(viewLifecycleOwner, {
+        viewModel.currencies.observe(viewLifecycleOwner) {
             currencyAdapter.data = it ?: emptyList()
             progress.isVisible = false
             currencyAdapter.notifyDataSetChanged()
             if (it == null) {
                 errorView.isVisible = true
-                //toast("Cannot load currencies. Try again.")
             }
-        })
+        }
 
         return root
     }

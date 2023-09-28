@@ -4,7 +4,6 @@ import com.ibashkimi.cryptomarket.coinlist.CoinsDataSourceFactory
 import com.ibashkimi.cryptomarket.data.api.coincap.CoinCapDataSource
 import com.ibashkimi.cryptomarket.model.HistoryKey
 
-
 object DataManager {
 
     private val source = CoinCapDataSource()

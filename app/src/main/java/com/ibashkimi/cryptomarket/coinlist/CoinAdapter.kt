@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.model.Coin
 
-
 class CoinAdapter(
     private val imageLoader: ImageLoader?,
     private val clickListener: (Coin) -> Unit

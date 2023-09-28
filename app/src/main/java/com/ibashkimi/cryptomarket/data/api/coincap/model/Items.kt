@@ -2,7 +2,6 @@ package com.ibashkimi.cryptomarket.data.api.coincap.model
 
 import com.squareup.moshi.JsonClass
 
-
 @JsonClass(generateAdapter = true)
 data class AssetItem(val data: List<Asset>, val timestamp: Long)
 

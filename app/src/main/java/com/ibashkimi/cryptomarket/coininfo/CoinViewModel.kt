@@ -1,11 +1,16 @@
 package com.ibashkimi.cryptomarket.coininfo
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.ibashkimi.cryptomarket.data.UseCases
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.HistoryKey
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -29,10 +34,6 @@ class CoinViewModel : ViewModel() {
             }
         }
     }
-
-    /*val history: LiveData<List<ChartPoint>?> = historyKey.asFlow()
-        .map { key -> key?.let { UseCases.getHistory(coinId, it) } }
-        .asLiveData()*/
 
     val historyKeys = UseCases.getHistoryKeys()
 

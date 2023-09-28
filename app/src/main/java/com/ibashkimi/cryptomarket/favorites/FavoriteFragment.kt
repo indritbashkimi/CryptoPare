@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -35,14 +34,14 @@ class FavoriteFragment : Fragment() {
 
     private val viewModel: FavoriteCoinsViewModel by viewModels()
 
-    fun SwipeRefreshLayout.refreshes(): Flow<Unit> = callbackFlow {
+    private fun SwipeRefreshLayout.refreshes(): Flow<Unit> = callbackFlow {
         this@refreshes.setOnRefreshListener {
             trySend(Unit)
         }
         awaitClose { this@refreshes.setOnRefreshListener(null) }
     }
 
-    fun View.clicks(): Flow<Unit> = callbackFlow {
+    private fun View.clicks(): Flow<Unit> = callbackFlow {
         this@clicks.setOnClickListener {
             this.trySend(Unit)
         }
@@ -62,28 +61,25 @@ class FavoriteFragment : Fragment() {
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
-        //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = Adapter {
             navController.navigate(HomeFragmentDirections.actionMainToCoin(it.id))
         }
         recyclerView.adapter = adapter
 
         swipeRefresh = root.findViewById(R.id.swipeRefresh)
-        //swipeRefresh.setOnRefreshListener { refresh() }
 
         swipeRefresh.refreshes().map { refresh() }.launchIn(lifecycleScope)
 
         setIsLoading(true)
 
-        viewModel.coins.observe(viewLifecycleOwner, Observer {
+        viewModel.coins.observe(viewLifecycleOwner) {
             setIsLoading(false)
             if (it == null) {
                 onLoadFailed()
             } else {
                 onDataReady(it)
             }
-        })
+        }
 
         return root
     }

@@ -6,7 +6,6 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.ibashkimi.cryptomarket.model.Coin
 
-
 class CoinsViewModel : ViewModel() {
 
     var coins: LiveData<PagedList<Coin>> = CoinsDataSourceFactory().toLiveData(100)

@@ -10,7 +10,6 @@ import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import java.text.DecimalFormat
 
-
 class CoinViewHolder(itemView: View, val clickListener: (Coin) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
     private var rank: TextView = itemView.findViewById(R.id.rank)

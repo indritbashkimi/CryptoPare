@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.ibashkimi.cryptomarket.model.Coin
 
-
 class CoinsDataSourceFactory : DataSource.Factory<Int, Coin>() {
 
     private lateinit var coinsDataSource: CoinsPagedKeyedDataSource

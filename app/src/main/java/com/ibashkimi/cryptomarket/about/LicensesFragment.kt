@@ -94,6 +94,7 @@ class LicensesFragment : Fragment() {
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.about_lib_intro, parent, false)
                 )
+
                 VIEW_TYPE_LIBRARY -> return createLibraryHolder(parent)
             }
             throw InvalidParameterException()

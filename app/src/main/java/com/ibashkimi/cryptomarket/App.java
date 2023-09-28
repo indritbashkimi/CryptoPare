@@ -2,7 +2,6 @@ package com.ibashkimi.cryptomarket;
 
 import android.app.Application;
 
-
 public class App extends Application {
     private static App sInstance;
 

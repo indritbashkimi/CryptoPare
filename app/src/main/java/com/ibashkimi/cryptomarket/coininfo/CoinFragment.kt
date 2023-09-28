@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.data.Entry
@@ -24,7 +23,7 @@ import com.ibashkimi.cryptomarket.model.HistoryKey
 import com.ibashkimi.cryptomarket.settings.PreferenceHelper
 import com.ibashkimi.cryptomarket.utils.toast
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Date
 
 class CoinFragment : Fragment() {
 
@@ -55,7 +54,6 @@ class CoinFragment : Fragment() {
         }
 
         binding.historyChart.setViewPortOffsets(0f, 0f, 0f, 0f)
-        //chart.setBackgroundColor(Color.TRANSPARENT)
 
         binding.tabLayout.apply {
             viewModel.historyKeys.forEach {
@@ -64,7 +62,6 @@ class CoinFragment : Fragment() {
             onTabSelected {
                 viewModel.historyKey.value = tag as HistoryKey
             }
-            //selectTab(getTabAt(0)) // this sets historyKey todo use bundle to save selected tab on rotation
         }
 
         viewModel.coinId.value = args.coinId
@@ -72,16 +69,16 @@ class CoinFragment : Fragment() {
 
         isLoading = true
 
-        viewModel.coin.observe(viewLifecycleOwner, Observer {
+        viewModel.coin.observe(viewLifecycleOwner) {
             isLoading = false
             it?.let { onDataLoaded(it) } ?: onLoadFailed()
-        })
+        }
 
-        viewModel.history.observe(viewLifecycleOwner, Observer {
+        viewModel.history.observe(viewLifecycleOwner) {
             it?.apply {
                 onChartDataLoaded(it)
             } ?: toast("Cannot load chart")
-        })
+        }
 
         return binding.root
     }
@@ -98,7 +95,6 @@ class CoinFragment : Fragment() {
             setChartData(data)
 
             animateXY(0, 500)
-            // invalidate() not necessary because animate invalidates it
         }
     }
 

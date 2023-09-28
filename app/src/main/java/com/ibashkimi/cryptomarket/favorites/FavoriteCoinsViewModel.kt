@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibashkimi.cryptomarket.data.UseCases
 import com.ibashkimi.cryptomarket.model.Coin
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 class FavoriteCoinsViewModel : ViewModel() {
 

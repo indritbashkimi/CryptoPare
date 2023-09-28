@@ -20,10 +20,12 @@ class AboutSectionsFragment : PreferenceFragmentCompat() {
                 sendFeedback()
                 true
             }
+
             "licences" -> {
                 showLicenses()
                 true
             }
+
             else -> return super.onPreferenceTreeClick(preference)
         }
     }

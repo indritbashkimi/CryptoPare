@@ -11,7 +11,6 @@ import androidx.preference.PreferenceFragmentCompat
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.applyNightMode
 
-
 class PrefsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -27,9 +26,9 @@ class PrefsFragment : PreferenceFragmentCompat(),
     ): View {
         PreferenceLiveData(preferenceScreen.sharedPreferences!!, PreferenceHelper.KEY_CURRENCY) {
             PreferenceHelper.currencyName
-        }.observe(viewLifecycleOwner, {
+        }.observe(viewLifecycleOwner) {
             findPreference<Preference>(PreferenceHelper.KEY_CURRENCY)?.summary = it
-        })
+        }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -39,6 +38,7 @@ class PrefsFragment : PreferenceFragmentCompat(),
                 findNavController().navigate(SettingsFragmentDirections.actionSettingsToCurrencyPicker())
                 true
             }
+
             else -> super.onPreferenceTreeClick(preference)
         }
     }
@@ -60,9 +60,6 @@ class PrefsFragment : PreferenceFragmentCompat(),
                     applyNightMode(PreferenceHelper.nightMode)
                 }
             }
-            /*PreferenceHelper.KEY_CURRENCY -> {
-                findPreference<Preference>(key)?.summary = PreferenceHelper.currencyName
-            }*/
         }
     }
 }

@@ -6,9 +6,7 @@ import com.ibashkimi.cryptomarket.model.Coin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 class CoinsPagedKeyedDataSource : PageKeyedDataSource<Int, Coin>() {
 

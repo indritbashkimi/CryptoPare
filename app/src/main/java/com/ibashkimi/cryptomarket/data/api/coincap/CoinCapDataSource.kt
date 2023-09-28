@@ -1,12 +1,21 @@
 package com.ibashkimi.cryptomarket.data.api.coincap
 
 import com.ibashkimi.cryptomarket.data.DataSource
-import com.ibashkimi.cryptomarket.data.api.coincap.model.*
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoin
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinOrNull
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCoinsOrNull
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toCurrency
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toDoubleOrNull
+import com.ibashkimi.cryptomarket.data.api.coincap.model.toPointsOrNull
 import com.ibashkimi.cryptomarket.model.ChartPoint
 import com.ibashkimi.cryptomarket.model.Coin
 import com.ibashkimi.cryptomarket.model.Currency
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.zip
 
 class CoinCapDataSource : DataSource {
 

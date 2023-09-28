@@ -6,7 +6,6 @@ import com.ibashkimi.cryptomarket.model.Coin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
@@ -43,7 +42,6 @@ class SearchDataSource(val search: String) : PageKeyedDataSource<Int, Coin>() {
     }
 
     override fun invalidate() {
-        android.util.Log.d("SearchDataSource", "invalidate")
         super.invalidate()
         scope.cancel()
     }

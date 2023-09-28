@@ -18,7 +18,6 @@ import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.coinlist.CoinAdapter
 import com.ibashkimi.cryptomarket.model.Coin
 
-
 class SearchFragment : Fragment() {
 
     private lateinit var adapter: CoinAdapter
@@ -34,32 +33,22 @@ class SearchFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
-        /*root.findViewById<Toolbar>(R.id.toolbar).apply {
-            //title = getString(R.string.title_settings)
-            setNavigationIcon(R.drawable.ic_back_nav)
-            setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
-        }*/
-
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        //val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
-        //recyclerView.addItemDecoration(dividerItemDecoration)
         adapter = CoinAdapter(null) {
             requireActivity().findNavController(R.id.main_nav_host_fragment)
                 .navigate(HomeFragmentDirections.actionMainToCoin(it.id))
         }
         recyclerView.adapter = adapter
 
-        searchViewModel.searchChanged.observe(viewLifecycleOwner, {
+        searchViewModel.searchChanged.observe(viewLifecycleOwner) {
             searchLiveData?.apply { removeObservers(viewLifecycleOwner) }
             searchLiveData = it
-            it.observe(viewLifecycleOwner, { searchResult ->
+            it.observe(viewLifecycleOwner) { searchResult ->
                 adapter.submitList(searchResult)
-            })
-        })
+            }
+        }
 
         root.findViewById<EditText>(R.id.editText).addTextChangedListener {
             searchViewModel.search(it.toString())
