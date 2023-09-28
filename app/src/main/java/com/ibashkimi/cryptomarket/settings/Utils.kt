@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 class PreferenceChangedLiveData(
     private val sharedPreferences: SharedPreferences,
     private val keys: List<String>
-) : MutableLiveData<String>(), SharedPreferences.OnSharedPreferenceChangeListener {
+) : MutableLiveData<String?>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onActive() {
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -21,7 +21,7 @@ class PreferenceChangedLiveData(
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key in keys) {
             value = key
         }
@@ -32,7 +32,7 @@ class PreferenceLiveData<T>(
     private val sharedPreferences: SharedPreferences,
     private val key: String,
     private val loadFirst: Boolean = false,
-    private val onKeyChanged: (String) -> T
+    private val onKeyChanged: (String?) -> T
 ) : MutableLiveData<T>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onActive() {
@@ -46,26 +46,25 @@ class PreferenceLiveData<T>(
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, changed: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, changed: String?) {
         if (key == changed) {
             value = onKeyChanged(key)
         }
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 fun preferencesChangedFlow(
     sharedPreferences: SharedPreferences,
     keys: List<String>,
     emitOnCreate: Boolean = false
-): Flow<String> = callbackFlow {
+): Flow<String?> = callbackFlow {
     val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         if (key in keys) {
-            offer(key)
+            trySend(key)
         }
     }
     if (emitOnCreate) {
-        offer(keys.first())
+        trySend(keys.first())
     }
     sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     awaitClose {
@@ -74,7 +73,6 @@ fun preferencesChangedFlow(
 
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 fun <T> preferenceFlow(
     sharedPreferences: SharedPreferences,
     key: String,
@@ -82,17 +80,16 @@ fun <T> preferenceFlow(
 ): Flow<T> = callbackFlow {
     val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, changed ->
         if (key == changed) {
-            offer(onKeyChanged(key))
+            trySend(onKeyChanged(key))
         }
     }
-    offer(onKeyChanged(key))
+    trySend(onKeyChanged(key))
     sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     awaitClose {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 fun <T> PreferenceHelper.preferenceFlow(
     key: String,
     onKeyChanged: (String) -> T
@@ -103,14 +100,14 @@ fun <T> PreferenceHelper.preferenceFlow(
 fun createPreferenceChangedLiveData(
     sharedPreferences: SharedPreferences,
     keys: List<String>
-): LiveData<String> {
+): LiveData<String?> {
     return PreferenceChangedLiveData(sharedPreferences, keys)
 }
 
 fun <T> createPreferenceLiveData(
     sharedPreferences: SharedPreferences,
     key: String,
-    onChanged: (SharedPreferences, String) -> T
+    onChanged: (SharedPreferences, String?) -> T
 ): LiveData<T> {
     return PreferenceLiveData(sharedPreferences, key) {
         onChanged(sharedPreferences, it)

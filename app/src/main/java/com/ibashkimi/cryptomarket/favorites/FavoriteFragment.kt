@@ -21,7 +21,6 @@ import com.ibashkimi.cryptomarket.HomeFragmentDirections
 import com.ibashkimi.cryptomarket.R
 import com.ibashkimi.cryptomarket.coinlist.CoinViewHolder
 import com.ibashkimi.cryptomarket.model.Coin
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -36,18 +35,16 @@ class FavoriteFragment : Fragment() {
 
     private val viewModel: FavoriteCoinsViewModel by viewModels()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun SwipeRefreshLayout.refreshes(): Flow<Unit> = callbackFlow {
         this@refreshes.setOnRefreshListener {
-            offer(Unit)
+            trySend(Unit)
         }
         awaitClose { this@refreshes.setOnRefreshListener(null) }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun View.clicks(): Flow<Unit> = callbackFlow {
         this@clicks.setOnClickListener {
-            this.offer(Unit)
+            this.trySend(Unit)
         }
         awaitClose { this@clicks.setOnClickListener(null) }
     }

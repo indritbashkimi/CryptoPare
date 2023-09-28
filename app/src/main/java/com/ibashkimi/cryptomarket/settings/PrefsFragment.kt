@@ -24,8 +24,8 @@ class PrefsFragment : PreferenceFragmentCompat(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        PreferenceLiveData(preferenceScreen.sharedPreferences, PreferenceHelper.KEY_CURRENCY) {
+    ): View {
+        PreferenceLiveData(preferenceScreen.sharedPreferences!!, PreferenceHelper.KEY_CURRENCY) {
             PreferenceHelper.currencyName
         }.observe(viewLifecycleOwner, {
             findPreference<Preference>(PreferenceHelper.KEY_CURRENCY)?.summary = it
@@ -45,15 +45,15 @@ class PrefsFragment : PreferenceFragmentCompat(),
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             PreferenceHelper.KEY_NIGHT_MODE -> {
                 requireActivity().apply {
