@@ -69,6 +69,6 @@ dependencies {
     implementation deps.moshi.adapters
     kapt deps.moshi.kotlinCodegen
 
-    implementation 'io.coil-kt:coil:2.4.0'
+    implementation 'io.coil-kt:coil:2.5.0'
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 }
